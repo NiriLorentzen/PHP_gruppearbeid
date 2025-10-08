@@ -1,22 +1,28 @@
 <?php 
 
-//Api call to google books too fetch book information based on recommendation query
-    function getBookRecommendation($bookQuery) {
-        $apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($bookQuery);
+if (!isset($_GET['q'])) {
+    echo json_encode(["error" => "Ingen søk oppgitt"]);
+    exit;
+}
 
-//Gets json info from the api. Checks if failed and returns error if false
-        $response = file_get_contents($apiUrl);
-        if($response === FALSE) {
-            return ["error" => "Kan ikke hente data fra Google Books"];
-        }
+//Api kall til googlebooks api for å hente ifnromasjon basert på  brukers søkeord
+$bookQuery = $_GET['q'];
+$apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($bookQuery);
 
-//Decodes json        
-        $bookData = json_decode($response, true); 
+//Henter json info om bøker fra api. Sjekker om det feilet og gir error om FALSE
+    $response = file_get_contents($apiUrl);
+    if($response === FALSE) {
+        echo json_encode(["error" => "Kan ikke hente data fra Google Books"]);
+        exit;
+    }
 
-//Sets data for each recommended book
-        $recommendations = []; 
-
-        if (isset($bookData['items'])) {
+//Decoder json        
+    $bookData = json_decode($response, true); 
+    
+//Setter informasjonen til hver anbefalte bok    
+    $recommendations = []; 
+    
+    if (isset($bookData['items'])) {
         foreach ($bookData['items'] as $item) {
             $volumeInfo = $item['volumeInfo'];
 
@@ -24,15 +30,13 @@
                 "title" => $volumeInfo['title'] ?? 'Ukjent tittel',
                 "authors" => $volumeInfo['authors'][0] ?? 'Ukjent forfatter',
                 "description" => $volumeInfo['description'] ?? 'Ingen beskrivelse',
-                "pageCount" => $volumeInfo['pageCount'] ?? 'Ukjent mengde sider',                
+                "pageCount" => $volumeInfo['pageCount'] ?? 'Ukjent side antall',                
                 "thumbnail" => $volumeInfo['imageLinks']['thumbnail'] ?? null
             ];
         }
     }
 
-        return $recommendations;
-    }
-    
+//Returnerer recommendation json
     header('Content-Type: application/json');
-    echo json_encode(getBookRecommendation("science fiction"));
+    echo json_encode($recommendations);
 ?>
