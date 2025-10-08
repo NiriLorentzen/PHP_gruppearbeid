@@ -1,13 +1,23 @@
 <?php 
 
+
+
+$bookQuery = $_GET['q'];
+
+//Fjerner vanlige "filler" ord.
+$fillerWords = ["kan", "du", "jeg", "vi", "om", "en", "ei", "et", "har", "bok", "bøker", "anbefale", "fortell", "meg", "noen", "som", "handler", "om"];
+$cleanQuery = preg_replace('/\b(' . implode('|', $fillerWords) . ')\b/i', '', $bookQuery);
+
+// Rens opp ekstra mellomrom
+$cleanQuery = trim(preg_replace('/\s+/', ' ', $cleanQuery));
+
 if (!isset($_GET['q'])) {
     echo json_encode(["error" => "Ingen søk oppgitt"]);
     exit;
 }
 
-//Api kall til googlebooks api for å hente ifnromasjon basert på  brukers søkeord
-$bookQuery = $_GET['q'];
-$apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($bookQuery);
+//Api kall til googlebooks api for å hente ifnromasjon basert på brukers søkeord renset for fylle ord
+$apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($cleanQuery);
 
 //Henter json info om bøker fra api. Sjekker om det feilet og gir error om FALSE
     $response = file_get_contents($apiUrl);
