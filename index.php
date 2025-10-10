@@ -27,7 +27,7 @@
         document.getElementById("bookForm").addEventListener("submit", async function(e) {
             e.preventDefault();
             const query = document.getElementById("bookRec").value;
-            const response = await fetch("booksAPI.php?q=" + encodeURIComponent(query));
+            const response = await fetch("api/booksAPI.php?q=" + encodeURIComponent(query));
             const books = await response.json();
 //Fjerner gamle resultater
             const resultsDiv = document.getElementById("results");
@@ -49,7 +49,7 @@
                         <p><strong>Forfatter:</strong> ${book.authors}</p>
                         <p><strong>Antall Sider:</strong> ${book.pageCount}</p>                        
                         <p>${book.description}</p>
-                        
+                        <button type="button" value="saveBook">Putt boken i hyllen</button>
                     </div>
                 `;
                 resultsDiv.appendChild(div);
