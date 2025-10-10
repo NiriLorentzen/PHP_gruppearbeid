@@ -1,13 +1,14 @@
 <?php 
 
-    session_start();
     require_once "classes/Books.php";
+    session_start();
+    
 
     if(!isset($_SESSION['bookshelf'])) {
         $_SESSION['bookshelf'] = [];
     }
 
-    if ($_SERVER ['REQUEST_METHOD' === 'POST']) {
+    if ($_SERVER ['REQUEST_METHOD'] === 'POST') {
         $data = json_decode(file_get_contents("php://input"), true);
     
 
@@ -42,6 +43,7 @@
 <html lang="no">
 <head>
     <meta charset="UTF-8">
+    <script src="main.js" defer></script>
     <title>Bokhylle</title>
 </head>
 <body>
@@ -62,20 +64,5 @@
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
-</body>
-</html>
-?>
-
-
-<!DOCTYPE html>
-<html lang="no">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bokhylle</title>
-</head>
-<body>
-    <h1>Her er din bokhylle</h1>
-    
 </body>
 </html>

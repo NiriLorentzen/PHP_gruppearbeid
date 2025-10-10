@@ -9,6 +9,7 @@
         .book { border: 1px solid #ccc; padding: 10px; margin: 10px 0; display: flex; gap: 10px; }
         img { height: 100px; }
     </style>
+    <script src="main.js" defer></script>
 </head>
 <body>
     <h1>BookFinder</h1>
@@ -49,7 +50,7 @@
                         <p><strong>Forfatter:</strong> ${book.authors}</p>
                         <p><strong>Antall Sider:</strong> ${book.pageCount}</p>                        
                         <p>${book.description}</p>
-                        <button type="button" class="saveBookBTN">Putt boken i hyllen</button>
+                        <button type="button" class="saveBookBtn">Putt boken i hyllen</button>
                     </div>
                 `;
                 resultsDiv.appendChild(div);
