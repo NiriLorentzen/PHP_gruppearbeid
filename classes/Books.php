@@ -9,7 +9,6 @@
         private $thumbnail;
         private $haveRead;
 
-
         public function __construct($title, $author, $description)
         {
             $this->setTitle($title);
@@ -61,7 +60,6 @@
         public function getHaveRead() {
             return $this->haveRead;
         }
-    }
-    
+    }   
 
 ?>

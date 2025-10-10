@@ -2,9 +2,7 @@
 const navbarHTML = `
   <div class="navbar">
     <a href="index.php"><img src="images/favicon.png" width=50px height=50px href="index.html"></a>
-    <a href="index.html">knapp1</a>
-    <a href="index.html">knapp2</a>
-    <a href="index.html">knapp3</a>
+    <a href="bookshelf.php">Bokhylle</a>    
   </div>
 `;
 

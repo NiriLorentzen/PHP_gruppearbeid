@@ -49,10 +49,20 @@
                         <p><strong>Forfatter:</strong> ${book.authors}</p>
                         <p><strong>Antall Sider:</strong> ${book.pageCount}</p>                        
                         <p>${book.description}</p>
-                        <button type="button" value="saveBook">Putt boken i hyllen</button>
+                        <button type="button" class="saveBookBTN">Putt boken i hyllen</button>
                     </div>
                 `;
                 resultsDiv.appendChild(div);
+//Lagrer bok når "Putt boken i hyllen" knappen blir trykket på
+                div.querySelector(".saveBookBtn").addEventListener("click", async () => {
+                    const response = await fetch("bookshelf.php", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(book)
+                    });
+                    const result = await response.json();
+                    alert(result.message);
+                });
             });
         });
 </script>
