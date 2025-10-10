@@ -9,11 +9,9 @@
     }
 
     if ($_SERVER ['REQUEST_METHOD'] === 'POST') {
-        $data = json_decode(file_get_contents("php://input"), true);
-    
+        $data = json_decode(file_get_contents("php://input"), true);    
 
-    //ALT UNDER DETTE FELTET ER TEST AI GENERERT KODE
-
+    // Setter dataen som Books klassen trenger
         if ($data && isset($data['title'])) {
             $book = new Books(
                 $data['title'],
@@ -21,13 +19,15 @@
                 $data['description'] ?? 'Ingen beskrivelse'
             );
 
-            // Sett eventuelle ekstra felter
+            // Sett ekstra felter i Books klassen (burde kanskje inkludere noe bookID senere)
             if (isset($data['pageCount'])) $book->setPageCount($data['pageCount']);
             if (isset($data['thumbnail'])) $book->setThumbnail($data['thumbnail']);
 
-            // Legg i session
+            // Legg boken i bookshelf - session
             $_SESSION['bookshelf'][] = $book;
 
+
+            // Gir melding om det fungerer eller ei
             header('Content-Type: application/json');
             echo json_encode(['success' => true, 'message' => 'Bok lagt til bokhyllen!']);
             exit;
@@ -37,7 +37,7 @@
         }
     }
 
-// Hvis brukeren besøker bookshelf.php direkte – vis bokhylle
+
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -54,10 +54,12 @@
     <?php else: ?>
         <?php foreach ($_SESSION['bookshelf'] as $book): ?>
             <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+
                 <h3><?= htmlspecialchars($book->getTitle()) ?></h3>
                 <p><strong>Forfatter:</strong> <?= htmlspecialchars($book->getAuthors()) ?></p>
                 <p><strong>Antall sider:</strong> <?= htmlspecialchars($book->getPageCount()) ?></p>
                 <p><?= htmlspecialchars($book->getDescription()) ?></p>
+
                 <?php if ($book->getThumbnail()): ?>
                     <img src="<?= htmlspecialchars($book->getThumbnail()) ?>" height="100" alt="Omslag">
                 <?php endif; ?>
