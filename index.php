@@ -9,6 +9,7 @@
         .book { border: 1px solid #ccc; padding: 10px; margin: 10px 0; display: flex; gap: 10px; }
         img { height: 100px; }
     </style>
+    <script src="js/main.js" defer></script>
 </head>
 <body>
     <h1>BookFinder</h1>
@@ -27,7 +28,7 @@
         document.getElementById("bookForm").addEventListener("submit", async function(e) {
             e.preventDefault();
             const query = document.getElementById("bookRec").value;
-            const response = await fetch("booksAPI.php?q=" + encodeURIComponent(query));
+            const response = await fetch("api/booksAPI.php?q=" + encodeURIComponent(query));
             const books = await response.json();
 //Fjerner gamle resultater
             const resultsDiv = document.getElementById("results");
