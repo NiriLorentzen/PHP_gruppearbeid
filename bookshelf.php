@@ -7,6 +7,7 @@
         private $description;
         private $pageCount;
         private $thumbnail;
+        private $haveRead;
 
 
         public function __construct($title, $author, $description)
@@ -14,6 +15,7 @@
             $this->setTitle($title);
             $this->setAuthors($author);
             $this->setDescription($description);
+            $this->haveRead = false;
         }
 
 //Setter og Getter til en boks tittel
@@ -51,7 +53,16 @@
         public function getThumbnail() {
             return $this->thumbnail;
         }
+
+//Endrer og getter til HaveRead        
+        public function changeHaveRead() {
+            $this->haveRead = !$this->haveRead;
+        }
+        public function getHaveRead() {
+            return $this->haveRead;
+        }
     }
+
 
     
 ?>
@@ -65,6 +76,7 @@
     <title>Bokhylle</title>
 </head>
 <body>
+    <h1>Her er din bokhylle</h1>
     
 </body>
 </html>
