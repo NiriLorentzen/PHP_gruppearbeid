@@ -22,6 +22,11 @@
 
     <div id="results"></div>
 
+    <h2>Ask Gemini</h2>
+    <input type="text" id="prompt" placeholder="Ask something...">
+    <button id="sendBtn">Send</button>
+    <div id="response"></div>
+
 <script>
 //Henter tekst lagt inn i bookForm, sender søket til booksAPI.php. Leser svaret som json
         document.getElementById("bookForm").addEventListener("submit", async function(e) {
@@ -55,5 +60,21 @@
                 resultsDiv.appendChild(div);
             });
         });
+
+
+        //gemini 
+        document.getElementById('sendBtn').addEventListener('click', async () => {
+        const prompt = document.getElementById('prompt').value;
+      
+        const response = await fetch('geminiAPI.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
+        });
+
+        const data = await response.text(); // or .json() if your API returns JSON
+        document.getElementById('response').innerHTML = data;
+        });
+
 </script>
 </html>
