@@ -1,56 +1,29 @@
-html, body {
-    padding: 0;
-    margin: 0;
+body { 
+    font-family: Arial, sans-serif; margin: 20px; 
 }
 
-.navbar {
-    background-color: forestgreen;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 5px;
+#results { 
+    margin-top: 20px; 
 }
-.navbar a{
-    font-family: 'Times New Roman', Times, serif;
-    color: black;
-    text-decoration: none;
-    align-self: center;
+
+.book { 
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    margin: 10px 0; 
+    display: flex; 
+    gap: 10px; 
 }
-.navbar img{
-    border-style: dotted;
-    border-width: 0;
-    border-right-width: 1px;
+
+img { 
+    height: 100px; 
+}
+
+#chat-element {
+    background-color: grey;
+    border-style: solid;
+    border-width: 2px;
     border-color: black;
-}
-
-.footer {
-    background-color: #0C1524;
-    padding: 1.5rem 0;
-    margin-top: 2.5rem;
-    bottom: 0;
-    width: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-}
-.footer p {
-    font-family: "Inter", sans-serif;
-    font-size: 2rem;
-    padding: 0 5rem;
-    color: white;
-    text-align: left;
-}
-.footer a {
-    color: rgb(198, 196, 196);
-    text-decoration: none;
-    margin: 0; 
-    font-size: 1.1rem;
-}
-
-.footer-links {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    margin: 0;
-    padding: 0.5rem 5rem;
+    flex-direction: column;
 }

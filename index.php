@@ -3,13 +3,7 @@
 <head>
     <meta charset="UTF-8">    
     <title>BookFinder</title>
-     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        #results { margin-top: 20px; }
-        .book { border: 1px solid #ccc; padding: 10px; margin: 10px 0; display: flex; gap: 10px; }
-        img { height: 100px; }
-    </style>
-    <script src="js/main.js" defer></script>
+    <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
     <h1>BookFinder</h1>
@@ -24,16 +18,17 @@
     <div id="results"></div>
 
     <h2>Ask Gemini</h2>
-    <input type="text" id="prompt" placeholder="Ask something...">
-    <button id="sendBtn">Send</button>
-    <div id="response"></div>
+    <div id="chatbox" style="border:1px solid #ccc; padding:10px; max-width:600px; min-height:200px;display: flex; align-items: center; flex-direction: column;">
+    </div>
+    <input type="text" id="prompt" placeholder="Ask something..." style="width:400px;">
+    <button id="sendBtn">Send</button><button id="slett_chat">Fjern samtalen</button>
 
 <script>
 //Henter tekst lagt inn i bookForm, sender søket til booksAPI.php. Leser svaret som json
         document.getElementById("bookForm").addEventListener("submit", async function(e) {
             e.preventDefault();
             const query = document.getElementById("bookRec").value;
-            const response = await fetch("api/booksAPI.php?q=" + encodeURIComponent(query));
+            const response = await fetch("booksAPI.php?q=" + encodeURIComponent(query));
             const books = await response.json();
 //Fjerner gamle resultater
             const resultsDiv = document.getElementById("results");
@@ -74,8 +69,16 @@
         });
 
         const data = await response.text(); // or .json() if your API returns JSON
-        document.getElementById('response').innerHTML = data;
+        document.getElementById('chatbox').innerHTML = data;
         });
 
+
+        document.getElementById('slett_chat').addEventListener('click', async () => {
+            if (!confirm("Are you sure you want to reset the chat?")) return;
+
+            const response = await fetch('session_destroy.php');
+            const text = await response.text();
+            document.getElementById('chatbox').innerHTML = `<p style="color:red;">${text}</p>`;
+        });
 </script>
 </html>
