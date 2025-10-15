@@ -1,25 +1,23 @@
 <?php 
 
-
-
 $bookQuery = $_GET['q'];
 
 //Fjerner vanlige "filler" ord.
 $fillerWords = ["kan", "du", "jeg", "vi", "om", "en", "ei", "et", "har", "bok", "bøker", "anbefale", "fortell", "meg", "noen", "som", "handler", "om"];
 $cleanQuery = preg_replace('/\b(' . implode('|', $fillerWords) . ')\b/i', '', $bookQuery);
 
-// Rens opp ekstra mellomrom
+//Fjerner mellomrom
 $cleanQuery = trim(preg_replace('/\s+/', ' ', $cleanQuery));
 
-if (!isset($_GET['q'])) {
+if(!isset($_GET['q'])) {
     echo json_encode(["error" => "Ingen søk oppgitt"]);
     exit;
 }
 
-//Api kall til googlebooks api for å hente ifnromasjon basert på brukers søkeord renset for fylle ord
+//Api kall til googlebooks for å hente informasjon basert $cleanQuery
 $apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($cleanQuery);
 
-//Henter json info om bøker fra api. Sjekker om det feilet og gir error om FALSE
+//Henter json info om bøker fra Booksapi. Sjekker og gir feilelding om false
     $response = file_get_contents($apiUrl);
     if($response === FALSE) {
         echo json_encode(["error" => "Kan ikke hente data fra Google Books"]);
@@ -32,7 +30,7 @@ $apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($cleanQue
 //Setter informasjonen til hver anbefalte bok    
     $recommendations = []; 
     
-    if (isset($bookData['items'])) {
+    if(isset($bookData['items'])) {
         foreach ($bookData['items'] as $item) {
             $volumeInfo = $item['volumeInfo'];
 
