@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">    
     <title>BookFinder</title>
-    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="CSS/stylesheet.css">
 </head>
 <body>
     <h1>BookFinder</h1>
@@ -28,7 +28,7 @@
         document.getElementById("bookForm").addEventListener("submit", async function(e) {
             e.preventDefault();
             const query = document.getElementById("bookRec").value;
-            const response = await fetch("booksAPI.php?q=" + encodeURIComponent(query));
+            const response = await fetch("Api/booksAPI.php?q=" + encodeURIComponent(query));
             const books = await response.json();
 //Fjerner gamle resultater
             const resultsDiv = document.getElementById("results");
@@ -62,7 +62,7 @@
         document.getElementById('sendBtn').addEventListener('click', async () => {
         const prompt = document.getElementById('prompt').value;
       
-        const response = await fetch('geminiAPI.php', {
+        const response = await fetch('Api/geminiAPI.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt })
@@ -76,7 +76,7 @@
         document.getElementById('slett_chat').addEventListener('click', async () => {
             if (!confirm("Are you sure you want to reset the chat?")) return;
 
-            const response = await fetch('session_destroy.php');
+            const response = await fetch('Scripts/session_destroy.php');
             const text = await response.text();
             document.getElementById('chatbox').innerHTML = `<p style="color:red;">${text}</p>`;
         });

@@ -4,7 +4,7 @@
 session_start();
 
 // Replace with your Gemini API key
-$apiKey = 'api-key';
+$apiKey = '';
 
 $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
