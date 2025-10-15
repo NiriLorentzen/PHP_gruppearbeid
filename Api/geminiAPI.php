@@ -39,7 +39,6 @@ $data = [
     ]
 ];
 
-
 //Gemini api-kalling
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -71,9 +70,9 @@ if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
         if($første_element) { //første element er alltid gemini start-prompten, "du er bibliotektar som ... osv", skal ikke vises til bruker
             $første_element = False;
         } elseif($chatdel_index % 2) { //tar annenhver, gjør brukerspørsmål blå og gemini svar grå
-            echo "<p style='background-color: lightblue; border-style: solid; border-width: 2px; border-color: black; justify-self: right; margin-left: 0; margin-right: 0'>" . nl2br(htmlspecialchars($chatdel)) . "</p>";
+            echo "<p class='chat-element' style='background-color: lightblue; align-self: flex-end; '>" . nl2br(htmlspecialchars($chatdel)) . "</p>";
         } else {
-            echo "<p style='background-color: lightgrey; border-style: solid; border-width: 2px; border-color: black; justify-self: left; margin-left: 0; margin-right: 0'>" . nl2br(htmlspecialchars($chatdel)) . "</p>";
+            echo "<p class='chat-element' style='background-color: lightgrey; align-self: flex-start; >" . nl2br(htmlspecialchars($chatdel)) . "</p>";
         }
     }
 } else { //hvis det er en feil, print alt for debug

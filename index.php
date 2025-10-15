@@ -18,7 +18,7 @@
     <div id="results"></div>
 
     <h2>Ask Gemini</h2>
-    <div id="chatbox" style="border:1px solid #ccc; padding:10px; max-width:600px; min-height:200px;display: flex; align-items: center; flex-direction: column;">
+    <div id="chatbox">
     </div>
     <input type="text" id="prompt" placeholder="Ask something..." style="width:400px;">
     <button id="sendBtn">Send</button><button id="slett_chat">Fjern samtalen</button>
@@ -60,16 +60,19 @@
 
         //gemini 
         document.getElementById('sendBtn').addEventListener('click', async () => {
-        const prompt = document.getElementById('prompt').value;
+            //vise brukeren at knappen er trykket
+            document.getElementById('chatbox').innerHTML = `<p">Snakker med bibliotekaren...<br><br>Dette kan ta noen sekunder:D</p>`;
+            
+            const prompt = document.getElementById('prompt').value;
       
-        const response = await fetch('api/geminiAPI.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt })
-        });
+            const response = await fetch('api/geminiAPI.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt })
+            });
 
-        const data = await response.text(); 
-        document.getElementById('chatbox').innerHTML = data;
+            const data = await response.text(); 
+            document.getElementById('chatbox').innerHTML = data;
         });
 
 
