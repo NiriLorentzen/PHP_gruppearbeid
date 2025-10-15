@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">    
     <title>BookFinder</title>
-    <link rel="stylesheet" href="CSS/stylesheet.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body>
     <h1>BookFinder</h1>
@@ -28,7 +28,7 @@
         document.getElementById("bookForm").addEventListener("submit", async function(e) {
             e.preventDefault();
             const query = document.getElementById("bookRec").value;
-            const response = await fetch("Api/booksAPI.php?q=" + encodeURIComponent(query));
+            const response = await fetch("api/booksAPI.php?q=" + encodeURIComponent(query));
             const books = await response.json();
 //Fjerner gamle resultater
             const resultsDiv = document.getElementById("results");
@@ -62,7 +62,7 @@
         document.getElementById('sendBtn').addEventListener('click', async () => {
         const prompt = document.getElementById('prompt').value;
       
-        const response = await fetch('Api/geminiAPI.php', {
+        const response = await fetch('api/geminiAPI.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt })

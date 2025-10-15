@@ -2,7 +2,7 @@
 //Henter gemini-api-key ifra config.php
 //dette gjøres slikt at config.php kan være i gitignore, 
 //for å minske sjansen at api nøkkelen blir lagt ut på github med uhell
-require_once __DIR__ . '/../Scripts/config.php';
+require_once __DIR__ . '/../scripts/config.php';
 
 //starter opp en session
 session_start();
