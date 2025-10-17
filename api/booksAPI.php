@@ -1,6 +1,6 @@
 <?php 
 
-require_once 'api/Books.php';
+require_once 'classes/Books.php';
 
 class GoogleBooksApi {
 

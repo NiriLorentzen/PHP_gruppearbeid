@@ -1,3 +1,24 @@
+<?php 
+
+require_once 'api/booksAPI.php';
+
+$recommendations = [];
+$error = "";
+
+if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
+    try {
+        $api = new GoogleBooksApi();
+        //Denne er mer midlertidig, fjerner filler ord.
+        $cleanQuery = $api->cleanQuery($_POST['bookRec']);
+        $recommendations = $api->fetchBooks($cleanQuery);
+    } catch (Exception $e) {
+        $error = $e->getMessage();
+    }
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="no">
 <head>
@@ -15,15 +36,33 @@
     <h1>BookFinder</h1>
 
 
-    <form id="bookForm">
+    <form method="POST" action="">
         <label for="bookRec">Spør om bøker!:</label><br>
-        <input type="text" id="bookRec" name="bookRec"><br>
+        <input type="text" id="bookRec" name="bookRec" value="<?= htmlspecialchars($_POST['bookRec'] ?? '') ?>"><br>
         <button type="submit">Søk</button>
     </form>
 
-    <div id="results"></div>
+
+    <?php  if(!empty($recommendations)): ?>
+    <?php foreach ($recommendations as $book): ?>
+            <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+
+                <h3><?= htmlspecialchars($book->getTitle()) ?></h3>
+                <p><strong>Forfatter:</strong> <?= htmlspecialchars($book->getAuthors()) ?></p>
+                <p><strong>Antall sider:</strong> <?= htmlspecialchars($book->getPageCount()) ?></p>
+                <p><?= htmlspecialchars($book->getDescription()) ?></p>
+
+                <?php if ($book->getThumbnail()): ?>
+                    <img src="<?= htmlspecialchars($book->getThumbnail()) ?>" height="100" alt="Omslag">
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
 
 <script>
+
+/*
 //Henter tekst lagt inn i bookForm, sender søket til booksAPI.php. Leser svaret som json
         document.getElementById("bookForm").addEventListener("submit", async function(e) {
             e.preventDefault();
@@ -66,5 +105,7 @@
                 });
             });
         });
+
+*/
 </script>
 </html>
