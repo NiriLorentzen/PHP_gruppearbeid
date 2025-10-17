@@ -1,8 +1,17 @@
 <?php
+//set encoding for at gemini-respons skal fungere riktig, at php ikke skal fjerne deler av den i $session
+ini_set('default_charset', 'UTF-8');
+header('Content-Type: text/html; charset=utf-8');
+
+
 //Henter gemini-api-key ifra config.php
 //dette gjøres slikt at config.php kan være i gitignore, 
 //for å minske sjansen at api nøkkelen blir lagt ut på github med uhell
 require_once __DIR__ . '/../scripts/config.php';
+
+//henter parsedown bibliotek for pen utskrift/formatering
+require_once __DIR__ . '/../libs/Parsedown.php';
+$parsedown = new Parsedown();
 
 //starter opp en session
 session_start();
@@ -59,20 +68,27 @@ if (curl_errno($ch)) {
 curl_close($ch);
 
 $result = json_decode($response, true);
+    //print_r($result);   
+    //echo $result['candidates'][0]['content']['parts'][0]['text'];
 
 // Print gemini respons, sjekker først om det har kommet en respons
 if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
     //legger til gemini respons i 'chatsamtale'
-    $_SESSION['chatsamtale'][] = $result['candidates'][0]['content']['parts'][0]['text'];
-    
+    $text = $result['candidates'][0]['content']['parts'][0]['text'];
+    $text = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
+    $_SESSION['chatsamtale'][] = $text;
+
+
+
+    //$_SESSION['chatsamtale'][] = $result['candidates'][0]['content']['parts'][0]['text'];
     $første_element = True;
     foreach($_SESSION['chatsamtale'] as $chatdel_index => $chatdel) {
         if($første_element) { //første element er alltid gemini start-prompten, "du er bibliotektar som ... osv", skal ikke vises til bruker
             $første_element = False;
         } elseif($chatdel_index % 2) { //tar annenhver, gjør brukerspørsmål blå og gemini svar grå
-            echo "<p class='chat-element' style='background-color: lightblue; align-self: flex-end; '>" . nl2br(htmlspecialchars($chatdel)) . "</p>";
+            echo "<div class='chat-element' style='background-color: lightblue; align-self: flex-end; '>" . $parsedown->text(nl2br(htmlspecialchars($chatdel))) . "</div>";
         } else {
-            echo "<p class='chat-element' style='background-color: lightgrey; align-self: flex-start; >" . nl2br(htmlspecialchars($chatdel)) . "</p>";
+            echo "<div class='chat-element' style='background-color: lightgrey; align-self: flex-start; '>" . $parsedown->text(nl2br(htmlspecialchars($chatdel))) . "</div>";
         }
     }
 } else { //hvis det er en feil, print alt for debug
