@@ -9,11 +9,13 @@
         private $thumbnail;
         private $haveRead;
 
-        public function __construct($title, $author, $description)
+        public function __construct(array $data =[])
         {
-            $this->setTitle($title);
-            $this->setAuthors($author);
-            $this->setDescription($description);
+            $this->setTitle($data['title'] ?? 'Ukjent tittel');
+            $this->setAuthors($data['authors'] ?? 'Ukjent forfatter');
+            $this->setDescription($data['description'] ?? 'Ingen beskrivelse');
+            $this->setpageCount($data['pageCount'] ?? null);
+            $this->setThumbnail($data['thumbnail'] ?? null);
             $this->haveRead = false;
         }
 

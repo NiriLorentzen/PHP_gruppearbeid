@@ -13,16 +13,8 @@
 
     // Setter dataen som Books klassen trenger
         if ($data && isset($data['title'])) {
-            $book = new Books(
-                $data['title'],
-                $data['authors'] ?? 'Ukjent forfatter',
-                $data['description'] ?? 'Ingen beskrivelse'
-            );
-
-            // Sett ekstra felter i Books klassen (burde kanskje inkludere noe bookID senere)
-            if (isset($data['pageCount'])) $book->setPageCount($data['pageCount']);
-            if (isset($data['thumbnail'])) $book->setThumbnail($data['thumbnail']);
-
+            $book = new Books($data);
+                            
             // Legg boken i bookshelf - session
             $_SESSION['bookshelf'][] = $book;
 
@@ -47,10 +39,10 @@
     <title>Bokhylle</title>
 </head>
 <body>
-    <h1>Her er din bokhylle</h1>
+    <h1>Din Bokhylle</h1>
 
     <?php if (empty($_SESSION['bookshelf'])): ?>
-        <p>Bokhyllen din er tom.</p>
+        <h2>Bokhyllen din er tom.</h2>
     <?php else: ?>
         <?php foreach ($_SESSION['bookshelf'] as $book): ?>
             <div style="border:1px solid #ccc; padding:10px; margin:10px;">
