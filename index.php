@@ -17,8 +17,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="no">
 <head>
@@ -45,7 +43,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
 
     <?php  if(!empty($recommendations)): ?>
     <?php foreach ($recommendations as $book): ?>
-            <div class="book" 
+            <div class="book"
                 data-title="<?= htmlspecialchars($book->getTitle()) ?>"
                 data-authors="<?= htmlspecialchars($book->getAuthors()) ?>"
                 data-description="<?= htmlspecialchars($book->getDescription()) ?>"
