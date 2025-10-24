@@ -1,0 +1,44 @@
+body { 
+    font-family: Arial, sans-serif; margin: 20px; 
+    background-color: ivory;
+}
+
+#results { 
+    margin-top: 20px; 
+}
+
+.book { 
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    margin: 10px 0; 
+    display: flex; 
+    gap: 10px; 
+}
+
+img { 
+    height: 100px; 
+}
+
+.chat-element {
+    border-style: solid; 
+    border-width: 2px; 
+    border-color: black; 
+    border-radius: 0%;
+    margin-left: 0; 
+    margin-right: 0;
+    padding: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2.5px;
+}
+
+#chatbox {
+    border:1px solid #ccc; 
+    padding:10px; 
+    max-width:600px; 
+    min-height:200px;
+    display: flex; 
+    align-items: center; 
+    flex-direction: column;
+    background-color: white;
+}
