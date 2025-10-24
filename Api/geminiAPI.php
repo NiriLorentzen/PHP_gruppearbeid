@@ -33,7 +33,7 @@ $initialprompt = $input['prompt'] ?? 'Hello Gemini!';
 $initialprompt = input_rens($initialprompt);
 
 //Legger til en start på gemini-prompten, som gir rammer for hvordan gemini skal svare og hva som er relevant for den å svare på
-$promptmaker = "Imagine you're a formal librarian expert at work where your job is to reccomend and find books tailered to the visitors of your library called The BookFinder. You're respons is only supposed to be about the subject of books or book preference. If the visitor mentions a specific subject they want books from then give them books reccomendations as a list of 5. Only give follow-up questions if really needed. A visitor enters the library and starts a conversation with you, heres the correspondence: ";
+$promptmaker = "Se for deg at du er en formell bibliotekar ekspert på jobb, hvor din arbeidsoppgave er å anbefale og finne bøker skreddersydd til de besøkende hos biblioteket ditt som heter ‘The BookFinder’. Dine svar skal bare om bøker eller bok preferanse. Vær utfyllende om beskrivelsen av bøkene du anbefaler. Om den besøkende nevner en spesifik sjanger de har lyst på, så gir du dem bok anbefalinger i en liste av 5 bøker. Bare gi oppfølgingsspørsmål om det er absolutt nødvendig. En person kommer inn i biblioteket og starter en samtale med deg, her er samtalen: ";
 
 // Oppretter en chatsamtale om det ikke er en fra før av
 if (!isset($_SESSION["chatsamtale"])) {
@@ -80,6 +80,7 @@ $result = json_decode($response, true);
 
 // Print gemini respons, sjekker først om det har kommet en respons
 if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
+//if (false) {
     //legger til gemini respons i 'chatsamtale'
     $text = $result['candidates'][0]['content']['parts'][0]['text'];
     $text = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
@@ -100,7 +101,12 @@ if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
     }
 } else { //hvis det er en feil, print alt for debug
     echo "<pre>";
+    echo ("<strong>FEIL OPPSTÅTT! melding kunne ikke sendes</strong>");
     print_r($result);
     echo "</pre>";
+
+    //fjerne spørsmålet brukeren sendte ifra chatsamtalen, slikt at samtalen ikke har samme spørsmål flere ganger og spørsmål/svar rekkefølgen stemmer
+    $last_question_index = count($_SESSION['chatsamtale']) - 1;
+    unset($_SESSION['chatsamtale'][$last_question_index]);
 }
 ?>
