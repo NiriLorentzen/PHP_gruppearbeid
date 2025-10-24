@@ -13,6 +13,12 @@ require_once __DIR__ . '/../scripts/config.php';
 require_once __DIR__ . '/../libs/Parsedown.php';
 $parsedown = new Parsedown();
 
+//henter en enkel input rens funksjon
+require_once __DIR__ . '/../Scripts/inputcleaner.php';
+
+//henter en funksjon som skal finne og hente bokanbefalingene i svaret til gemini api
+require_once __DIR__ . '/../Scripts/prompt_rec_finder.php';
+
 //starter opp en session
 session_start();
 
@@ -24,6 +30,7 @@ $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash
 // Henter JSON fra JS fetch, henter input 
 $input = json_decode(file_get_contents("php://input"), true);
 $initialprompt = $input['prompt'] ?? 'Hello Gemini!';
+$initialprompt = input_rens($initialprompt);
 
 //Legger til en start på gemini-prompten, som gir rammer for hvordan gemini skal svare og hva som er relevant for den å svare på
 $promptmaker = "Imagine you're a formal librarian expert at work where your job is to reccomend and find books tailered to the visitors of your library called The BookFinder. You're respons is only supposed to be about the subject of books or book preference. If the visitor mentions a specific subject they want books from then give them books reccomendations as a list of 5. Only give follow-up questions if really needed. A visitor enters the library and starts a conversation with you, heres the correspondence: ";
