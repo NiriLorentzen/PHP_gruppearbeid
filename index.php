@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">    
     <title>BookFinder</title>
-    <link rel="stylesheet" href="CSS/stylesheet.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body>
     <h1>BookFinder</h1>
@@ -18,7 +18,7 @@
     <div id="results"></div>
 
     <h2>Ask Gemini</h2>
-    <div id="chatbox" style="border:1px solid #ccc; padding:10px; max-width:600px; min-height:200px;display: flex; align-items: center; flex-direction: column;">
+    <div id="chatbox">
     </div>
     <input type="text" id="prompt" placeholder="Ask something..." style="width:400px;">
     <button id="sendBtn">Send</button><button id="slett_chat">Fjern samtalen</button>
@@ -28,7 +28,7 @@
         document.getElementById("bookForm").addEventListener("submit", async function(e) {
             e.preventDefault();
             const query = document.getElementById("bookRec").value;
-            const response = await fetch("Api/booksAPI.php?q=" + encodeURIComponent(query));
+            const response = await fetch("api/booksAPI.php?q=" + encodeURIComponent(query));
             const books = await response.json();
 //Fjerner gamle resultater
             const resultsDiv = document.getElementById("results");
@@ -60,23 +60,26 @@
 
         //gemini 
         document.getElementById('sendBtn').addEventListener('click', async () => {
-        const prompt = document.getElementById('prompt').value;
+            //vise brukeren at knappen er trykket
+            document.getElementById('chatbox').innerHTML = `<p">Snakker med bibliotekaren...<br><br>Dette kan ta noen sekunder:D</p>`;
+            
+            const prompt = document.getElementById('prompt').value;
       
-        const response = await fetch('Api/geminiAPI.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt })
-        });
+            const response = await fetch('api/geminiAPI.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt })
+            });
 
-        const data = await response.text(); 
-        document.getElementById('chatbox').innerHTML = data;
+            const data = await response.text(); 
+            document.getElementById('chatbox').innerHTML = data;
         });
 
 
         document.getElementById('slett_chat').addEventListener('click', async () => {
             if (!confirm("Are you sure you want to reset the chat?")) return; //åpner et vindu i nettleseren, hvor man trykker for å fortsette eller avbryte
 
-            const response = await fetch('Scripts/session_destroy.php');
+            const response = await fetch('Scripts/clear_chat.php');
             const text = await response.text();
             document.getElementById('chatbox').innerHTML = `<p style="color:red;">${text}</p>`;
         });
