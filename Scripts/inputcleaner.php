@@ -1,5 +1,5 @@
 <?php
-    function input_rens($input) {
+    function input_cleaner($input) {
         return htmlspecialchars(stripslashes(trim($input)));
     }
 ?>
