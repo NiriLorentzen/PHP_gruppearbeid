@@ -1,6 +1,8 @@
 <?php
     function findrecommendation($response){
-        session_start();
+        if (!session_status() == PHP_SESSION_ACTIVE){
+            session_start();
+        }
         // Oppretter om det ikke er en fra før av
         if (!isset($_SESSION["recommendations_given"])) {
             $_SESSION["recommendations_given"] = array(); //chatsamtalen er en array som blir appenda til for hver respons/input

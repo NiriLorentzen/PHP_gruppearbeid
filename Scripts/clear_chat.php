@@ -1,5 +1,5 @@
 <?php
     session_start();
-    unset($_SESSION["chatsamtale"]);
+    unset($_SESSION["chatlog"]);
     echo "Chat reset.";
 ?>
