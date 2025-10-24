@@ -1,5 +1,4 @@
 <?php 
-
 require_once 'classes/Books.php';
 
 class GoogleBooksApi {

@@ -103,4 +103,5 @@ if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
     print_r($result);
     echo "</pre>";
 }
+
 ?>
