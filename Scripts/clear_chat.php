@@ -6,6 +6,8 @@
 
     //tømmer chatlog i sesjon
     unset($_SESSION["chatlog"]);
+    unset($_SESSION["Recommendations_given"]);
+    unset($_SESSION["Recommendations_found"]);
 
     echo "Chat reset.";
 ?>

@@ -1,4 +1,7 @@
 <?php
+    //hente funksjon 
+    require_once __DIR__ . '/../Scripts/GeminiTilGoogle.php';
+
     function findrecommendation($response){
         if (!session_status() == PHP_SESSION_ACTIVE){
             session_start();
@@ -33,5 +36,7 @@
         }
         
         print_r($_SESSION["recommendations_given"]);
+
+        GeminiTilGoogle();
     }
 ?>
