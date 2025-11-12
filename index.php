@@ -62,11 +62,11 @@
         <?php endif; ?>
 
 
-        <h2>Ask Gemini</h2>
-        <div id="chatbox">
-        </div>
-        <input type="text" id="prompt" placeholder="Ask something..." style="width:400px;">
-        <button id="sendBtn">Send</button><button id="slett_chat">Fjern samtalen</button>
+    <h2>Ask Gemini</h2>
+    <div id="chatbox" value=""><?php require_once __DIR__ . '/Scripts/print_chatlog.php'; printchatlog(); ?>
+    </div>
+    <input type="text" id="prompt" placeholder="Ask something..." style="width:400px;">
+    <button id="sendBtn">Send</button><button id="slett_chat">Fjern samtalen</button>
 
     <script>
 
