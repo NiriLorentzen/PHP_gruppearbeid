@@ -2,6 +2,8 @@
 
 require_once 'api/booksAPI.php';
 
+require_once 'scripts/print_chatlog.php';
+
 //starter opp en session 
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
@@ -76,6 +78,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
             <div id="chatbox" class="chatbox" value=""><?php require_once __DIR__ . '/Scripts/print_chatlog.php'; printchatlog(); ?>
             </div>
             <input type="text" id="prompt" placeholder="Spør et spørsmål..." style="width:400px;">
+            <button id="sendBtn">Send</button><button id="slett_chat">Fjern samtalen</button>
         </div>
         <div>
             <h2>Bok anbefalinger fått:</h2>
@@ -108,7 +111,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
             </div>
         </div>
     </div>
-    <button id="sendBtn">Send</button><button id="slett_chat">Fjern samtalen</button>
 
 <script>
 
@@ -147,6 +149,8 @@ document.getElementById('sendBtn').addEventListener('click', async () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt })
     });
+
+    location.reload();
 
     const data = await response.text(); 
     document.getElementById('chatbox').innerHTML = data;

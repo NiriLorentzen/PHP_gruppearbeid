@@ -1,6 +1,6 @@
 <?php
     //hente funksjon 
-    require_once __DIR__ . '/../Scripts/GeminiTilGoogle.php';
+    require_once __DIR__ . '/../Scripts/GeminiToGoogle.php';
 
     function findrecommendation($response){
         if (!session_status() == PHP_SESSION_ACTIVE){
@@ -35,7 +35,7 @@
             }
         }
         
-        print_r($_SESSION["recommendations_given"]);
+        //print_r($_SESSION["recommendations_given"]);
 
         GeminiTilGoogle();
     }

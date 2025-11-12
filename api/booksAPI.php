@@ -1,5 +1,5 @@
 <?php 
-require_once 'classes/Books.php';
+require_once __DIR__ . '/../classes/Books.php';
 
 class GoogleBooksApi {
 

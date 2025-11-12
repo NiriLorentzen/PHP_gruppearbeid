@@ -87,10 +87,10 @@ if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
     $text = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
     $_SESSION['chatlog'][] = $text;
 
-    echo "$text<br><br>";
-    print_r(findrecommendation($text));
+    //echo "$text<br><br>";
+    findrecommendation($text);
 
-    printchatlog();
+    //printchatlog();
 
     //$_SESSION['chatlog'][] = $result['candidates'][0]['content']['parts'][0]['text'];
     

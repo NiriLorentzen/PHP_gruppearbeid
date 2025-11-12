@@ -33,9 +33,11 @@ img {
 }
 .gemini-tekst-bokser {
     display: flex;
-    justify-items: space-around;
+    justify-items: flex-start;
+    align-content: space-between;
+    flex-wrap: nowrap;
     flex-direction: row;
-    width: 90%;
+    width: 100%;
 }
 
 .chatbox {
