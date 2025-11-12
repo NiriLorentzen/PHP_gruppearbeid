@@ -18,8 +18,10 @@ require_once __DIR__ . '/../Scripts/prompt_rec_finder.php';
 //hente utskriftsmetoden til chatlog
 require_once __DIR__ . '/../Scripts/print_chatlog.php';
 
-//starter opp en session
-session_start();
+//starter opp en session 
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 // Bytter navnet på api-nøkkelen, for bedre oversikt
 $apiKey = $Gemini_API_key;

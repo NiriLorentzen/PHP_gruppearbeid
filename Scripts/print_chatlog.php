@@ -3,11 +3,10 @@
     require_once __DIR__ . '/../libs/Parsedown.php';
 
     function printchatlog(){
-        if (session_status() == PHP_SESSION_ACTIVE){
-            
-        } else {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
+
         $parsedown = new Parsedown();
         if (isset($_SESSION['chatlog'])){
             $first_element = True;
