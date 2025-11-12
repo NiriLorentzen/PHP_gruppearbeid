@@ -76,7 +76,7 @@ if($_SERVER ['REQUEST_METHOD'] === 'POST') {
     <?php if (empty($_SESSION['bookshelf'])): ?>
         <h2>Bokhyllen din er tom.</h2>
     <?php else: ?>
-        <?php foreach ($_SESSION['bookshelf'] as $index => $book): ?>
+        <?php foreach($_SESSION['bookshelf'] as $index => $book): ?>
             <div class="bookItem"style="border:1px solid #ccc; padding:10px; margin:10px;">
 
                 <h3><?= htmlspecialchars($book->getTitle()) ?></h3>
@@ -85,7 +85,7 @@ if($_SERVER ['REQUEST_METHOD'] === 'POST') {
                 <p><?= htmlspecialchars($book->getDescription()) ?></p>
 
                 <?php if ($book->getThumbnail()): ?>
-                    <img src="<?= htmlspecialchars($book->getThumbnail()) ?>" height="100" alt="Omslag">
+                    <img src="<?= htmlspecialchars($book->getThumbnail()) ?>" height="100" alt="bokomslag">
                 <?php endif; ?>
 
                 <button type="button" class="removeBookBtn" data-id="<?= $book->getBookId() ?>">Fjern boken fra hyllen</button>
