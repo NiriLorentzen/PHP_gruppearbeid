@@ -90,7 +90,7 @@ if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
     //echo "$text<br><br>";
     findrecommendation($text);
 
-    //printchatlog();
+    printchatlog();
 
     //$_SESSION['chatlog'][] = $result['candidates'][0]['content']['parts'][0]['text'];
     
