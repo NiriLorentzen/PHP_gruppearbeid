@@ -11,13 +11,12 @@ class Books {
     private $haveRead;
 
     public function __construct(array $data =[])
-    {
-        //Lager bokID - kanskje endre på dette når vi lager database
-        $this->bookId = $data['id'] ?? uniqid('book_', true);
+    {      
+        $this->bookId = $data['id'] ?? null;
         $this->setTitle($data['title'] ?? 'Ukjent tittel');
         $this->setAuthors($data['authors'] ?? 'Ukjent forfatter');
         $this->setDescription($data['description'] ?? 'Ingen beskrivelse');
-        $this->setpageCount($data['pageCount'] ?? null);
+        $this->setPageCount(!empty($data['pageCount']) ? $data['pageCount'] : 'Ukjent side antall');
         $this->setThumbnail($data['thumbnail'] ?? null);
         $this->haveRead = false;
     }
