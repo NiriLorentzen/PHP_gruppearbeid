@@ -63,6 +63,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
             </div>
             <input type="text" id="prompt" placeholder="Spør et spørsmål..." style="width:400px;">
             <button id="sendBtn">Send</button><button id="slett_chat">Fjern samtalen</button>
+            
+            <form action="Scripts/chat_save.php" method="post">
+                <button type="submit">Lagre denne chatten</button>
+            </form>
         </div>
         <div>
             <h2>Bok anbefalinger fått:</h2>

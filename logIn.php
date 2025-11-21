@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['tries'] = 0;
                 unset($_SESSION['blockedTime']);
 
-                $_SESSION['userID'] = $user['userID'];
+                $_SESSION['userID'] = (int)$user['userID'];
                 $_SESSION['fornavn'] = $user['firstName'];
                 $_SESSION['etternavn'] = $user['lastName'];
                 $_SESSION['email'] = $logInData['email'];

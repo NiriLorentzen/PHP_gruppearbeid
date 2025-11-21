@@ -10,4 +10,6 @@
     unset($_SESSION["recommendations_found"]);
 
     echo "Chat reset.";
+
+    header("Refresh: 0"); 
 ?>
