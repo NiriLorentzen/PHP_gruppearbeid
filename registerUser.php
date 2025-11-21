@@ -1,5 +1,4 @@
 <?php 
-
 include __DIR__ . '/scripts/DB/db.inc.php';
 include __DIR__ . '/scripts/validation.inc.php';
 include __DIR__ . '/scripts/wash.inc.php';
@@ -19,10 +18,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $userData['regDate'] = date('Y-m-d');
 
     //Obligatoriske felt som ikke kan være tomme.
-    $obligFelt = ['firstName', 'lastName', 'email'];
-        foreach($obligFelt as $felt) {
-            if(empty($userData[$felt])) {
-                $error[$felt] = ucfirst($felt) . " feltet må være fylt ut.<br>";
+    $reqField = ['firstName', 'lastName', 'email'];
+        foreach($reqField as $field) {
+            if(empty($userData[$field])) {
+                $error[$field] = ucfirst($field) . " feltet må være fylt ut.<br>";
             }
         }
     
@@ -73,7 +72,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             $pdo->beginTransaction();
 
             $q = $pdo->prepare(
-                "INSERT INTO users(firstName, lastName, email, password_Hash, regDate)
+                "INSERT INTO users(first_name, last_name, email, password_hash, reg_date)
                 VALUES(:fname, :lname, :email, :passwordHash, :regDate)"
             );
              
@@ -84,6 +83,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             $q->bindParam(':passwordHash', $passwordHash);
             $q->bindParam(':regDate', $userData['regDate']);
             $q->execute();
+
+            $userID = $pdo->lastInsertId();
+
+            $roleID = 2; // Rolle ID 2 er bruker. Mest sikkert at kun admin m tilgang til DB endre til annet.
+            $qRole = $pdo->prepare("INSERT INTO user_roles(userID, roleID) VALUES (:userID, :roleID)");
+            $qRole->bindParam(':userID', $userID);
+            $qRole->bindParam(':roleID', $roleID);
+            $qRole->execute();
          
             $pdo->commit(); 
 
@@ -99,7 +106,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             $pdo->rollBack();
 
             error_log('Tid: ' . date("Y-m-d H:i:s") . ' Database error: ' . $e->getMessage());           
-            die("Beklager, det oppstod en feil ved lagring av data." . $e->getMessage());  //Gis til bruker uten info om logikk
+            die("Beklager, det oppstod en feil ved lagring av data." . $e->getMessage());  //Gis til bruker uten info om logikk. //BURDE FJERNES GET MESSAGE ETTER TESTING
         }            
         
     }
@@ -144,7 +151,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     </form> 
 
     <hr>
-    <p>Har du allerede en konto? <a href="innlogging.php">Logg inn her</a>.</p>
+    <p>Har du allerede en konto? <a href="logIn.php">Logg inn her</a>.</p>
 
 </body>
 </html>
