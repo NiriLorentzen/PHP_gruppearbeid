@@ -112,58 +112,57 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
         </div>
     </div>
 
-<script>
+    <script>
 
-//Lagrer bok når "Putt boken i hyllen" knappen blir trykket på
-document.querySelectorAll(".saveBookBtn").forEach(btn => {
-    btn.addEventListener("click", async () => {
-        const parent = btn.closest(".book");
-        const book = {
-            title: parent.dataset.title,
-            authors: parent.dataset.authors,
-            description: parent.dataset.description,
-            pageCount: parent.dataset.pageCount,
-            thumbnail: parent.dataset.thumbnail
-        };
+    //Lagrer bok når "Putt boken i hyllen" knappen blir trykket på
+    document.querySelectorAll(".saveBookBtn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const parent = btn.closest(".book");
+            const book = {
+                id: parent.dataset.id,
+                title: parent.dataset.title,
+                authors: parent.dataset.authors,
+                description: parent.dataset.description,
+                pageCount: parent.dataset.pageCount,
+                thumbnail: parent.dataset.thumbnail
+            };
 
-        const response = await fetch("bookshelf.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(book)
+            const response = await fetch("bookshelf.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(book)
+            });
+
+            const result = await response.json();
+            alert(result.message);
+        });
+    });
+
+    //gemini 
+    document.getElementById('sendBtn').addEventListener('click', async () => {
+        //vise brukeren at knappen er trykket
+        document.getElementById('chatbox').innerHTML = `<p">Snakker med bibliotekaren...<br><br>Dette kan ta noen sekunder:D</p>`;
+        
+        const prompt = document.getElementById('prompt').value;
+
+        const response = await fetch('api/geminiAPI.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
         });
 
-        const result = await response.json();
-        alert(result.message);
-    });
-});
-
-//gemini 
-document.getElementById('sendBtn').addEventListener('click', async () => {
-    //vise brukeren at knappen er trykket
-    document.getElementById('chatbox').innerHTML = `<p">Snakker med bibliotekaren...<br><br>Dette kan ta noen sekunder:D</p>`;
-    
-    const prompt = document.getElementById('prompt').value;
-
-    const response = await fetch('api/geminiAPI.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
+        const data = await response.text(); 
+        document.getElementById('chatbox').innerHTML = data;
     });
 
-    location.reload();
 
-    const data = await response.text(); 
-    document.getElementById('chatbox').innerHTML = data;
-});
+    document.getElementById('slett_chat').addEventListener('click', async () => {
+        if (!confirm("Are you sure you want to reset the chat?")) return; //åpner et vindu i nettleseren, hvor man trykker for å fortsette eller avbryte
 
+        const response = await fetch('Scripts/clear_chat.php');
+        const text = await response.text();
+        document.getElementById('chatbox').innerHTML = `<p style="color:red;">${text}</p>`;
+    });
 
-document.getElementById('slett_chat').addEventListener('click', async () => {
-    if (!confirm("Are you sure you want to reset the chat?")) return; //åpner et vindu i nettleseren, hvor man trykker for å fortsette eller avbryte
-
-    const response = await fetch('Scripts/clear_chat.php');
-    const text = await response.text();
-    document.getElementById('chatbox').innerHTML = `<p style="color:red;">${text}</p>`;
-});
-
-</script>
-</html>
+    </script>
+    </html>
