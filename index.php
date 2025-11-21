@@ -62,11 +62,45 @@
         <?php endif; ?>
 
 
-    <h2>Ask Gemini</h2>
-    <div id="chatbox" value=""><?php require_once __DIR__ . '/Scripts/print_chatlog.php'; printchatlog(); ?>
+    <div class="gemini-tekst-bokser">
+        <div>
+            <h2>Bibliotekar chat! (gemini)</h2>
+            <div id="chatbox" class="chatbox" value=""><?php require_once __DIR__ . '/Scripts/print_chatlog.php'; printchatlog(); ?>
+            </div>
+            <input type="text" id="prompt" placeholder="Spør et spørsmål..." style="width:400px;">
+            <button id="sendBtn">Send</button><button id="slett_chat">Fjern samtalen</button>
+        </div>
+        <div>
+            <h2>Bok anbefalinger fått:</h2>
+            <div id="chatboxAnbefalinger" class="chatbox" value="">
+            
+                <?php  if(!empty($geminirecommendations)): ?>
+                    <?php foreach ($geminirecommendations as $book): ?>
+                            <div class="book"
+                                data-title="<?= htmlspecialchars($book->getTitle()) ?>"
+                                data-authors="<?= htmlspecialchars($book->getAuthors()) ?>"
+                                data-description="<?= htmlspecialchars($book->getDescription()) ?>"
+                                data-pageCount="<?= htmlspecialchars($book->getPageCount()) ?>"
+                                data-thumbnail="<?= htmlspecialchars($book->getThumbnail()) ?>">
+
+                                <h3><?= htmlspecialchars($book->getTitle()) ?></h3>
+                                <?php if ($book->getThumbnail()): ?>
+                                    <img src="<?= htmlspecialchars($book->getThumbnail()) ?>" height="100" alt="Omslag">
+                                <?php endif; ?>
+                                <p><strong>Forfatter:</strong> <?= htmlspecialchars($book->getAuthors()) ?></p>
+                                <p><strong>Antall sider:</strong> <?= htmlspecialchars($book->getPageCount()) ?></p>
+                                <p><?= htmlspecialchars($book->getDescription()) ?></p>                
+                                
+                                <button type="button" class="saveBookBtn">Putt boken i hyllen</button>
+                            </div>
+                        <?php endforeach; ?>
+                <?php endif; ?>
+
+
+
+            </div>
+        </div>
     </div>
-    <input type="text" id="prompt" placeholder="Ask something..." style="width:400px;">
-    <button id="sendBtn">Send</button><button id="slett_chat">Fjern samtalen</button>
 
     <script>
 
