@@ -10,7 +10,7 @@ header('Content-Type: text/html; charset=utf-8');
 require_once __DIR__ . '/../scripts/config.php';
 
 //henter en enkel input rens funksjon
-require_once __DIR__ . '/../Scripts/inputcleaner.php';
+require_once __DIR__ . '/../Scripts/sanitizeInputs.inc.php';
 
 //henter en funksjon som skal finne og hente bokanbefalingene i svaret til gemini api
 require_once __DIR__ . '/../Scripts/prompt_rec_finder.php';
@@ -31,7 +31,7 @@ $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash
 // Henter JSON fra JS fetch, henter input 
 $input = json_decode(file_get_contents("php://input"), true);
 $initialprompt = $input['prompt'] ?? 'Hello Gemini!';
-$initialprompt = input_cleaner($initialprompt);
+$initialprompt = sanitizeInputs($initialprompt);
 
 //Legger til en start på gemini-prompten, som gir rammer for hvordan gemini skal svare og hva som er relevant for den å svare på
 $promptmaker = "Se for deg at du er en formell bibliotekar ekspert på jobb, hvor din arbeidsoppgave er å anbefale og finne bøker skreddersydd til de besøkende hos biblioteket ditt som heter ‘The BookFinder’. Dine svar skal bare om bøker eller bok preferanse. Vær utfyllende om beskrivelsen av bøkene du anbefaler. Om den besøkende nevner en spesifik sjanger de har lyst på, så gir du dem bok anbefalinger i en liste av 5 bøker. Bøkene du anbefaler kan være hva som helst, blant annet skjønnlitterære eller dokumentariske bøker. Bare gi oppfølgingsspørsmål om det er absolutt nødvendig. En person kommer inn i biblioteket og starter en samtale med deg, her er samtalen: ";

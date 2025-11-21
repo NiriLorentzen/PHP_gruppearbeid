@@ -1,7 +1,7 @@
 <?php 
 include __DIR__ . '/scripts/DB/db.inc.php';
 include __DIR__ . '/scripts/validation.inc.php';
-include __DIR__ . '/scripts/wash.inc.php';
+include __DIR__ . '/scripts/sanitizeInputs.inc.php';
 
 
 $userData = [];
@@ -11,9 +11,9 @@ $message = "";
     
 //Fyller $userData matrisen
 if($_SERVER["REQUEST_METHOD"] == "POST") {
-    $userData['firstName'] = wash($_POST['fname'] ?? '');
-    $userData['lastName'] = wash($_POST['lname'] ?? '');    
-    $userData['email'] = wash($_POST['email'] ?? '');     
+    $userData['firstName'] = sanitizeInputs($_POST['fname'] ?? '');
+    $userData['lastName'] = sanitizeInputs($_POST['lname'] ?? '');    
+    $userData['email'] = sanitizeInputs($_POST['email'] ?? '');     
     $userData['password'] = $_POST['password'] ?? '';
     $userData['regDate'] = date('Y-m-d');
 
@@ -94,11 +94,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
          
             $pdo->commit(); 
 
-            $message = "<h1>Velkommen " . wash($userData['firstName']) . "!</h1>
+            $message = "<h1>Velkommen " . sanitizeInputs($userData['firstName']) . "!</h1>
             <h2>Du har registrert en ny konto!: </h2>";
             foreach($userData as $key => $value) { 
                 if($key !== 'password') {
-                    $message .= ucfirst($key) . ": " . wash($value) . "<br>";
+                    $message .= ucfirst($key) . ": " . sanitizeInputs($value) . "<br>";
                 }
             }
         
@@ -131,16 +131,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     <form method="POST">
 
     <label for="fname">Fornavn</label><br>
-    <input type="text" id="fname" name="fname" value="<?= wash($userData['firstName'] ?? '') ?>"><br>
-    <?php if(isset($error['firstName'])) echo "<span class='error'>" . wash($error['firstName']) . "</span><br>"; ?>
+    <input type="text" id="fname" name="fname" value="<?= sanitizeInputs($userData['firstName'] ?? '') ?>"><br>
+    <?php if(isset($error['firstName'])) echo "<span class='error'>" . sanitizeInputs($error['firstName']) . "</span><br>"; ?>
 
     <label for="lname">Etternavn</label><br>
-    <input type="text" id="lname" name="lname" value="<?= wash($userData['lastName'] ?? '') ?>"><br>
-    <?php if(isset($error['lastName'])) echo "<span class='error'>" . wash($error['lastName']) . "</span><br>"; ?>
+    <input type="text" id="lname" name="lname" value="<?= sanitizeInputs($userData['lastName'] ?? '') ?>"><br>
+    <?php if(isset($error['lastName'])) echo "<span class='error'>" . sanitizeInputs($error['lastName']) . "</span><br>"; ?>
 
     <label for="email">Epost</label><br>
-    <input type="text" id="email" name="email" value="<?= wash($userData['email'] ?? '') ?>"><br>
-    <?php if(isset($error['email'])) echo "<span class='error'>" . wash($error['email']) . "</span><br>"; ?>
+    <input type="text" id="email" name="email" value="<?= sanitizeInputs($userData['email'] ?? '') ?>"><br>
+    <?php if(isset($error['email'])) echo "<span class='error'>" . sanitizeInputs($error['email']) . "</span><br>"; ?>
 
     <label for="password">Passord</label><br>
     <input type="password" id="password" name="password"><br>

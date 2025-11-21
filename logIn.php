@@ -2,7 +2,7 @@
 session_start();
 include __DIR__ . '/scripts/DB/db.inc.php';
 include __DIR__ . '/scripts/validation.inc.php';
-include __DIR__ . '/scripts/wash.inc.php';
+include __DIR__ . '/scripts/sanitizeInputs.inc.php';
 
 $logInMessage  = "";
 $error = [];
@@ -39,7 +39,7 @@ if(isset($_SESSION['blockedTime'])) {
 
 //Behandler POST av innloggingskjema
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $logInData['email'] = wash($_POST['email'] ?? '');
+    $logInData['email'] = sanitizeInputs($_POST['email'] ?? '');
     $logInData['password'] = $_POST['password'] ?? '';
 
     //Valider at feltene ikke er tomme
@@ -151,12 +151,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form method="POST">
 
         <label for="email">E-post:</label><br>
-        <input type="text" id="email" name="email" value="<?= wash($logInData['email'] ?? '') ?>"><br>
-        <?php if(isset($error['email'])) echo wash($error['email']) . "</span><br>"; ?>
+        <input type="text" id="email" name="email" value="<?= sanitizeInputs($logInData['email'] ?? '') ?>"><br>
+        <?php if(isset($error['email'])) echo sanitizeInputs($error['email']) . "</span><br>"; ?>
 
         <label for="password">Passord:</label><br>
         <input type="password" id="password" name="password"><br>
-        <?php if(isset($error['passord'])) echo wash($error['passord']) . "</span><br>"; ?>
+        <?php if(isset($error['passord'])) echo sanitizeInputs($error['passord']) . "</span><br>"; ?>
 
         <button type="submit" <?= isset($_SESSION['blockedTime']) ? 'disabled' : '' ?>>Logg inn</button>
     </form>
