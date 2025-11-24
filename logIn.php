@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['loggedIn'] = true;
                 
                 //Sender bruker videre til bookshelf om vellykket
-                header("Location: ../bookshelf.php");
+                header("Location: bookshelf.php");
                 exit;
 
             } else {
@@ -147,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php if($logInMessage) echo "<b>" . $logInMessage . "</b>"; ?>
     
     <?php if($_SESSION['loggedIn']): ?>
-        <h2>Du er allerede logget inn <a href="../bookshelf.php">klikk her</a> for å gi til bokhyllen din</h2>
+        <h2>Du er allerede logget inn</h2>
     <?php endif; ?>
 
     <form method="POST">
