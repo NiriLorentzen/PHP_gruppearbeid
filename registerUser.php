@@ -2,6 +2,7 @@
 include __DIR__ . '/scripts/DB/db.inc.php';
 include __DIR__ . '/scripts/validation.inc.php';
 include __DIR__ . '/scripts/sanitizeInputs.inc.php';
+include 'scripts/navbar.php';
 
 
 $userData = [];
@@ -121,10 +122,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registeringsside</title>
+    <link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body>
 
-<li><a href="index.php">Tilbake til index</a></li><hr>
+
 
 <?php if(!$message) echo "<h1>Lag en bruker her</h1>"; else echo "<div class='message'>$message</div><br>"; ?> 
 
