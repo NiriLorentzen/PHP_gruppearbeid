@@ -1,5 +1,5 @@
 <div class="book"
-            data-id="<?= htmlspecialchars($book->getBookId()) ?>"
+            data-book-id="<?= htmlspecialchars($book->getBookId()) ?>"
             data-title="<?= htmlspecialchars($book->getTitle()) ?>"
             data-authors="<?= htmlspecialchars($book->getAuthors()) ?>"
             data-description="<?= htmlspecialchars($book->getDescription()) ?>"

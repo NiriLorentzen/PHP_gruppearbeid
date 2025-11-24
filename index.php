@@ -91,7 +91,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
         btn.addEventListener("click", async () => {
             const parent = btn.closest(".book");
             const book = {
-                id: parent.dataset.id,
+                bookID: parent.dataset.bookid,
                 title: parent.dataset.title,
                 authors: parent.dataset.authors,
                 description: parent.dataset.description,

@@ -1,6 +1,16 @@
 <?php 
 require_once "classes/Books.php";
+require_once "classes/BookDB.php";
+require_once 'scripts/DB/db.inc.php';
 session_start();
+
+$usersBooks = [];
+if(isset($_SESSION['userID'])) {
+    $bookDB = new BookDB($pdo);
+    $usersBooks = $bookDB->userFetchAllBooks($_SESSION['userID']);
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -14,10 +24,10 @@ session_start();
    
     <h1>Din Bokhylle</h1>
     
-    <?php if (empty($_SESSION['bookshelf'])): ?>
+    <?php if(empty($usersBooks)): ?>
         <h2>Bokhyllen din er tom.</h2>
     <?php else: ?>
-        <?php foreach($_SESSION['bookshelf'] as $index => $book): ?>
+        <?php foreach($usersBooks as $book): ?>
             <div class="bookItem"style="border:1px solid #ccc; padding:10px; margin:10px;">
 
                 <h3><?= htmlspecialchars($book->getTitle()) ?></h3>                
@@ -25,7 +35,7 @@ session_start();
                 <p><strong>Antall sider:</strong> <?= htmlspecialchars($book->getPageCount()) ?></p>
                 <p><?= htmlspecialchars($book->getDescription()) ?></p>
 
-                <?php if ($book->getThumbnail()): ?>
+                <?php if($book->getThumbnail()): //HAR IKKE LAGT TIL THUMBNAIL I DATABASE ENDA ?>
                     <img src="<?= htmlspecialchars($book->getThumbnail()) ?>" height="100" alt="bokomslag">
                 <?php endif; ?>
 
@@ -49,7 +59,7 @@ document.querySelectorAll(".removeBookBtn").forEach(btn => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 action: "remove",
-                id: btn.dataset.id
+                id: bookId
             })
         });
 
