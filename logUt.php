@@ -1,5 +1,9 @@
 <?php 
-    include 'scripts/navbar.php';
+    //starter opp en session 
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+
 
     unset($_SESSION['userID']);
     unset($_SESSION['fornavn']);
@@ -7,6 +11,8 @@
     unset($_SESSION['email']);
     unset($_SESSION['roleID']);
     unset($_SESSION['loggedIn']);
+
+    include 'scripts/navbar.php';
 ?>
 
 <html>
