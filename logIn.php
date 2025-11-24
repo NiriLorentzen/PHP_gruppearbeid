@@ -8,7 +8,7 @@ $logInMessage  = "";
 $error = [];
 $logInData = [];
 
-$totalBlockedTime = 3600; //1 time i sekunder
+$totalBlockedTime = 9; //1. kvarter i sekunder
 $totalBlockedMinutes = floor($totalBlockedTime / 60);
 $totalTries = 3; //Max antall ganger user kan prøve å logge inn
 
@@ -22,7 +22,7 @@ if(!isset($_SESSION['tries'])) {
     $_SESSION['tries'] = 0;
 }
 
-//Håndterer utstenging tid, i 60 min. Resetter tries når tiden har gått.
+//Håndterer utstenging tid, i 15 min. Resetter tries når tiden har gått.
 if(isset($_SESSION['blockedTime'])) {
     $timeSinceBlocked = time() - $_SESSION['blockedTime'];
     $timeLeft = $totalBlockedTime - $timeSinceBlocked; 
@@ -77,8 +77,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['roleID'] = $user['roleID'];
                 $_SESSION['loggedIn'] = true;
                 
-                //Sender user videre til oppgav3 om vellykket
-                header("Location: ../logIn.php"); //MÅ FAKTISK SENDE BRUKER TIL ET LOGISK STED
+                //Sender bruker videre til bookshelf om vellykket
+                header("Location: ../bookshelf.php");
                 exit;
 
             } else {
@@ -162,7 +162,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
     <hr>
-    <p>Har du ikke konto? <a href="userRegistrering.php">Registrer deg her</a>.</p>
+    <p>Har du ikke konto? <a href="registerUser.php">Registrer deg her</a>.</p>
 
 </body>
 </html>
