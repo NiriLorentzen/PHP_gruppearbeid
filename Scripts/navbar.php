@@ -4,7 +4,7 @@
         session_start();
     }
 
-    // Automatically detect the base path
+    // automatisk finner filbanen, nettlesere er strenge på dette så måtte gjøre det grundig
     $scriptPath = dirname($_SERVER['SCRIPT_NAME']);
     $baseUrl = str_replace('/Script', '', $scriptPath);
 

@@ -7,6 +7,7 @@
 require_once "classes/Books.php";
 session_start();
 
+include 'scripts/navbar.php';
 
 if(!isset($_SESSION['bookshelf'])) {
     $_SESSION['bookshelf'] = [];
@@ -69,6 +70,7 @@ if($_SERVER ['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <script src="main.js" defer></script>
     <title>Bokhylle</title>
+    <link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body>
     <h1>Din Bokhylle</h1>

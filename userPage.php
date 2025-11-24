@@ -1,15 +1,6 @@
 <?php 
 include 'scripts/navbar.php';
-
-$brukerinfo = [];
-
-if(isset($_SESSION['userID']))
-
-
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="no">
 <head>
@@ -40,7 +31,10 @@ if(isset($_SESSION['userID']))
                     <td>Admin</td>
                 <?php endif; ?>
             </tr>
-        </table>
+        </table><br>
+        <form action="Scripts/userDelete.php" method="post" onsubmit="return confirm('Er du sikker på at du vil slette brukeren?');">
+            <button type="submit">Slett bruker</button>
+        </form>
     <?php endif; ?>
 </body>
 </html>
