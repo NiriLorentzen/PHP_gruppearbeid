@@ -1,7 +1,6 @@
 <?php 
 session_start();
 include __DIR__ . '/scripts/DB/db.inc.php';
-include 'scripts/navbar.php';
 
 
 if(!$input) {
