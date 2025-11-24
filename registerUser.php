@@ -107,7 +107,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             $pdo->rollBack();
 
             error_log('Tid: ' . date("Y-m-d H:i:s") . ' Database error: ' . $e->getMessage());           
-            die("Beklager, det oppstod en feil ved lagring av data." . $e->getMessage());  //Gis til bruker uten info om logikk. //BURDE FJERNES GET MESSAGE ETTER TESTING
+            die("Beklager, det oppstod en feil ved lagring av data.");  //Gis til bruker uten info om logikk.
         }            
         
     }
