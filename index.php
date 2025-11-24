@@ -99,7 +99,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
                 thumbnail: parent.dataset.thumbnail
             };
 
-            const response = await fetch("bookshelf.php", {
+            const response = await fetch("api/handleBookshelf.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(book)

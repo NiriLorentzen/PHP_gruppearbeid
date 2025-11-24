@@ -8,7 +8,7 @@ $logInMessage  = "";
 $error = [];
 $logInData = [];
 
-$totalBlockedTime = 9; //1. kvarter i sekunder
+$totalBlockedTime = 900; //15 min i sekunder
 $totalBlockedMinutes = floor($totalBlockedTime / 60);
 $totalTries = 3; //Max antall ganger user kan prøve å logge inn
 
