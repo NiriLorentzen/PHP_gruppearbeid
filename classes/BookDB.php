@@ -1,6 +1,6 @@
 <?php
 
-require_once 'scripts/DB/db.inc.php';
+require_once __DIR__ . '/../scripts/DB/db.inc.php';
 
 class BookDB {
     
@@ -12,12 +12,12 @@ class BookDB {
     public function insertBook($data) {
         //KAN VÆRE LURT Å ENDRE TIL ON DUPLICATE KEY UPDATE?
         $q = $this->pdo->prepare( //insert ignore sørger for at flere brukere kan sette inn samme bok, og at bøkene oppdaterer seg i database om mulig
-            "INSERT IGNORE INTO books(bookID, title, author, description, page_count) 
+            "INSERT IGNORE INTO books(bookID, title, authors, description, page_count) 
             VALUES(:bookID, :title, :authors, :description, :pageCount)"
         );
         $q->bindParam(':bookID', $data['bookID']); 
         $q->bindParam(':title', $data['title']);
-        $q->bindParam(':authors', $data['author']);
+        $q->bindParam(':authors', $data['authors']);
         $q->bindParam(':description', $data['description']);
         $q->bindParam(':pageCount', $data['pageCount']);
         $q->execute();
@@ -61,9 +61,9 @@ class BookDB {
             $data = [
                 'bookID'          => $row['bookID'],
                 'title'       => $row['title'],
-                'authors'     => $row['author'],
+                'authors'     => $row['authors'],
                 'description' => $row['description'],
-                'pageCount'   => $row['pageCount'],                
+                'pageCount'   => $row['page_count'],                
                 'thumbnail'   => $row['thumbnail'] ?? null //IKKE ENDA I DATABASE 
             ];
 

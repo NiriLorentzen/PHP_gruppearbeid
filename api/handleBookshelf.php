@@ -1,7 +1,6 @@
 <?php 
 require_once __DIR__ . "/../classes/Books.php";
-require_once __DIR__ . "/../classes/BooksDB.php";
-require_once __DIR__ . '/scripts/DB/db.inc.php';
+require_once __DIR__ . "/../classes/BookDB.php";
 
 session_start();
 header('Content-Type: application/json');
