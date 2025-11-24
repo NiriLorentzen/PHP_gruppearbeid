@@ -1,6 +1,8 @@
 <?php 
 require_once "classes/Books.php";
 session_start();
+
+include 'scripts/navbar.php';
 ?>
 
 <!DOCTYPE html>
@@ -9,6 +11,7 @@ session_start();
     <meta charset="UTF-8">
     <script src="main.js" defer></script>
     <title>Bokhylle</title>
+    <link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body>
    
