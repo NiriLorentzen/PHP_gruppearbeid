@@ -3,8 +3,8 @@
 /*
     MYE AV JSON_ENCODE BURDE ENDRES TIL BEDRE BRUKERGRENSESNITT ETTERHVERT.
 */
-session_start();
 require_once __DIR__ . "/../classes/Books.php";
+session_start();
 
 header('Content-Type: application/json');
 
@@ -32,7 +32,7 @@ if(isset($data['action']) && $data['action'] === 'remove') {
     }
 
     foreach($_SESSION['bookshelf'] as $index => $book) {
-        if($book->getBookId() === $id) {
+        if((string)$book->getBookId() === (string)$id) {
             unset($_SESSION['bookshelf'][$index]);
             $_SESSION['bookshelf'] = array_values($_SESSION['bookshelf']);
 
@@ -42,7 +42,7 @@ if(isset($data['action']) && $data['action'] === 'remove') {
         }
     }
     header('Content-Type: application/json');
-    echo json_encode(['success' => true, 'message' => 'Fant ikke boken']);
+    echo json_encode(['success' => false, 'message' => 'Fant ikke boken']);
     exit;
 }
 

@@ -1,5 +1,4 @@
 <?php 
-
 require_once 'api/booksAPI.php';
 
 require_once 'scripts/print_chatlog.php';

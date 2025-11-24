@@ -1,6 +1,6 @@
 <?php 
-session_start();
 require_once "classes/Books.php";
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ require_once "classes/Books.php";
         <?php foreach($_SESSION['bookshelf'] as $index => $book): ?>
             <div class="bookItem"style="border:1px solid #ccc; padding:10px; margin:10px;">
 
-                <h3><?= htmlspecialchars($book->getTitle()) ?></h3>
+                <h3><?= htmlspecialchars($book->getTitle()) ?></h3>                
                 <p><strong>Forfatter:</strong> <?= htmlspecialchars($book->getAuthors()) ?></p>
                 <p><strong>Antall sider:</strong> <?= htmlspecialchars($book->getPageCount()) ?></p>
                 <p><?= htmlspecialchars($book->getDescription()) ?></p>
@@ -37,8 +37,7 @@ require_once "classes/Books.php";
 <script>
 document.querySelectorAll(".removeBookBtn").forEach(btn => {
     btn.addEventListener("click", async () => {
-        
-        const bookIndex = btn.dataset.index;
+                
         const bookItem = btn.closest(".bookItem");
 
         if(!confirm("Er du sikker på du vil fjerne boken?")) {
