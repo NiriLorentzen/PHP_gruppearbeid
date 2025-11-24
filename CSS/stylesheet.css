@@ -1,6 +1,9 @@
-body { 
+body, html { 
     font-family: Arial, sans-serif; margin: 20px; 
     background-color: ivory;
+    margin: 0;
+    padding: 0;
+
 }
 
 #results { 
@@ -50,4 +53,38 @@ img {
     align-items: center; 
     flex-direction: column;
     background-color: white;
+}
+
+.navbar {
+    background-color: #452829;
+    height: 4.7rem;
+    display: flex;
+    justify-content: left;
+    align-items: top;
+    padding: 0;
+    margin: 0;
+}
+.navbar a {
+    font-family: "Inter", sans-serif;
+    font-size: 2rem;
+    color: ivory;    
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 10px 2rem;
+    border: 2px solid transparent;
+    transition: color 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+.navbar img {
+    width: 100px;
+    height: 100px;
+}
+.navbar a:hover {
+    color: #aee5ff;   
+    border-radius: 5px;
+    text-decoration: underline;
+}
+.navbar a.active {
+    color: #aee5ff;
+    border-radius: 5px;
 }

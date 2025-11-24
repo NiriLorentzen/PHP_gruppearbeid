@@ -4,6 +4,8 @@ require_once 'api/booksAPI.php';
 
 require_once 'scripts/print_chatlog.php';
 
+include 'scripts/navbar.php';
+
 //starter opp en session 
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
