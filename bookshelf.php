@@ -2,7 +2,8 @@
 require_once "classes/Books.php";
 require_once "classes/BookDB.php";
 require_once 'Scripts/DB/db.inc.php';
-session_start();
+
+include 'scripts/navbar.php';
 
 $usersBooks = [];
 if(isset($_SESSION['userID'])) {
@@ -19,6 +20,7 @@ if(isset($_SESSION['userID'])) {
     <meta charset="UTF-8">
     <script src="main.js" defer></script>
     <title>Bokhylle</title>
+    <link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body>
    
@@ -49,6 +51,7 @@ document.querySelectorAll(".removeBookBtn").forEach(btn => {
     btn.addEventListener("click", async () => {
                 
         const bookItem = btn.closest(".bookItem");
+        const bookId = btn.dataset.id;
 
         if(!confirm("Er du sikker på du vil fjerne boken?")) {
             return;
@@ -59,7 +62,7 @@ document.querySelectorAll(".removeBookBtn").forEach(btn => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 action: "remove",
-                id: bookId
+                bookID: bookId
             })
         });
 

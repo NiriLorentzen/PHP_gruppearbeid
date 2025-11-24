@@ -42,7 +42,7 @@ if($data && isset($data['title'])) {
     //MÅ MULIGENS HÅNDTERE FLERE FORFATTERE
     
     $dbData = [
-        'bookID'           => $data['bookID'],
+        'bookID'           => $data['bookID'] ?? $data['id'],
         'title'        => $data['title'],
         'authors'           => $data['authors'], 
         'description' => $data['description'] ?? '',
