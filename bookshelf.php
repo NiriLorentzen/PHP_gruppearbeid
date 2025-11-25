@@ -1,8 +1,17 @@
 <?php 
 require_once "classes/Books.php";
-session_start();
+require_once "classes/BookDB.php";
+require_once 'Scripts/DB/db.inc.php';
 
 include 'scripts/navbar.php';
+
+$usersBooks = [];
+if(isset($_SESSION['userID'])) {
+    $bookDB = new BookDB($pdo);
+    $usersBooks = $bookDB->userFetchAllBooks($_SESSION['userID']);
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -17,18 +26,19 @@ include 'scripts/navbar.php';
    
     <h1>Din Bokhylle</h1>
     
-    <?php if (empty($_SESSION['bookshelf'])): ?>
+    <?php if(empty($usersBooks)): ?>
         <h2>Bokhyllen din er tom.</h2>
     <?php else: ?>
-        <?php foreach($_SESSION['bookshelf'] as $index => $book): ?>
+        <?php foreach($usersBooks as $book): ?>
             <div class="bookItem"style="border:1px solid #ccc; padding:10px; margin:10px;">
 
                 <h3><?= htmlspecialchars($book->getTitle()) ?></h3>                
                 <p><strong>Forfatter:</strong> <?= htmlspecialchars($book->getAuthors()) ?></p>
                 <p><strong>Antall sider:</strong> <?= htmlspecialchars($book->getPageCount()) ?></p>
                 <p><?= htmlspecialchars($book->getDescription()) ?></p>
+                <p><strong>Bok ID:</strong> <?= htmlspecialchars($book->getBookId()) ?></p>
 
-                <?php if ($book->getThumbnail()): ?>
+                <?php if($book->getThumbnail()): //HAR IKKE LAGT TIL THUMBNAIL I DATABASE ENDA ?>
                     <img src="<?= htmlspecialchars($book->getThumbnail()) ?>" height="100" alt="bokomslag">
                 <?php endif; ?>
 
@@ -42,6 +52,7 @@ document.querySelectorAll(".removeBookBtn").forEach(btn => {
     btn.addEventListener("click", async () => {
                 
         const bookItem = btn.closest(".bookItem");
+        const bookId = btn.dataset.id;
 
         if(!confirm("Er du sikker på du vil fjerne boken?")) {
             return;
@@ -52,7 +63,7 @@ document.querySelectorAll(".removeBookBtn").forEach(btn => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 action: "remove",
-                id: btn.dataset.id
+                bookID: bookId
             })
         });
 

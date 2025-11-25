@@ -1,50 +1,56 @@
 <?php 
 require_once __DIR__ . "/../classes/Books.php";
-session_start();
+require_once __DIR__ . "/../classes/BookDB.php";
 
+session_start();
 header('Content-Type: application/json');
 
+//FUNKSJON SOM SJEKKER OM BRUKER ER INNLOGGET HER
 
-if($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['success' => false, 'message' => 'Ikke valid metode']);
-    exit;
+$userID = $_SESSION['userID'] ?? null;
+
+
+try {
+    $bookDB = new BookDB($pdo);
+} catch (PDOException $e) {
+    //Error i feillogg med dato og melding
+    error_log('Tid: ' . date("Y-m-d H:i:s") . 'Database error: ' . $e->getMessage());
+    
+    //Stopper scriptet og gir bruker generell feilmelding uten back-end logikk.
+    die("Beklager, det oppstod en feil ved tilkobling til databasen.");
 }
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if(!isset($_SESSION['bookshelf'])) {
-    $_SESSION['bookshelf'] = [];
-}
-
 
 //Fjerner booken fra bokhyllen.
 if(isset($data['action']) && $data['action'] === 'remove') {
-    $id = $data['id'] ?? null;
+    $bookID = $data['bookID'] ?? null;
     
-    if($id === null) {
-        echo json_encode(['success' => false, 'message' => 'Ingen id oppgitt']);
-        exit;
+    if($bookID) {
+        $bookDB->userRemoveBook($userID, $bookID);
+        echo json_encode(['success' => true, 'message' => 'Bok slettet']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Fant ikke boken']);
     }
-
-    foreach($_SESSION['bookshelf'] as $index => $book) {
-        if((string)$book->getBookId() === (string)$id) {
-            unset($_SESSION['bookshelf'][$index]);
-            $_SESSION['bookshelf'] = array_values($_SESSION['bookshelf']);
-            
-            echo json_encode(['success' => true, 'message' => 'Bok slettet']);
-            exit;
-        }
-    }    
-    echo json_encode(['success' => false, 'message' => 'Fant ikke boken']);
     exit;
 }
 
-// Setter dataen som Books klassen trenger
+//Legger til bok i databasen. Både for bruker og generelt
 if($data && isset($data['title'])) {
-    $book = new Books($data);
-                    
-    // Legg boken i bookshelf - session
-    $_SESSION['bookshelf'][] = $book;
+    
+    //MÅ MULIGENS HÅNDTERE FLERE FORFATTERE
+    
+    $dbData = [
+        'bookID'           => $data['bookID'],
+        'title'        => $data['title'],
+        'authors'           => $data['authors'], 
+        'description' => $data['description'] ?? '',
+        'pageCount'       => $data['pageCount'] ?? 0
+    ];                    
+    
+    $bookDB->insertBook($dbData);    
+    $bookDB->userAddBook($userID, $data['bookID']);
 
 
     // Gir melding om det fungerer eller ei    
@@ -52,5 +58,6 @@ if($data && isset($data['title'])) {
     exit;
 }
 
-echo json_encode(['success' => false, 'message' => 'Ugyldige bokdata']);
-exit;
+echo json_encode(['success' => false, 'message' => 'Ugyldig bokdata']);
+
+?>

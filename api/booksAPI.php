@@ -36,7 +36,7 @@ class GoogleBooksApi {
                 $volumeInfo = $item['volumeInfo'];
 
                 $books[] = new Books([
-                    "id" => $item['id'] ?? null,
+                    "bookID" => $item['id'] ?? null,
                     //"selfLink" => $item['selfLink'] ?? null, USIKKER OM VI HAR BRUKT FOR SELFLINK
                     "title" => $volumeInfo['title'] ?? 'Ukjent tittel',
                     "authors" => $volumeInfo['authors'][0] ?? 'Ukjent forfatter',

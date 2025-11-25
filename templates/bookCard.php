@@ -1,5 +1,5 @@
 <div class="book"
-            data-id="<?= htmlspecialchars($book->getBookId()) ?>"
+            data-book-id="<?= htmlspecialchars($book->getBookId()) ?>"
             data-title="<?= htmlspecialchars($book->getTitle()) ?>"
             data-authors="<?= htmlspecialchars($book->getAuthors()) ?>"
             data-description="<?= htmlspecialchars($book->getDescription()) ?>"
@@ -7,6 +7,8 @@
             data-thumbnail="<?= htmlspecialchars($book->getThumbnail()) ?>">
 
             <h3><?= htmlspecialchars($book->getTitle()) ?></h3>
+            <p><strong>Bok ID:</strong> <?= htmlspecialchars($book->getBookId()) ?></p>
+
             <?php if ($book->getThumbnail()): ?>
                 <img src="<?= htmlspecialchars($book->getThumbnail()) ?>" height="100" alt="Omslag">
             <?php endif; ?>            

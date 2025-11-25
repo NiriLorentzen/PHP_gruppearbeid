@@ -91,7 +91,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
         btn.addEventListener("click", async () => {
             const parent = btn.closest(".book");
             const book = {
-                id: parent.dataset.id,
+                bookID: parent.dataset.bookId,
                 title: parent.dataset.title,
                 authors: parent.dataset.authors,
                 description: parent.dataset.description,
@@ -105,8 +105,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
                 body: JSON.stringify(book)
             });
 
-            const result = await response.json();
-            alert(result.message);
+           
+            const responseText = await response.text();        
+
+            try {
+                const result = JSON.parse(responseText);
+                alert(result.message);
+            } catch (e) {
+                alert("Serveren returnerte ikke gyldig JSON. Sjekk konsollen.");
+            }
+
+            
         });
     });
 
