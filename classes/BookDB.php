@@ -45,7 +45,7 @@ class BookDB {
 
     public function userFetchAllBooks($userID) {
         $q = $this->pdo->prepare(
-            "SELECT * FROM books b
+            "SELECT b.bookID, b.title, b.authors, b.description, b.page_count FROM books b
             INNER JOIN user_books ub ON  b.bookID = ub.bookID
             WHERE ub.userID = :userID"
         );
@@ -64,7 +64,7 @@ class BookDB {
                 'authors'     => $row['authors'],
                 'description' => $row['description'],
                 'pageCount'   => $row['page_count'],                
-                'thumbnail'   => $row['thumbnail'] ?? null //IKKE ENDA I DATABASE 
+                //'thumbnail'   => $row['thumbnail'] ?? null //IKKE ENDA I DATABASE 
             ];
 
             $bookObjects[] = new Books($data);

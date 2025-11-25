@@ -36,6 +36,7 @@ if(isset($_SESSION['userID'])) {
                 <p><strong>Forfatter:</strong> <?= htmlspecialchars($book->getAuthors()) ?></p>
                 <p><strong>Antall sider:</strong> <?= htmlspecialchars($book->getPageCount()) ?></p>
                 <p><?= htmlspecialchars($book->getDescription()) ?></p>
+                <p><strong>Bok ID:</strong> <?= htmlspecialchars($book->getBookId()) ?></p>
 
                 <?php if($book->getThumbnail()): //HAR IKKE LAGT TIL THUMBNAIL I DATABASE ENDA ?>
                     <img src="<?= htmlspecialchars($book->getThumbnail()) ?>" height="100" alt="bokomslag">

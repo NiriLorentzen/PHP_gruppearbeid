@@ -2,7 +2,7 @@
 
 class Books {
 
-    private $bookId;
+    private $bookID;
     private $title;
     private $authors;
     private $description;
@@ -12,7 +12,7 @@ class Books {
 
     public function __construct(array $data =[])
     {      
-        $this->bookId = $data['id'] ?? null;
+        $this->setBookId($data['bookID'] ?? null);
         $this->setTitle($data['title'] ?? 'Ukjent tittel');
         $this->setAuthors($data['authors'] ?? 'Ukjent forfatter');
         $this->setDescription($data['description'] ?? 'Ingen beskrivelse');
@@ -21,8 +21,12 @@ class Books {
         $this->haveRead = false;
     }
     
+    public function setBookId($newBookID) {
+        $this->bookID = $newBookID;
+    }
+
     public function getBookId() {
-        return $this->bookId;
+        return $this->bookID;
     }
 
     //Setter og Getter til en boks tittel
