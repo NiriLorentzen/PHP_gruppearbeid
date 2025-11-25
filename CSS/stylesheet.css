@@ -88,3 +88,16 @@ img {
     color: #aee5ff;
     border-radius: 5px;
 }
+table {
+    border-collapse: collapse;
+    width: 50%;
+    padding: 10px;
+}
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #eee;
+}
