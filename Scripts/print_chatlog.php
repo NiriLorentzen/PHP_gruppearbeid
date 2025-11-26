@@ -8,9 +8,9 @@
         }
 
         $parsedown = new Parsedown();
-        if (isset($_SESSION['chatlog'])){
+        if (isset($_SESSION['active-chatlog'])){
             $first_element = True;
-            foreach($_SESSION['chatlog'] as $chatdel_index => $chatdel) {
+            foreach($_SESSION['active-chatlog'] as $chatdel_index => $chatdel) {
                 if($first_element) { //første element er alltid gemini start-prompten, "du er bibliotektar som ... osv", skal ikke vises til bruker
                     $first_element = False;
                 } elseif($chatdel_index % 2) { //tar annenhver, gjør brukerspørsmål blå og gemini svar grå

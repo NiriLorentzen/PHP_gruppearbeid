@@ -4,12 +4,12 @@
     session_start();
     }
 
-    //tømmer chatlog i sesjon
-    unset($_SESSION["chatlog"]);
+    //tømmer chatlog i sesjon, bare lokalt altså, i praksis lager den en ny og tom chat
+    unset($_SESSION["active-chatlog"]);
+    unset($_SESSION["active-chatlog-id"]);
     unset($_SESSION["recommendations_given"]);
+    unset($_SESSION["recommendations_found"]);
     unset($_SESSION["recommendations_found"]);
 
     echo "Chat reset.";
-
-    header("Refresh: 0"); 
 ?>

@@ -37,20 +37,20 @@ $initialprompt = sanitizeInputs($initialprompt);
 $promptmaker = "Se for deg at du er en formell bibliotekar ekspert på jobb, hvor din arbeidsoppgave er å anbefale og finne bøker skreddersydd til de besøkende hos biblioteket ditt som heter ‘The BookFinder’. Dine svar skal bare om bøker eller bok preferanse. Vær utfyllende om beskrivelsen av bøkene du anbefaler. Om den besøkende nevner en spesifik sjanger de har lyst på, så gir du dem bok anbefalinger i en liste av 5 bøker. Bøkene du anbefaler kan være hva som helst, blant annet skjønnlitterære eller dokumentariske bøker. Bare gi oppfølgingsspørsmål om det er absolutt nødvendig. En person kommer inn i biblioteket og starter en samtale med deg, her er samtalen: ";
 
 // Oppretter en chatsamtale om det ikke er en fra før av
-if (!isset($_SESSION["chatlog"])) {
-    $_SESSION["chatlog"] = array($promptmaker); //chatsamtalen er en array som blir appenda til for hver respons/input
+if (!isset($_SESSION['active-chatlog'])) {
+    $_SESSION['active-chatlog'] = array($promptmaker); //chatsamtalen er en array som blir appenda til for hver respons/input
 } 
 
 // Legger til siste delen av samtalen
-$_SESSION['chatlog'][] = $initialprompt;
+$_SESSION['active-chatlog'][] = $initialprompt;
 
 //her bestemmes prompten som blir sendt til gemini
-//her tas inn hele 'chatlog' og imploder arrayet slikt at gemini forstår samtalen, og det sendes som en lang string
+//her tas inn hele 'active-chatlog' og imploder arrayet slikt at gemini forstår samtalen, og det sendes som en lang string
 $data = [
     "contents" => [
         [
             "parts" => [
-                ["text" => implode("Question/Response: ", $_SESSION['chatlog'])]
+                ["text" => implode("Question/Response: ", $_SESSION['active-chatlog'])]
             ]
         ]
     ]
@@ -85,14 +85,14 @@ if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
     //legger til gemini respons i 'chatsamtale'
     $text = $result['candidates'][0]['content']['parts'][0]['text'];
     $text = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
-    $_SESSION['chatlog'][] = $text;
+    $_SESSION['active-chatlog'][] = $text;
 
     //echo "$text<br><br>";
     findrecommendation($text);
 
     printchatlog();
 
-    //$_SESSION['chatlog'][] = $result['candidates'][0]['content']['parts'][0]['text'];
+    //$_SESSION['active-chatlog'][] = $result['candidates'][0]['content']['parts'][0]['text'];
     
 } else { //hvis det er en feil, print alt for debug
     echo "<pre>";
@@ -101,7 +101,7 @@ if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
     echo "</pre>";
 
     //fjerne spørsmålet brukeren sendte ifra chatsamtalen, slikt at samtalen ikke har samme spørsmål flere ganger og spørsmål/svar rekkefølgen stemmer
-    $last_question_index = count($_SESSION['chatlog']) - 1;
-    unset($_SESSION['chatlog'][$last_question_index]);
+    $last_question_index = count($_SESSION['active-chatlog']) - 1;
+    unset($_SESSION['active-chatlog'][$last_question_index]);
 }
 ?>
