@@ -1,8 +1,5 @@
 <?php 
-    //starter opp en session 
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
+require_once 'scripts/sessionStart.php';
 
 
     unset($_SESSION['userID']);

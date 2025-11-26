@@ -1,7 +1,7 @@
 <?php 
-include __DIR__ . '/scripts/DB/db.inc.php';
-include __DIR__ . '/scripts/validation.inc.php';
-include __DIR__ . '/scripts/sanitizeInputs.inc.php';
+require_once __DIR__ . '/scripts/DB/db.inc.php';
+require_once __DIR__ . '/scripts/validation.inc.php';
+require_once __DIR__ . '/scripts/sanitizeInputs.inc.php';
 include 'scripts/navbar.php';
 
 const USER_ROLE = 2;

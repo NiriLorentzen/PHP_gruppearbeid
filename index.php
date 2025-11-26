@@ -2,18 +2,13 @@
 require_once 'api/booksAPI.php';
 require_once 'scripts/print_chatlog.php';
 require_once 'scripts/checkLoginStatus.php';
+require_once 'Scripts/sessionStart.php';
 
 include 'scripts/navbar.php';
 
-//starter opp en session 
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
-
-
 
 // Oppretter om det ikke er en fra før av
-if (!isset($_SESSION["recommendations_found"])) {
+if(!isset($_SESSION["recommendations_found"])) {
     $_SESSION["recommendations_found"] = array(); 
 } 
 

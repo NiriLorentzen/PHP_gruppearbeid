@@ -2,12 +2,10 @@
 require_once __DIR__ . "/../classes/Books.php";
 require_once __DIR__ . "/../classes/BookDB.php";
 require_once __DIR__ . "/../scripts/checkLoginStatus.php";
+require_once __DIR__ . '/../scripts/sessionStart.php';
 
-session_start();
 header('Content-Type: application/json');
-
 mustBeLoggedIn();
-
 $userID = $_SESSION['userID'] ?? null;
 
 
