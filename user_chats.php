@@ -115,7 +115,7 @@
 
         const data = await response.text(); 
         document.getElementById('chatbox').innerHTML = data;
-        window.location.reload();
+        //window.location.reload();
     });
 
     document.getElementById('ny_chat').addEventListener('click', async () => {
