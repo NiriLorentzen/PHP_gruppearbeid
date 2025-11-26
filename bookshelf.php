@@ -7,7 +7,7 @@ require_once 'scripts/checkLoginStatus.php';
 include 'scripts/navbar.php';
 
 
-checkLoggedIn();
+mustBeLoggedIn();
 
 $usersBooks = [];
 if(isset($_SESSION['userID'])) {

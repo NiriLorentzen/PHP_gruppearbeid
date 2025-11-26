@@ -1,11 +1,12 @@
 <?php 
 require_once __DIR__ . "/../classes/Books.php";
 require_once __DIR__ . "/../classes/BookDB.php";
+require_once __DIR__ . "/../scripts/checkLoginStatus.php";
 
 session_start();
 header('Content-Type: application/json');
 
-//FUNKSJON SOM SJEKKER OM BRUKER ER INNLOGGET HER
+mustBeLoggedIn();
 
 $userID = $_SESSION['userID'] ?? null;
 
