@@ -4,10 +4,10 @@ include __DIR__ . '/scripts/validation.inc.php';
 include __DIR__ . '/scripts/sanitizeInputs.inc.php';
 include 'scripts/navbar.php';
 
-
+const USER_ROLE = 2;
 $userData = [];
 $error = [];
-$message = "";
+$success = false;
     
     
 //Fyller $userData matrisen
@@ -19,10 +19,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $userData['regDate'] = date('Y-m-d');
 
     //Obligatoriske felt som ikke kan være tomme.
-    $reqField = ['firstName', 'lastName', 'email'];
+    $reqField = ['firstName', 'lastName', 'email', 'password'];
         foreach($reqField as $field) {
             if(empty($userData[$field])) {
-                $error[$field] = ucfirst($field) . " feltet må være fylt ut.<br>";
+                $fieldNames = ['firstName' => 'Fornavn', 'lastName' => 'Etternavn', 'email' => 'Epost', 'password' => 'Passord'];
+                $error[$field] = $fieldNames[$field] . " feltet må være fylt ut.";
             }
         }
     
@@ -87,22 +88,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $userID = $pdo->lastInsertId();
 
-            $roleID = 2; // Rolle ID 2 er bruker. Mest sikkert at kun admin m tilgang til DB endre til annet.
+            $roleID = USER_ROLE;
             $qRole = $pdo->prepare("INSERT INTO user_roles(userID, roleID) VALUES (:userID, :roleID)");
             $qRole->bindParam(':userID', $userID);
             $qRole->bindParam(':roleID', $roleID);
             $qRole->execute();
          
             $pdo->commit(); 
+            $success = true;
 
-            $message = "<h1>Velkommen " . sanitizeInputs($userData['firstName']) . "!</h1>
-            <h2>Du har registrert en ny konto!: </h2>";
-            foreach($userData as $key => $value) { 
-                if($key !== 'password') {
-                    $message .= ucfirst($key) . ": " . sanitizeInputs($value) . "<br>";
-                }
-            }
-        
         } catch(PDOException $e) {
             $pdo->rollBack();
 
@@ -126,9 +120,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
+<?php if($success): ?>
+    <div>
+        <h1>Velkommen, <?= sanitizeInputs($userData['firstName']) ?>!</h1>
+        <p>Du har registrert en ny konto, med eposten <?= sanitizeInputs($userData['email'])?>.</p>
+        <p><a href="logIn.php">Klikk her for å logge inn.</a></p>
+    </div>
+<?php else: ?>
 
-
-<?php if(!$message) echo "<h1>Lag en bruker her</h1>"; else echo "<div class='message'>$message</div><br>"; ?> 
+    <h1>Lag en bruker her</h1> 
 
     <form method="POST">
 
@@ -154,6 +154,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <hr>
     <p>Har du allerede en konto? <a href="logIn.php">Logg inn her</a>.</p>
+<?php endif; ?>
 
 </body>
 </html>
