@@ -5,20 +5,7 @@ class GoogleBooksApi {
 
     //Basis linken til googleBooksAPI
     private $baseApiUrl = "https://www.googleapis.com/books/v1/volumes?q=";
-
-
-    //Midlertidig funksjon for å gjerne vanlige filler ord i en query, returnerer den rensede queryen
-    public function cleanQuery($query) {
-
-        //Definerer vanlige "filler" ord.
-        $fillerWords = ["kan", "du", "jeg", "vi", "om", "en", "ei", "et", "har", "bok", "bøker", "anbefale", "fortell", "meg", "noen", "som", "handler", "om"];
-        $cleanQuery = preg_replace('/\b(' . implode('|', $fillerWords) . ')\b/i', '', $query);
-
-        // Rens opp ekstra mellomrom
-        $cleanQuery = trim(preg_replace('/\s+/', ' ', $cleanQuery));
-        return $cleanQuery;
-    
-    }
+   
 
     public function fetchBooks($query) {
 

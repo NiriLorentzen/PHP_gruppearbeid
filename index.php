@@ -20,10 +20,8 @@ $error = "";
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
     try {
-        $api = new GoogleBooksApi();
-        //Denne er mer midlertidig, fjerner filler ord.
-        $cleanQuery = $api->cleanQuery($_POST['bookRec']);
-        $recommendations = $api->fetchBooks($cleanQuery);
+        $api = new GoogleBooksApi();       
+        $recommendations = $api->fetchBooks($_POST['bookRec']);
     } catch (Exception $e) {
         $error = $e->getMessage();
     }
