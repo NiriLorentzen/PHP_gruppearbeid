@@ -12,6 +12,8 @@
     unset($_SESSION['roleID']);
     unset($_SESSION['loggedIn']);
 
+    include "scripts/clear_chat.php";
+
     include 'scripts/navbar.php';
 ?>
 
