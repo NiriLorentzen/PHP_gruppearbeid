@@ -14,10 +14,25 @@
             <?php endif; ?>            
             <p><strong>Forfatter:</strong> <?= htmlspecialchars($book->getAuthors()) ?></p>
             <p><strong>Antall sider:</strong> <?= htmlspecialchars($book->getPageCount()) ?></p>
-            <p><?= htmlspecialchars($book->getDescription()) ?></p>                
-            <?php if(checkLoggedIn()) : ?>
-                <button type="button" class="saveBookBtn">Putt boken i hyllen</button>
-            <?php else: ?>
-                <p><em>Logg inn for å lagre boken i din bokhylle.</em></p>
+            
+            <label for="modal-<?= htmlspecialchars($book->getBookId()) ?>" class="description-label">
+                <p class="description-preview"><?= htmlspecialchars(substr($book->getDescription(), 0, 100)) ?>...</p>
+            </label>
+            
+            <input type="checkbox" id="modal-<?= htmlspecialchars($book->getBookId()) ?>" class="modal-toggle" hidden>
+            <div class="modal-overlay">
+                <div class="modal">
+                    <label for="modal-<?= htmlspecialchars($book->getBookId()) ?>" class="modal-close">&times;</label>
+                    <h3><?= htmlspecialchars($book->getTitle()) ?></h3>
+                    <p><?= htmlspecialchars($book->getDescription()) ?></p>
+                </div>
+            </div>
+
+            <?php if(isset($canSaveBook) && $canSaveBook): ?>
+                <?php if(checkLoggedIn()): ?>
+                    <button type="button" class="saveBookBtn">Putt boken i hyllen</button>
+                <?php elseif(empty($isBookshelf)): ?>
+                    <p><em>Logg inn for å lagre boken i din bokhylle.</em></p>
+                <?php endif; ?>
             <?php endif; ?>
-</div>
+    </div>
