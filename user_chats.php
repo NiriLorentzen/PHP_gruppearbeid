@@ -23,6 +23,7 @@
         //print_r($oldChats);
     }
 
+    //eneste koden her som bruker POST er lagrede chatter knappen, VIKTIG at ingen andre har post, trengs det må fremgangsmåten endres på
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
         //print_r($_POST);
         //echo "test";
@@ -33,6 +34,8 @@
         //include __DIR__ . '/scripts/clear_recommendation.php';
         //printchatlog();
         //header("Refresh:0");
+        unset($_SESSION["recommendations_found"]);
+        unset($_SESSION["recommendations_given"]);
     }
 
     // Oppretter om det ikke er en fra før av
@@ -77,13 +80,13 @@
             <button id="sendBtn">Send</button><button id="ny_chat">Ny chat</button>
             <button id="slett_chat">Slett chat</button>
             
-            <form action="Scripts/chat_save.php" method="post">
+            <form action="Scripts/chat_save.php">
                 <button type="submit">Lagre denne chatten</button>
             </form>
         </div>
         <div>
             <h2>Bok anbefalinger fått:</h2>
-            <form action="Scripts/clear_recommendation.php" method="post">
+            <form action="Scripts/clear_recommendation.php">
                 <button type="submit">Tøm anbefalinger</button>
             </form>
             <div id="chatboxAnbefalinger" class="chatbox" value="">

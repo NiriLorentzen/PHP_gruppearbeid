@@ -90,7 +90,7 @@ if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
 
     printchatlog();
 
-    //$_SESSION['active-chatlog'][] = $result['candidates'][0]['content']['parts'][0]['text'];
+    $_SESSION['active-chatlog'][] = $result['candidates'][0]['content']['parts'][0]['text'];
     
 } else { //hvis det er en feil, print alt for debug
     echo "<pre>";
