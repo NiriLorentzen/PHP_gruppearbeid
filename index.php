@@ -1,6 +1,7 @@
 <?php 
 require_once 'api/booksAPI.php';
 require_once 'scripts/print_chatlog.php';
+require_once 'scripts/checkLoginStatus.php';
 
 include 'scripts/navbar.php';
 
@@ -8,6 +9,8 @@ include 'scripts/navbar.php';
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+
+
 
 // Oppretter om det ikke er en fra før av
 if (!isset($_SESSION["recommendations_found"])) {

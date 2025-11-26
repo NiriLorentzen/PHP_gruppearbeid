@@ -15,6 +15,9 @@
             <p><strong>Forfatter:</strong> <?= htmlspecialchars($book->getAuthors()) ?></p>
             <p><strong>Antall sider:</strong> <?= htmlspecialchars($book->getPageCount()) ?></p>
             <p><?= htmlspecialchars($book->getDescription()) ?></p>                
-            
-            <button type="button" class="saveBookBtn">Putt boken i hyllen</button>
+            <?php if(checkLoggedIn()) : ?>
+                <button type="button" class="saveBookBtn">Putt boken i hyllen</button>
+            <?php else: ?>
+                <p><em>Logg inn for å lagre boken i din bokhylle.</em></p>
+            <?php endif; ?>
 </div>
