@@ -125,17 +125,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         switch($warningCode) {
             case 'notLoggedIn':
-                echo "<p><b>Du ble sendt hit fordi du ikke var logget inn.</b></p>";
+                echo "<p><b>Du ble sendt hit fordi du må være logget inn for å se siden du forsøkte å besøke </b></p>";
                 break;        
 
-            case 'loggedOut':
+            case 'loggedOut': //IKKE I BRUK AKKURAT NÅ, KANSKJE FJERNES ELLER BEGYNNE Å BRUKE
                 echo "<p><b>Du har logget ut.</b></p>";
                 break;
-            /*KAN FJERNES OM VI VELGER Å IKKE HA ADMINSIDE
+
             case 'wrongPrivileges':
                 echo "<p><b>Du ble sendt hit fordi du ikke har riktig rolle for siden du trieste å besøke</b></p>";
                 break;
-            */
+
             default:
                 if($urlMelding) echo "<p><b>$urlMelding</b></p>";
         }

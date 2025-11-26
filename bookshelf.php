@@ -1,9 +1,13 @@
 <?php 
 require_once "classes/Books.php";
 require_once "classes/BookDB.php";
-require_once 'Scripts/DB/db.inc.php';
+require_once 'scripts/DB/db.inc.php';
+require_once 'scripts/checkLoginStatus.php';
 
 include 'scripts/navbar.php';
+
+
+checkLoggedIn();
 
 $usersBooks = [];
 if(isset($_SESSION['userID'])) {
