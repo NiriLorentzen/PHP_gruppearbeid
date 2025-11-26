@@ -3,9 +3,12 @@
     ini_set('default_charset', 'UTF-8');
     header('Content-Type: text/html; charset=utf-8');
 
+    require_once 'api/booksAPI.php';
     require_once 'scripts/sessionStart.php';
     require_once __DIR__ . '/scripts/DB/db.inc.php';
     require_once 'scripts/print_chatlog.php';
+    require_once 'scripts/checkLoginStatus.php';
+    
 
     //for chat-velger funksjon
     $oldChats = [];
@@ -20,14 +23,27 @@
         //print_r($oldChats);
     }
 
+    //eneste koden her som bruker POST er lagrede chatter knappen, VIKTIG at ingen andre har post, trengs det må fremgangsmåten endres på
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
         //print_r($_POST);
+        //echo "test";
         $chat_array = explode("spm/svar", $_POST['chatlog']);
         $_SESSION['active-chatlog'] = $chat_array;
         $_SESSION['active-chatlog-id'] = $_POST['chatid'];
+
+        //include __DIR__ . '/scripts/clear_recommendation.php';
         //printchatlog();
         //header("Refresh:0");
+        unset($_SESSION["recommendations_found"]);
+        unset($_SESSION["recommendations_given"]);
     }
+
+    // Oppretter om det ikke er en fra før av
+    if(!isset($_SESSION["recommendations_found"])) {
+        $_SESSION["recommendations_found"] = array(); 
+    } 
+
+    $geminirecommendations = $_SESSION["recommendations_found"];
 
     include 'scripts/navbar.php';
 
@@ -62,11 +78,24 @@
             </div>
             <input type="text" id="prompt" placeholder="Spør et spørsmål..." style="width:400px;">
             <button id="sendBtn">Send</button><button id="ny_chat">Ny chat</button>
-            <button id="sendBtn">Send</button><button id="slett_chat">Slett chat</button>
+            <button id="slett_chat">Slett chat</button>
             
-            <form action="Scripts/chat_save.php" method="post">
+            <form action="Scripts/chat_save.php">
                 <button type="submit">Lagre denne chatten</button>
             </form>
+        </div>
+        <div>
+            <h2>Bok anbefalinger fått:</h2>
+            <form action="Scripts/clear_recommendation.php">
+                <button type="submit">Tøm anbefalinger</button>
+            </form>
+            <div id="chatboxAnbefalinger" class="chatbox" value="">
+                <?php if(!empty($geminirecommendations)): ?>
+                    <?php foreach ($geminirecommendations as $book): ?>
+                            <?php include __DIR__ . '/templates/bookCard.php'; ?>
+                        <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
     
@@ -86,6 +115,7 @@
 
         const data = await response.text(); 
         document.getElementById('chatbox').innerHTML = data;
+        window.location.reload();
     });
 
     document.getElementById('ny_chat').addEventListener('click', async () => {

@@ -73,8 +73,6 @@ if (curl_errno($ch)) {
     exit;
 }
 
-curl_close($ch);
-
 $result = json_decode($response, true);
     //print_r($result);   
     //echo $result['candidates'][0]['content']['parts'][0]['text'];
@@ -88,11 +86,10 @@ if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
     $_SESSION['active-chatlog'][] = $text;
 
     //echo "$text<br><br>";
+
     findrecommendation($text);
 
     printchatlog();
-
-    //$_SESSION['active-chatlog'][] = $result['candidates'][0]['content']['parts'][0]['text'];
     
 } else { //hvis det er en feil, print alt for debug
     echo "<pre>";
