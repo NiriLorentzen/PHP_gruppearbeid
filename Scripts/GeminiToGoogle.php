@@ -43,6 +43,7 @@
                     // Add the *first* Book object from the results
                     // This matches what your index.php foreach loop expects
                     $_SESSION["recommendations_found"][] = $recommendations[0];
+                    //header("refresh: 0;");
                 }
             }
         }

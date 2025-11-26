@@ -73,8 +73,6 @@ if (curl_errno($ch)) {
     exit;
 }
 
-curl_close($ch);
-
 $result = json_decode($response, true);
     //print_r($result);   
     //echo $result['candidates'][0]['content']['parts'][0]['text'];
