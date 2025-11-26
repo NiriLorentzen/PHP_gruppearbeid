@@ -77,8 +77,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['roleID'] = $user['roleID'];
                 $_SESSION['loggedIn'] = true;
                 
-                //Sender bruker videre til bookshelf om vellykket
-                header("Location: bookshelf.php");
+                //Sender bruker videre til user_chats om vellykket
+                header("Location: user_chats.php");
                 exit;
 
             } else {
