@@ -1,7 +1,7 @@
 <?php 
 include 'scripts/navbar.php';
 require_once 'scripts/checkLoginStatus.php';
-checkLoggedIn();
+mustBeLoggedIn();
 ?>
 <!DOCTYPE html>
 <html lang="no">

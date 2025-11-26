@@ -1,16 +1,27 @@
 <?php 
 
-//Sjekker om bruker er innlogget, tar ikke stilling til rolle. Kan utvides om flere roller blir introdusert
+//Sjekker om bruker er innlogget
 function checkLoggedIn() {
-    if(!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true) {
-        header("Location: logIn.php?warning=notLoggedIn");
+    return isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
+}
+
+//Bruker checkLoggedIn til å finne innlogging status, hvis ikke sendes de til innlogging.php med beskjed.
+function mustBeLoggedIn() {
+    if(!checkLoggedIn()) {
+        header("Location: logIn.php?warning=notLoggedIn");        
         exit;
     }
 }
 
-//Sjekker om bruker har rollen admin, hvis ikke sendes de til innlogging.php med beskjed.
+//Sjekker om bruker har rollen admin
 function checkAdmin() {
-    if(!isset($_SESSION['roleID']) || $_SESSION['roleID'] != 1) {
+    return isset($_SESSION['roleID']) && $_SESSION['roleID'] == 1;
+}
+
+
+//Bruker checkAdmin til å finne om bruker er admin, hvis ikke sendes de til innlogging.php med beskjed.
+function mustBeAdmin() {
+    if(!checkAdmin()) {
         header("Location: logIn.php?warning=wrongPrivileges");
         exit;
     }
