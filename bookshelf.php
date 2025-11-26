@@ -35,17 +35,7 @@ if(isset($_SESSION['userID'])) {
     <?php else: ?>
         <?php foreach($usersBooks as $book): ?>
             <div class="bookItem"style="border:1px solid #ccc; padding:10px; margin:10px;">
-
-                <h3><?= htmlspecialchars($book->getTitle()) ?></h3>                
-                <p><strong>Forfatter:</strong> <?= htmlspecialchars($book->getAuthors()) ?></p>
-                <p><strong>Antall sider:</strong> <?= htmlspecialchars($book->getPageCount()) ?></p>
-                <p><?= htmlspecialchars($book->getDescription()) ?></p>
-                <p><strong>Bok ID:</strong> <?= htmlspecialchars($book->getBookId()) ?></p>
-
-                <?php if($book->getThumbnail()): //HAR IKKE LAGT TIL THUMBNAIL I DATABASE ENDA ?>
-                    <img src="<?= htmlspecialchars($book->getThumbnail()) ?>" height="100" alt="bokomslag">
-                <?php endif; ?>
-
+                <?php include 'templates/bookCard.php'; ?>
                 <button type="button" class="removeBookBtn" data-id="<?= $book->getBookId() ?>">Fjern boken fra hyllen</button>
             </div>
         <?php endforeach; ?>

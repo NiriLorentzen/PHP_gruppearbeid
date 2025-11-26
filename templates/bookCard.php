@@ -27,10 +27,12 @@
                     <p><?= htmlspecialchars($book->getDescription()) ?></p>
                 </div>
             </div>
-            
-            <?php if(checkLoggedIn()) : ?>
-                <button type="button" class="saveBookBtn">Putt boken i hyllen</button>
-            <?php else: ?>
-                <p><em>Logg inn for å lagre boken i din bokhylle.</em></p>
+
+            <?php if(isset($canSaveBook) && $canSaveBook): ?>
+                <?php if(checkLoggedIn()): ?>
+                    <button type="button" class="saveBookBtn">Putt boken i hyllen</button>
+                <?php elseif(empty($isBookshelf)): ?>
+                    <p><em>Logg inn for å lagre boken i din bokhylle.</em></p>
+                <?php endif; ?>
             <?php endif; ?>
-</div>
+    </div>

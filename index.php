@@ -15,6 +15,7 @@ if(!isset($_SESSION["recommendations_found"])) {
 $recommendations = [];
 $geminirecommendations = $_SESSION["recommendations_found"];
 $error = "";
+$canSaveBook = true;
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
     try {
@@ -45,9 +46,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
     </form>
 
 
-    <?php  if(!empty($recommendations)): ?>
-    <?php foreach ($recommendations as $book): ?>
-            <?php include __DIR__ . '/templates/bookCard.php'; ?>
+    <?php if(!empty($recommendations)): ?>
+        <?php foreach ($recommendations as $book): ?>
+            <div>
+                <?php include __DIR__ . '/templates/bookCard.php'; ?>
+            </div>
         <?php endforeach; ?>
     <?php endif; ?>
 
