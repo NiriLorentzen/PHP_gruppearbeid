@@ -51,35 +51,37 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
         <?php endforeach; ?>
     <?php endif; ?>
 
-
-    <div class="gemini-tekst-bokser">
-        <div>
-            <h2>Bibliotekar chat! (gemini)</h2>
-            <div id="chatbox" class="chatbox" value=""><?php require_once __DIR__ . '/Scripts/print_chatlog.php'; printchatlog(); ?>
+    <?php if (!checkLoggedIn()): ?>
+        <div class="gemini-tekst-bokser">
+            <div>
+                <h2>Bibliotekar chat! (gemini)</h2>
+                <div id="chatbox" class="chatbox" value=""><?php require_once __DIR__ . '/Scripts/print_chatlog.php'; printchatlog(); ?>
+                </div>
+                <input type="text" id="prompt" placeholder="Spør et spørsmål..." style="width:400px;">
+                <button id="sendBtn">Send</button><button id="slett_chat">Fjern samtalen</button>
+                
+                <form action="Scripts/chat_save.php" method="post">
+                    <button type="submit">Lagre denne chatten</button>
+                </form>
             </div>
-            <input type="text" id="prompt" placeholder="Spør et spørsmål..." style="width:400px;">
-            <button id="sendBtn">Send</button><button id="slett_chat">Fjern samtalen</button>
-            
-            <form action="Scripts/chat_save.php" method="post">
-                <button type="submit">Lagre denne chatten</button>
-            </form>
-        </div>
-        <div>
-            <h2>Bok anbefalinger fått:</h2>
-            <div id="chatboxAnbefalinger" class="chatbox" value="">
-            
-                <?php if(!empty($geminirecommendations)): ?>
-                    <?php foreach ($geminirecommendations as $book): ?>
-                            <?php include __DIR__ . '/templates/bookCard.php'; ?>
-                        <?php endforeach; ?>
-                <?php endif; ?>
+            <div>
+                <h2>Bok anbefalinger fått:</h2>
+                <div id="chatboxAnbefalinger" class="chatbox" value="">
+                
+                    <?php if(!empty($geminirecommendations)): ?>
+                        <?php foreach ($geminirecommendations as $book): ?>
+                                <?php include __DIR__ . '/templates/bookCard.php'; ?>
+                            <?php endforeach; ?>
+                    <?php endif; ?>
 
 
 
+                </div>
             </div>
         </div>
-    </div>
-
+    <?php else: ?>
+        <p>Snakke med bibliotekar? Det kan du gjøre <a href="http://localhost/PHP_gruppearbeid/user_chats.php">her</a> .</p>
+    <?php endif; ?>
     <script>
 
     //Lagrer bok når "Putt boken i hyllen" knappen blir trykket på
