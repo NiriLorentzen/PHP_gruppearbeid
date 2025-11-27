@@ -15,7 +15,7 @@ if(!isset($_SESSION["recommendations_found"])) {
 $recommendations = [];
 $geminirecommendations = $_SESSION["recommendations_found"];
 $error = "";
-$canSaveBook = true;
+$canSaveBook = true; //Settes til true på sider der lagre bok knappen skal dukke opp, når man tar i bruk BookCard template
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
     try {
@@ -33,7 +33,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
     <meta charset="UTF-8">    
     <title>BookFinder</title>
     <link rel="stylesheet" href="css/stylesheet.css">
-    <script src="main.js" defer></script>
+    <script src="scripts/JS/main.js" defer></script>
+    <script src="scripts/JS/buttons.js" defer></script>
 </head>
 <body>
     <h1>BookFinder</h1>
@@ -85,66 +86,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
     <?php else: ?>
         <p>Snakke med bibliotekar? Det kan du gjøre <a href="http://localhost/PHP_gruppearbeid/user_chats.php">her</a> .</p>
     <?php endif; ?>
-    <script>
 
-    //Lagrer bok når "Putt boken i hyllen" knappen blir trykket på
-    document.querySelectorAll(".saveBookBtn").forEach(btn => {
-        btn.addEventListener("click", async () => {
-            const parent = btn.closest(".book");
-            const book = {
-                bookID: parent.dataset.bookId,
-                title: parent.dataset.title,
-                authors: parent.dataset.authors,
-                description: parent.dataset.description,
-                pageCount: parent.dataset.pageCount,
-                thumbnail: parent.dataset.thumbnail
-            };
-
-            const response = await fetch("api/handleBookshelf.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(book)
-            });
-
-           
-            const responseText = await response.text();        
-
-            try {
-                const result = JSON.parse(responseText);
-                alert(result.message);
-            } catch (e) {
-                alert("Serveren returnerte ikke gyldig JSON. Sjekk konsollen.");
-            }
-
-            
-        });
-    });
-
-    //gemini 
-    document.getElementById('sendBtn').addEventListener('click', async () => {
-        //vise brukeren at knappen er trykket
-        document.getElementById('chatbox').innerHTML = `<p">Snakker med bibliotekaren...<br><br>Dette kan ta noen sekunder:D</p>`;
-        
-        const prompt = document.getElementById('prompt').value;
-
-        const response = await fetch('api/geminiAPI.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt })
-        });
-
-        const data = await response.text(); 
-        document.getElementById('chatbox').innerHTML = data;
-    });
-
-
-    document.getElementById('slett_chat').addEventListener('click', async () => {
-        if (!confirm("Are you sure you want to reset the chat?")) return; //åpner et vindu i nettleseren, hvor man trykker for å fortsette eller avbryte
-
-        const response = await fetch('Scripts/clear_chat.php');
-        const text = await response.text();
-        document.getElementById('chatbox').innerHTML = `<p style="color:red;">${text}</p>`;
-    });
-
-    </script>
-    </html>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    saveBookBtn();
+    geminiChatSendBtn();
+    deleteChatBtn();
+});
+</script>
+</body>
+</html>

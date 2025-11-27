@@ -12,6 +12,7 @@
 
     //for chat-velger funksjon
     $oldChats = [];
+    $canSaveBook = true; //Settes til true på sider der lagre bok knappen skal dukke opp, når man tar i bruk BookCard template
 
     if(isset($_SESSION['userID'])){
         $q = $pdo->prepare(
@@ -58,6 +59,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatlogs</title>
     <link rel="stylesheet" href="css/stylesheet.css">
+    <script src="scripts/JS/buttons.js" defer></script>
 </head>
 <body>
     <?php foreach($oldChats as $chat):?>
@@ -100,23 +102,13 @@
     </div>
     
     <script>
-    //gemini 
-    document.getElementById('sendBtn').addEventListener('click', async () => {
-        //vise brukeren at knappen er trykket
-        document.getElementById('chatbox').innerHTML = `<p">Snakker med bibliotekaren...<br><br>Dette kan ta noen sekunder:D</p>`;
-        
-        const prompt = document.getElementById('prompt').value;
 
-        const response = await fetch('api/geminiAPI.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt })
-        });
-
-        const data = await response.text(); 
-        document.getElementById('chatbox').innerHTML = data;
-        window.location.reload();
-    });
+    window.addEventListener('DOMContentLoaded', () => {
+        saveBookBtn();
+        geminiChatSendBtn();
+        deleteChatBtn();
+    });  
+   
 
     document.getElementById('ny_chat').addEventListener('click', async () => {
         const response = await fetch('Scripts/clear_chat.php');
