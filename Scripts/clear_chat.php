@@ -11,5 +11,6 @@
     unset($_SESSION["recommendations_found"]);
     unset($_SESSION["recommendations_found"]);
 
+    unset($_SESSION["chat-errors"]);
     //echo "Chat reset.";
 ?>
