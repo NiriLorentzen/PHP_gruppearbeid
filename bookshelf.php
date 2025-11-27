@@ -4,7 +4,7 @@
     require_once 'scripts/DB/db.inc.php';
     require_once 'scripts/checkLoginStatus.php';
     require_once 'classes/Sorter.php';
-    require_once 'bookSortModes.php';
+    require_once 'templates/sortModes/bookSortModes.php';
 
     include 'scripts/navbar.php';
 
