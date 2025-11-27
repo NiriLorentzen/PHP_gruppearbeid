@@ -3,6 +3,8 @@
     require_once "classes/BookDB.php";
     require_once 'scripts/DB/db.inc.php';
     require_once 'scripts/checkLoginStatus.php';
+    require_once 'classes/Sorter.php';
+    require_once 'bookSortModes.php';
 
     include 'scripts/navbar.php';
 
@@ -12,82 +14,11 @@
     $usersBooks = [];
     if(isset($_SESSION['userID'])) {
         $bookDB = new BookDB($pdo);
-        $usersBooks = $bookDB->userFetchAllBooks($_SESSION['userID']);
-        
-        // Server-side sorting: determine requested sort option (default: title ascending)
-        $allowedSorts = ['title_asc','title_desc','author_asc','author_desc','pages_asc','pages_desc'];
-        $sort = $_GET['sort'] ?? 'title_asc';
-        if(!in_array($sort, $allowedSorts, true)) {
-            $sort = 'title_asc';
-        }
-
-        switch($sort) {
-            case 'title_asc':
-                usort($usersBooks, function($bookA, $bookB) {
-                    return strcasecmp($bookA->getTitle(), $bookB->getTitle());
-                });
-                break;
-            case 'title_desc':
-                usort($usersBooks, function($bookA, $bookB) {
-                    return strcasecmp($bookB->getTitle(), $bookA->getTitle());
-                });
-                break;
-            case 'author_asc':
-                usort($usersBooks, function($bookA, $bookB) {
-                    $aAuth = trim(strtolower($bookA->getAuthors() ?? ''));
-                    $bAuth = trim(strtolower($bookB->getAuthors() ?? ''));
-                    $unknown = 'Ukjent forfatter';
-                    $aUnknown = ($aAuth === $unknown);
-                    $bUnknown = ($bAuth === $unknown);
-
-                    if ($aUnknown && !$bUnknown) return 1; // unknowns go to bottom
-                    if ($bUnknown && !$aUnknown) return -1;
-
-                    return strcasecmp($bookA->getAuthors(), $bookB->getAuthors());
-                });
-                break;
-            case 'author_desc':
-                usort($usersBooks, function($bookA, $bookB) {
-                    $aAuth = trim(strtolower($bookA->getAuthors() ?? ''));
-                    $bAuth = trim(strtolower($bookB->getAuthors() ?? ''));
-                    $unknown = 'Ukjent forfatter';
-                    $aUnknown = ($aAuth === $unknown);
-                    $bUnknown = ($bAuth === $unknown);
-
-                    if ($aUnknown && !$bUnknown) return 1; // unknowns still bottom even in desc
-                    if ($bUnknown && !$aUnknown) return -1;
-
-                    return strcasecmp($bookB->getAuthors(), $bookA->getAuthors());
-                });
-                break;
-            case 'pages_asc':
-                usort($usersBooks, function($bookA, $bookB) {
-                    $aVal = $bookA->getPageCount();
-                    $bVal = $bookB->getPageCount();
-                    $aIsNum = is_numeric($aVal);
-                    $bIsNum = is_numeric($bVal);
-
-                    if (!$aIsNum && $bIsNum) return 1; // unknown pages go to bottom
-                    if (!$bIsNum && $aIsNum) return -1;
-
-                    return ((int)$aVal) <=> ((int)$bVal);
-                });
-                break;
-            case 'pages_desc':
-                usort($usersBooks, function($bookA, $bookB) {
-                    $aVal = $bookA->getPageCount();
-                    $bVal = $bookB->getPageCount();
-                    $aIsNum = is_numeric($aVal);
-                    $bIsNum = is_numeric($bVal);
-
-                    if (!$aIsNum && $bIsNum) return 1; // unknown pages still bottom
-                    if (!$bIsNum && $aIsNum) return -1;
-
-                    return ((int)$bVal) <=> ((int)$aVal);
-                });
-                break;
-        }
+        $usersBooks = $bookDB->userFetchAllBooks($_SESSION['userID']);     
     }
+
+    $sort = $_GET['sort'] ?? 'title_asc';
+    $usersBooks = Sorter::sort($usersBooks, $sort, $bookSortModes, 'title_asc'); 
 
 
     ?>
