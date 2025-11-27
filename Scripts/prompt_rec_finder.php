@@ -33,6 +33,8 @@
             foreach($books as $bok){
                 $_SESSION["recommendations_given"][] = $bok;
             }
+        } else{
+            $_SESSION["chat-errors"][] = "Ingen bok anbefalinger funnet fra gemini-svaret";
         }
         
         //print_r($_SESSION["recommendations_given"]);

@@ -48,6 +48,10 @@
 
     include 'scripts/navbar.php';
 
+    if(isset($_SESSION["chat-errors"])){
+        //print_r($_SESSION["chat-errors"]);
+    }
+
 ?>
 
 

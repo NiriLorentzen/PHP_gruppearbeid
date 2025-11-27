@@ -33,6 +33,9 @@ $input = json_decode(file_get_contents("php://input"), true);
 $initialprompt = $input['prompt'] ?? 'Hello Gemini!';
 $initialprompt = sanitizeInputs($initialprompt);
 
+//setter ant chat errors til null
+$_SESSION["chat-errors"] = []; //denne samler mulige errors fra de forskjellige scriptsene som chat bruker
+
 //Legger til en start på gemini-prompten, som gir rammer for hvordan gemini skal svare og hva som er relevant for den å svare på
 $promptmaker = "Se for deg at du er en formell bibliotekar ekspert på jobb, hvor din arbeidsoppgave er å anbefale og finne bøker skreddersydd til de besøkende hos biblioteket ditt som heter ‘The BookFinder’. Dine svar skal bare om bøker eller bok preferanse. Vær utfyllende om beskrivelsen av bøkene du anbefaler. Om den besøkende nevner en spesifik sjanger de har lyst på, så gir du dem bok anbefalinger i en liste av 5 bøker. Bøkene du anbefaler kan være hva som helst, blant annet skjønnlitterære eller dokumentariske bøker. Bare gi oppfølgingsspørsmål om det er absolutt nødvendig. En person kommer inn i biblioteket og starter en samtale med deg, her er samtalen: ";
 
@@ -43,6 +46,8 @@ if (!isset($_SESSION['active-chatlog'])) {
 
 // Legger til siste delen av samtalen
 $_SESSION['active-chatlog'][] = $initialprompt;
+
+$_SESSION["chat-errors"][] = "intial prompt: " . $initialprompt;
 
 //her bestemmes prompten som blir sendt til gemini
 //her tas inn hele 'active-chatlog' og imploder arrayet slikt at gemini forstår samtalen, og det sendes som en lang string
@@ -70,10 +75,15 @@ $response = curl_exec($ch);
 
 if (curl_errno($ch)) {
     echo 'Error:' . curl_error($ch);
+    $_SESSION["chat-errors"][] = 'Error:' . curl_error($ch);
     exit;
+} else{
+    $_SESSION["chat-errors"][] = "errors fra gemini: " . curl_error($ch);
 }
 
 $result = json_decode($response, true);
+
+$_SESSION["chat-errors"][] = "svar fra gemini: " . $result['candidates'][0]['content']['parts'][0]['text'] . "end";
     //print_r($result);   
     //echo $result['candidates'][0]['content']['parts'][0]['text'];
 
@@ -84,18 +94,28 @@ if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
     $text = $result['candidates'][0]['content']['parts'][0]['text'];
     $text = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
     $_SESSION['active-chatlog'][] = $text;
+    $_SESSION["chat-errors"][] = $_SESSION['active-chatlog'];
 
     //echo "$text<br><br>";
 
     findrecommendation($text);
 
+    // tving session til å skrive til disk
+    session_write_close();
+
+    session_start();
+
+    //var_dump($_SESSION['active-chatlog']);
+
     printchatlog();
     
 } else { //hvis det er en feil, print alt for debug
-    echo "<pre>";
-    echo ("<strong>FEIL OPPSTÅTT! melding kunne ikke sendes</strong><br>");
-    print_r($result);
-    echo "</pre>";
+    $_SESSION["chat-errors"][] = "Feil med gemini api-svar";
+
+    //echo "<pre>";
+    //echo ("<strong>FEIL OPPSTÅTT! melding kunne ikke sendes</strong><br>");
+    //print_r($result);
+    //echo "</pre>";
 
     //fjerne spørsmålet brukeren sendte ifra chatsamtalen, slikt at samtalen ikke har samme spørsmål flere ganger og spørsmål/svar rekkefølgen stemmer
     $last_question_index = count($_SESSION['active-chatlog']) - 1;
