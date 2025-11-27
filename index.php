@@ -15,7 +15,7 @@ if(!isset($_SESSION["recommendations_found"])) {
 $recommendations = [];
 $geminirecommendations = $_SESSION["recommendations_found"];
 $error = "";
-$canSaveBook = true;
+$canSaveBook = true; //Settes til true på sider der lagre bok knappen skal dukke opp, når man tar i bruk BookCard template
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
     try {
