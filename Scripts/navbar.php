@@ -1,8 +1,6 @@
 <?php
-    //starter opp en session 
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
+    require_once __DIR__ . '/checkLoginStatus.php';
+    require_once __DIR__ . '/sessionStart.php';   
 
     // automatisk finner filbanen, nettlesere er strenge på dette så måtte gjøre det grundig
     $scriptPath = dirname($_SERVER['SCRIPT_NAME']);
@@ -10,7 +8,7 @@
 
     echo "<div class='navbar'>";    
     echo '<a href="' . $baseUrl . '/index.php"><img src="' . $baseUrl . '/Images/book.png"></a>';
-    if(isset($_SESSION['userID'])){
+    if(checkLoggedIn()){
         echo "<a href='" . $baseUrl . "/logUt.php'>Logg ut</a>";
         echo "<a href='" . $baseUrl . "/bookshelf.php'>Din bokhylle</a>";
         echo "<a href='" . $baseUrl . "/userPage.php'>Din side</a>";
