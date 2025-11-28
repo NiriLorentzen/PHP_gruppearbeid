@@ -30,9 +30,9 @@
         $stmt = $pdo->prepare("SELECT email, userID FROM users WHERE users.email = :email");
         $stmt->execute([":email"=>$mail_input]);
         $respons = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        //print_r($respons); eksempel: Array ( [0] => Array ( [email] => ***@example.com [userID] => 3 ) )
+        
         //dersom mail finnes i DB
+        //dersom mail IKKE finnes i mail får ikke brukeren vite dette av sikkerhetsmessige hensyn
         if (!(empty($respons))){
             $brukermail = $respons[0]["email"];
             $userid = $respons[0]["userID"];
@@ -64,7 +64,7 @@
                 echo "Kunne ikke sende e-post: {$mail->ErrorInfo}";
             }
 
-            $now = date('Y-m-d H:i:sa'); //nåværende tid
+            $now = date('Y-m-d H:i:sa'); //nåværende dato og tid
 
             //lager en ny rad i DB for å validere token seinere
             $stmt = $pdo->prepare("INSERT INTO forgotten_password (UserID, reset_token, expiration) VALUES (:UserID, :reset_token, :expiration)");
@@ -78,12 +78,15 @@
         }
     
     //passord gjenoppretting
+    //leter etter token i lenke og at det er et passord satt i input-felt
     if (($_SERVER["REQUEST_METHOD"] === "POST") && (isset($_POST["passord"])) && isset($_GET['token'])) {
+        //sjekker at passord har god nok standard, nok bokstaver, stor bokstav, siffer osv.
         $result = validatePassword($_POST["passord"]);
+
+        //hvis passordet er for svakt
         if(!$result['valid']) {
             print_r($result['message']);
         } else{
-        
             //hasher nytt passord
             $new_password = password_hash($_POST["passord"], PASSWORD_DEFAULT);
 
@@ -99,7 +102,7 @@
             if (!empty($brukerid)){
                 $now = time(); //nåværende tid i unix
 
-                //henter tiden når reset token ble lagd
+                //henter tiden når reset token ble lagd, i samme format som $now
                 $reset_creation_time = strtotime($brukerid['expiration']);
 
                 //setter utløpstiden for token, altså en time etter opprettelse
@@ -108,7 +111,7 @@
                 //dersom det har gått mer enn en time siden reset token ble lagd
                 if ($now >= $expiration){
                     echo "Passord gjennopprettingslenken er utløpt, prøv på nytt!";
-                } else{
+                } else {
                     // Oppdater passordet
                     $stmt = $pdo->prepare("UPDATE users SET password_hash = :new_password WHERE UserID = :user_id");
                     $stmt->execute([
@@ -118,10 +121,11 @@
                     echo "Passord resatt!";
                 }
                 
-                // Sletter alle tokens registrert på brukeren
+                // Sletter alle tokens registrert på brukeren, dette slettes uansett om utløpstiden er valid eller ikke
                 $stmt = $pdo->prepare("DELETE FROM forgotten_password WHERE UserID = :user_id");
                 $stmt->execute(['user_id' => $brukerid['userid']]);
             } else {
+                //enten så finnes ikke token i DB eller så er den ikke koblet til noe bruker
                 echo "Noe gikk galt, passord ikke resatt!";
             }
         }
@@ -141,7 +145,7 @@
 </head>
 <body>
     <h2>Passord gjennoppretting</h2>
-    <?php if (isset($_GET['token'])): ?>
+    <?php if (isset($_GET['token'])): //dersom det er en token i lenken ?>
         <form action="" method="POST">
             <label for="passord">Nytt passord:</label>
             <input type="text" id="passord" name="passord"><br>
