@@ -37,7 +37,7 @@
             $brukermail = $respons[0]["email"];
             $userid = $respons[0]["userID"];
             $token = (string)bin2hex(random_bytes(32)); //tilfeldig generert token
-            $resetlink = "http://localhost/PHP_gruppearbeid/forgotten_password.php?token=" . $token;
+            $resetlink = "http://localhost/PHP_gruppearbeid/forgottenPassword.php?token=" . $token;
             //sender mail
             try {
                 // SMTP oppsett

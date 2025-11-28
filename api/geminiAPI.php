@@ -13,10 +13,10 @@ require_once __DIR__ . '/../scripts/config.php';
 require_once __DIR__ . '/../Scripts/sanitizeInputs.inc.php';
 
 //henter en funksjon som skal finne og hente bokanbefalingene i svaret til gemini api
-require_once __DIR__ . '/../Scripts/prompt_rec_finder.php';
+require_once __DIR__ . '/../Scripts/promptRecFinder.php';
 
 //hente utskriftsmetoden til chatlog
-require_once __DIR__ . '/../Scripts/print_chatlog.php';
+require_once __DIR__ . '/../Scripts/printChatlog.php';
 
 //starter opp en session 
 if (session_status() !== PHP_SESSION_ACTIVE) {

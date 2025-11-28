@@ -6,7 +6,7 @@
     require_once 'api/booksAPI.php';
     require_once 'scripts/sessionStart.php';
     require_once __DIR__ . '/scripts/DB/db.inc.php';
-    require_once 'scripts/print_chatlog.php';
+    require_once 'scripts/printChatlog.php';
     require_once 'scripts/checkLoginStatus.php';    
     require_once __DIR__ . '/classes/ChatManager.php';
 
@@ -34,7 +34,7 @@
 
                 case 'newChat':
                     $chatManager->clearChat();
-                    header("Location: user_chats.php");
+                    header("Location: userChats.php");
                     exit;
 
                 case 'deleteChat':
@@ -59,7 +59,7 @@
             unset($_SESSION["recommendations_found"]);
             unset($_SESSION["recommendations_given"]);
 
-            header("Location: user_chats.php");
+            header("Location: userChats.php");
             exit;
         }
     }

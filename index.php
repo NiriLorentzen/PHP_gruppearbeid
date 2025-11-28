@@ -1,6 +1,6 @@
 <?php 
 require_once 'api/booksAPI.php';
-require_once 'scripts/print_chatlog.php';
+require_once 'scripts/printChatlog.php';
 require_once 'scripts/checkLoginStatus.php';
 require_once 'Scripts/sessionStart.php';
 
@@ -84,7 +84,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
             </div>
         </div>
     <?php else: ?>
-        <p>Snakke med bibliotekar? Det kan du gjøre <a href="http://localhost/PHP_gruppearbeid/user_chats.php">her</a> .</p>
+        <p>Snakke med bibliotekar? Det kan du gjøre <a href="userChats.php">her</a> .</p>
     <?php endif; ?>
 
 <script>

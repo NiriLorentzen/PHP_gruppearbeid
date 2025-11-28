@@ -1,5 +1,9 @@
 <?php 
-require_once 'scripts/sessionStart.php';
+    require_once 'scripts/sessionStart.php';
+    require_once __DIR__ . '/classes/ChatManager.php';
+
+    //chatmanager må ha pdo for å kjøre, selv om det ikke brukes av clearChat()
+    require_once __DIR__ . '/scripts/DB/db.inc.php';
 
 
     unset($_SESSION['userID']);
@@ -9,7 +13,8 @@ require_once 'scripts/sessionStart.php';
     unset($_SESSION['roleID']);
     unset($_SESSION['loggedIn']);
 
-    include "scripts/clear_chat.php";
+    $chatManager = new ChatManager($pdo);
+    $chatManager->clearChat();
 
     include 'scripts/navbar.php';
 ?>
