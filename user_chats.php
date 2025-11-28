@@ -84,16 +84,18 @@
     <script src="scripts/JS/buttons.js" defer></script>
 </head>
 <body>
-    <?php foreach($oldChats as $chat):?>
-        <div class="chats-menu"> <p>Dine lagrede chatter:</p>
-            <?php foreach($chat as $chatlog): ?>
-                <form method="post">
-                    <input type="hidden" id="chatid" name="chatid" value="<?php echo $chatlog["chatid"] ?>">
-                    <button type="submit" id="chatlog" name="chatlog" value="<?php echo $chatlog["chatlog"] ?>"><?php echo $chatlog["chatid"] ?></button>
-                </form>
-            <?php endforeach; ?>
-        </div>
-    <?php endforeach; ?>
+    <?php if(checkLoggedIn()): ?>
+        <?php foreach($oldChats as $chat):?>
+            <div class="chats-menu"> <p>Dine lagrede chatter:</p>
+                <?php foreach($chat as $chatlog): ?>
+                    <form method="post">
+                        <input type="hidden" id="chatid" name="chatid" value="<?php echo $chatlog["chatid"] ?>">
+                        <button type="submit" id="chatlog" name="chatlog" value="<?php echo $chatlog["chatlog"] ?>"><?php echo $chatlog["chatid"] ?></button>
+                    </form>
+                <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
     <div class="gemini-tekst-bokser">
         <div>
             <h2>Bibliotekar chat! (gemini)</h2>
@@ -109,15 +111,16 @@
                 <button type="submit" id="newChatBtn">Ny chat</button>
             </form>
 
+        <?php if(checkLoggedIn()): ?>  
             <form method="post" onsubmit="return confirm('Er du sikker?');">
                 <input type="hidden" name="action" value="deleteChat">
                 <button type="submit" id="deleteChatBtn">Slett chat</button>
-            </form>
-            
+            </form>            
             <form method="post">
                 <input type="hidden" name="action" value="saveChat">
                 <button type="submit">Lagre denne chatten</button>
             </form>
+        <?php endif; ?>
 
         </div>
         <div>
