@@ -43,7 +43,7 @@
 
                 case 'saveChat':
                     $chatManager->saveChat();
-                    exit; // siden vil redirecte i saveChat()
+                    exit;
 
                 case 'clearRecs':
                     $chatManager->clearRecommendations();
@@ -106,12 +106,12 @@
 
             <form method="post">
                 <input type="hidden" name="action" value="newChat">
-                <button type="submit" id="ny_chat">Ny chat</button>
+                <button type="submit" id="newChatBtn">Ny chat</button>
             </form>
 
             <form method="post" onsubmit="return confirm('Er du sikker?');">
                 <input type="hidden" name="action" value="deleteChat">
-                <button type="submit" id="slett_chat">Slett chat</button>
+                <button type="submit" id="deleteChatBtn">Slett chat</button>
             </form>
             
             <form method="post">
