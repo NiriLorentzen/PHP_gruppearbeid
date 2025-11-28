@@ -3,6 +3,7 @@
     require_once 'scripts/sessionStart.php';
     require_once __DIR__ . '/scripts/DB/db.inc.php';
     require_once __DIR__ . '/scripts/sanitizeInputs.inc.php';
+    require_once __DIR__ . '/scripts/validation.inc.php';
 
     //henter gjemt informasjon om mail utsending (innlogging info)
     require_once __DIR__ . '/scripts/config.php';
@@ -63,7 +64,7 @@
                 echo "Kunne ikke sende e-post: {$mail->ErrorInfo}";
             }
 
-            $now = date('Y-m-d');
+            $now = date('Y-m-d H:i:sa'); //nåværende tid
 
             //lager en ny rad i DB for å validere token seinere
             $stmt = $pdo->prepare("INSERT INTO forgotten_password (UserID, reset_token, expiration) VALUES (:UserID, :reset_token, :expiration)");
@@ -78,33 +79,51 @@
     
     //passord gjenoppretting
     if (($_SERVER["REQUEST_METHOD"] === "POST") && (isset($_POST["passord"])) && isset($_GET['token'])) {
-        //hasher nytt passord
-        $new_password = password_hash($_POST["passord"], PASSWORD_DEFAULT);
+        $result = validatePassword($_POST["passord"]);
+        if(!$result['valid']) {
+            print_r($result['message']);
+        } else{
+        
+            //hasher nytt passord
+            $new_password = password_hash($_POST["passord"], PASSWORD_DEFAULT);
 
-        //henter ut token
-        $token = $_GET['token'];
+            //henter ut token
+            $token = $_GET['token'];
 
-        // Hent UserID fra token
-        $stmt = $pdo->prepare("SELECT UserID FROM forgotten_password WHERE reset_token = :reset_token");
-        $stmt->execute([':reset_token' => $token]);
-        $brukerid = $stmt->fetch();
+            // Hent UserID fra token
+            $stmt = $pdo->prepare("SELECT userid, expiration FROM forgotten_password WHERE reset_token = :reset_token");
+            $stmt->execute([':reset_token' => $token]);
+            $brukerid = $stmt->fetch();
 
-        //hvis brukerid-en er i DB
-        if (isset($brukerid)){
-            // Oppdater passordet
-            $stmt = $pdo->prepare("UPDATE users SET password_hash = :new_password WHERE UserID = :user_id");
-            $stmt->execute([
-                'new_password' => $new_password,
-                'user_id' => $brukerid['UserID']
-            ]);
-            
-            // Sletter alle tokens registrert på brukeren
-            $stmt = $pdo->prepare("DELETE FROM forgotten_password WHERE UserID = :user_id");
-            $stmt->execute(['user_id' => $brukerid['UserID']]);
+            //hvis brukerid-en er i DB
+            if (!empty($brukerid)){
+                $now = time(); //nåværende tid i unix
 
-            echo "Passord resatt!";
-        } else {
-            echo "Noe gikk galt, passord ikke resatt!";
+                //henter tiden når reset token ble lagd
+                $reset_creation_time = strtotime($brukerid['expiration']);
+
+                //setter utløpstiden for token, altså en time etter opprettelse
+                $expiration = $reset_creation_time + 3600;
+
+                //dersom det har gått mer enn en time siden reset token ble lagd
+                if ($now >= $expiration){
+                    echo "Passord gjennopprettingslenken er utløpt, prøv på nytt!";
+                } else{
+                    // Oppdater passordet
+                    $stmt = $pdo->prepare("UPDATE users SET password_hash = :new_password WHERE UserID = :user_id");
+                    $stmt->execute([
+                        'new_password' => $new_password,
+                        'user_id' => $brukerid['userid']
+                    ]);
+                    echo "Passord resatt!";
+                }
+                
+                // Sletter alle tokens registrert på brukeren
+                $stmt = $pdo->prepare("DELETE FROM forgotten_password WHERE UserID = :user_id");
+                $stmt->execute(['user_id' => $brukerid['userid']]);
+            } else {
+                echo "Noe gikk galt, passord ikke resatt!";
+            }
         }
     }
 

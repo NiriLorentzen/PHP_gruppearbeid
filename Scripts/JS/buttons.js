@@ -50,6 +50,9 @@ function geminiChatSendBtn() {
 
         const data = await response.text(); 
         document.getElementById('chatbox').innerHTML = data;
-        window.location.reload();//KANSKJE UGUNSTIG PGA FEILEMELDINGER.
+        // Venter litt for at session skal ha tid til å lagre riktig
+        setTimeout(() => {
+            window.location.replace(window.location.pathname);
+        }, 200);
     });
 }
