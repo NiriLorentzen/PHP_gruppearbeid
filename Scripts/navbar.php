@@ -11,13 +11,14 @@
     echo "<a href='" . $baseUrl . "/userChats.php'>Chatside</a>";
     if(checkLoggedIn()){
         echo "<a href='" . $baseUrl . "/logUt.php'>Logg ut</a>";
+        echo "<a href='" . $baseUrl . "/bookDatabase.php'>Bokdatabase</a>";        
         echo "<a href='" . $baseUrl . "/bookshelf.php'>Din bokhylle</a>";
-        echo "<a href='" . $baseUrl . "/userPage.php'>Din side</a>";       
+        echo "<a href='" . $baseUrl . "/userPage.php'>Din side</a>";   
+        echo "<a href='" . $baseUrl . "/logUt.php'>Logg ut</a>";    
         if(checkAdmin()){
             echo "<a href='" . $baseUrl . "/adminPage.php'>Adminside</a>";
         }
     } else {
-        echo "<a href='" . $baseUrl . "/userChats.php'>Chatside</a>";
         echo '<a href="' . $baseUrl . '/registerUser.php">Registrer bruker</a>';
         echo "<a href='" . $baseUrl . "/logIn.php'>Logg inn</a>";
     }
