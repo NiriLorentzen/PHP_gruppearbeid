@@ -13,6 +13,9 @@
         echo "<a href='" . $baseUrl . "/bookshelf.php'>Din bokhylle</a>";
         echo "<a href='" . $baseUrl . "/userPage.php'>Din side</a>";
         echo "<a href='" . $baseUrl . "/user_chats.php'>Dine chats</a>";
+        if(checkAdmin()){
+            echo "<a href='" . $baseUrl . "/adminPage.php'>Adminside</a>";
+        }
     } else {
         echo '<a href="' . $baseUrl . '/registerUser.php">Registrer bruker</a>';
         echo "<a href='" . $baseUrl . "/logIn.php'>Logg inn</a>";
