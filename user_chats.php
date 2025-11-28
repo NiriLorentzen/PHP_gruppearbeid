@@ -10,6 +10,9 @@
     require_once 'scripts/checkLoginStatus.php';    
     require_once __DIR__ . '/classes/ChatManager.php';
 
+    include 'scripts/navbar.php';
+
+
 
     $chatManager = new ChatManager($pdo);
 
@@ -21,19 +24,44 @@
         $oldChats[] = $chatManager->getUserChats($_SESSION['userID']);        
     }
 
-    //eneste koden her som bruker POST er lagrede chatter knappen, VIKTIG at ingen andre har post, trengs det må fremgangsmåten endres på
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        //print_r($_POST);
-        //echo "test";
-        $chat_array = explode("spm/svar", $_POST['chatlog']);
-        $_SESSION['active-chatlog'] = $chat_array;
-        $_SESSION['active-chatlog-id'] = $_POST['chatid'];
+    // Håndter knapper og chat-laster (POST)
+    if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        //include __DIR__ . '/scripts/clear_recommendation.php';
-        //printchatlog();
-        //header("Refresh:0");
-        unset($_SESSION["recommendations_found"]);
-        unset($_SESSION["recommendations_given"]);
+        // Hvis en acti handler for knapper
+        if(isset($_POST['action'])) {
+
+            switch ($_POST['action']) {
+
+                case 'newChat':
+                    $chatManager->clearChat();
+                    header("Location: user_chats.php");
+                    exit;
+
+                case 'deleteChat':
+                    $chatManager->clearChatDB();
+                    exit;
+
+                case 'saveChat':
+                    $chatManager->saveChat();
+                    exit; // siden vil redirecte i saveChat()
+
+                case 'clearRecs':
+                    $chatManager->clearRecommendations();
+                    exit;
+            }
+        }
+        // Hvis lagret chat ble lastet (ingen action, men chatlog og chatid)
+        elseif(isset($_POST['chatlog']) && isset($_POST['chatid'])) {
+            $chat_array = explode("spm/svar", $_POST['chatlog']);
+            $_SESSION['active-chatlog'] = $chat_array;
+            $_SESSION['active-chatlog-id'] = $_POST['chatid'];
+
+            unset($_SESSION["recommendations_found"]);
+            unset($_SESSION["recommendations_given"]);
+
+            header("Location: user_chats.php");
+            exit;
+        }
     }
 
     // Oppretter om det ikke er en fra før av
@@ -42,9 +70,6 @@
     } 
 
     $geminirecommendations = $_SESSION["recommendations_found"];
-
-    include 'scripts/navbar.php';
-
 ?>
 
 
@@ -76,18 +101,32 @@
                 <?php printchatlog(); ?>
             </div>
             <input type="text" id="prompt" placeholder="Spør et spørsmål..." style="width:400px;">
-            <button id="sendBtn">Send</button><button id="ny_chat">Ny chat</button>
-            <button id="slett_chat">Slett chat</button>
+            <button id="sendBtn">Send</button>
+        
+
+            <form method="post">
+                <input type="hidden" name="action" value="newChat">
+                <button type="submit" id="ny_chat">Ny chat</button>
+            </form>
+
+            <form method="post" onsubmit="return confirm('Er du sikker?');">
+                <input type="hidden" name="action" value="deleteChat">
+                <button type="submit" id="slett_chat">Slett chat</button>
+            </form>
             
-            <form action="Scripts/chat_save.php">
+            <form method="post">
+                <input type="hidden" name="action" value="saveChat">
                 <button type="submit">Lagre denne chatten</button>
             </form>
+
         </div>
         <div>
             <h2>Bok anbefalinger fått:</h2>
-            <form action="Scripts/clear_recommendation.php">
+            <form method="post">
+                <input type="hidden" name="action" value="clearRecs">
                 <button type="submit">Tøm anbefalinger</button>
             </form>
+
             <div id="chatboxAnbefalinger" class="chatbox" value="">
                 <?php if(!empty($geminirecommendations)): ?>
                     <?php foreach ($geminirecommendations as $book): ?>
@@ -102,23 +141,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
         saveBookBtn();
-        geminiChatSendBtn();
-        deleteChatBtn();
-    });  
-   
-
-    document.getElementById('ny_chat').addEventListener('click', async () => {
-        const response = await fetch('Scripts/clear_chat.php');
-        const text = await response.text();
-        document.getElementById('chatbox').innerHTML = `<p style="color:red;">Ny chat!</p>`;
-    });
-
-    document.getElementById('slett_chat').addEventListener('click', async () => {
-        if (!confirm("Are you sure you want to reset the chat?")) return; //åpner et vindu i nettleseren, hvor man trykker for å fortsette eller avbryte
-
-        const response = await fetch('Scripts/clear_chat_DB.php');
-        const text = await response.text();
-        document.getElementById('chatbox').innerHTML = `<p style="color:red;">${text}</p>`;
+        geminiChatSendBtn();        
     });
     </script>
 </body>

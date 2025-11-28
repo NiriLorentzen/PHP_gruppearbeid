@@ -53,13 +53,3 @@ function geminiChatSendBtn() {
         window.location.reload();//KANSKJE UGUNSTIG PGA FEILEMELDINGER.
     });
 }
-
-function deleteChatBtn() {
-    document.getElementById('slett_chat').addEventListener('click', async () => {
-        if (!confirm("Are you sure you want to reset the chat?")) return; //åpner et vindu i nettleseren, hvor man trykker for å fortsette eller avbryte
-
-        const response = await fetch('Scripts/clear_chat.php');
-        const text = await response.text();
-        document.getElementById('chatbox').innerHTML = `<p style="color:red;">${text}</p>`;
-    });
-}
