@@ -7,21 +7,18 @@
     require_once 'scripts/sessionStart.php';
     require_once __DIR__ . '/scripts/DB/db.inc.php';
     require_once 'scripts/print_chatlog.php';
-    require_once 'scripts/checkLoginStatus.php';
-    
+    require_once 'scripts/checkLoginStatus.php';    
+    require_once __DIR__ . '/classes/ChatManager.php';
+
+
+    $chatManager = new ChatManager($pdo);
 
     //for chat-velger funksjon
     $oldChats = [];
     $canSaveBook = true; //Settes til true på sider der lagre bok knappen skal dukke opp, når man tar i bruk BookCard template
 
-    if(isset($_SESSION['userID'])){
-        $q = $pdo->prepare(
-            "SELECT * FROM chatlog clog WHERE clog.userid = :userID");
-        $q->bindParam(':userID', $_SESSION['userID']);
-        $q->execute();
-        $logs = $q->fetchAll(PDO::FETCH_ASSOC);
-        $oldChats[] = $logs;
-        //print_r($oldChats);
+    if(isset($_SESSION['userID'])) {        
+        $oldChats[] = $chatManager->getUserChats($_SESSION['userID']);        
     }
 
     //eneste koden her som bruker POST er lagrede chatter knappen, VIKTIG at ingen andre har post, trengs det må fremgangsmåten endres på

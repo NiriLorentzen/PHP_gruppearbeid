@@ -78,6 +78,13 @@ class ChatManager {
     }
 
 
+    public function getUserChats($userID) {
+        $q = $this->pdo->prepare("SELECT * FROM chatlog clog WHERE clog.userid = :userID");        
+        $q->execute([":userID" => $userID]);
+        return $q->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     private function chatSessionIsValid() {
         return isset($_SESSION['userID']) && isset($_SESSION['active-chatlog']) && (!empty($_SESSION['active-chatlog']));
     }
