@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         } catch(PDOException $e) {
             error_log('Tid: ' . date("Y-m-d H:i:s") . ' Database error: ' . $e->getMessage());
-            $logInMessage  = "<p>En feil oppstod ved innlogging. Prøv igjen senere." . $e->getMessage() . "</p>";
+            $logInMessage  = "<p>En feil oppstod ved innlogging. Prøv igjen senere.</p>";
         }
     }
 }
