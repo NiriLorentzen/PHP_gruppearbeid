@@ -3,7 +3,7 @@
     require_once __DIR__ . '/../api/booksAPI.php';
     require_once __DIR__ . '/../classes/Books.php';
 
-    function GeminiTilGoogle(){
+    function geminiToGoogle(){
         // Start session if not already started
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
