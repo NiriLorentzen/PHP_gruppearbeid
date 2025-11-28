@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['loggedIn'] = true;
                 
                 //Sender bruker videre til user_chats om vellykket
-                header("Location: user_chats.php");
+                header("Location: userChats.php");
                 exit;
 
             } else {
@@ -161,7 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <button type="submit" <?= isset($_SESSION['blockedTime']) ? 'disabled' : '' ?>>Logg inn</button>
     </form>
-    <p>Glemt passordet? <a href="forgotten_password.php">Tilbakestill det her</a>.</p>
+    <p>Glemt passordet? <a href="forgottenPassword.php">Tilbakestill det her</a>.</p>
     <hr>
     <p>Har du ikke konto? <a href="registerUser.php">Registrer deg her</a>.</p>
 
