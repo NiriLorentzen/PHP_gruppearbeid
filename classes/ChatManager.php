@@ -1,6 +1,6 @@
-<?php 
-require_once __DIR__ . '/scripts/sessionStart.php';
-require_once __DIR__ . '/scripts/DB/db.inc.php';
+<?php
+require_once __DIR__ . '/../Scripts/sessionStart.php';
+require_once __DIR__ . '/../Scripts/DB/db.inc.php';
 
 class ChatManager {
     private $pdo;
