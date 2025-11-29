@@ -31,7 +31,7 @@ class ChatManager {
             $this->createNewChatDB($chatlog);
         }
 
-        header("location: user_chats.php");        
+        header("location: userChats.php");        
 
     }
 
@@ -74,7 +74,7 @@ class ChatManager {
         unset($_SESSION["recommendations_found"]);
         unset($_SESSION["recommendations_given"]);
 
-        header("location: user_chats.php");
+        header("location: userChats.php");
     }
 
 
