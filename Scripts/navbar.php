@@ -9,9 +9,8 @@
     echo "<div class='navbar'>";    
     echo '<a href="' . $baseUrl . '/index.php"><img src="' . $baseUrl . '/Images/book.png"></a>';
     echo "<a href='" . $baseUrl . "/userChats.php'>Chatside</a>";
-    if(checkLoggedIn()){
-        echo "<a href='" . $baseUrl . "/logUt.php'>Logg ut</a>";
-        echo "<a href='" . $baseUrl . "/bookDatabase.php'>Bokdatabase</a>";        
+    echo "<a href='" . $baseUrl . "/bookDatabase.php'>Bokdatabase</a>"; 
+    if(checkLoggedIn()){               
         echo "<a href='" . $baseUrl . "/bookshelf.php'>Din bokhylle</a>";
         echo "<a href='" . $baseUrl . "/userPage.php'>Din side</a>";   
         echo "<a href='" . $baseUrl . "/logUt.php'>Logg ut</a>";    
