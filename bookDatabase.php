@@ -7,10 +7,10 @@ include 'scripts/navbar.php';
 $canSaveBook = true; //Settes til true på sider der lagre bok knappen skal dukke opp, når man tar i bruk BookCard template
 
 
-if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
+if($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET['bookRec'])) {
     try {
         $api = new GoogleBooksApi();       
-        $recommendations = $api->fetchBooks($_POST['bookRec']);
+        $recommendations = $api->fetchBooks($_GET['bookRec']);
     } catch (Exception $e) {
         $error = $e->getMessage();
     }
@@ -29,9 +29,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['bookRec'])) {
     <h1>BookFinder</h1>
 
 
-    <form method="POST" action="">
+    <form method="get" action="">
         <label for="bookRec">Bok database!:</label><br>
-        <input type="text" id="bookRec" placeholder="Søk med navn, forfatter" name="bookRec" value="<?= htmlspecialchars($_POST['bookRec'] ?? '') ?>"><br>
+        <input type="text" id="bookRec" placeholder="Søk med navn, forfatter" name="bookRec" value="<?= htmlspecialchars($_GET['bookRec'] ?? '') ?>"><br>
         <button type="submit">Søk</button>
     </form>
 
