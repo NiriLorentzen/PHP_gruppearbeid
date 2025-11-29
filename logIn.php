@@ -127,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "<p><b>Du ble sendt hit fordi du må være logget inn for å se siden du forsøkte å besøke </b></p>";
                 break;        
 
-            case 'loggedOut': //IKKE I BRUK AKKURAT NÅ, KANSKJE FJERNES ELLER BEGYNNE Å BRUKE
+            case 'loggedOut':
                 echo "<p><b>Du har logget ut.</b></p>";
                 break;
 
