@@ -13,7 +13,7 @@
     if(checkLoggedIn()){               
         echo "<a href='" . $baseUrl . "/bookshelf.php'>Din bokhylle</a>";
         echo "<a href='" . $baseUrl . "/userPage.php'>Din side</a>";   
-        echo "<a href='" . $baseUrl . "/logUt.php'>Logg ut</a>";    
+        echo "<a href='" . $baseUrl . "/Scripts/logOut.php'>Logg ut</a>";    
         if(checkAdmin()){
             echo "<a href='" . $baseUrl . "/adminPage.php'>Adminside</a>";
         }
