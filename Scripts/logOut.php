@@ -1,9 +1,9 @@
 <?php 
-require_once __DIR__ . '/scripts/sessionStart.php';
-require_once __DIR__ . '/classes/ChatManager.php';
-require_once __DIR__ . '/scripts/DB/db.inc.php';
+require_once __DIR__ . '/sessionStart.php';
+require_once __DIR__ . '/../classes/ChatManager.php';
+require_once __DIR__ . '/DB/db.inc.php';
 
-//Clears chatten
+//Clearer chatten
 $chatManager = new ChatManager($pdo);
 $chatManager->clearChat();
 
@@ -16,6 +16,6 @@ unset($_SESSION['roleID']);
 unset($_SESSION['loggedIn']);
 
 //Redirecter til logIn siden LoggedOut warning slik at beskjed blir gitt til brukeren.
-header("Location: logIn.php?warning=loggedOut");
+header("Location: ../logIn.php?warning=loggedOut");
 exit;
 ?>
