@@ -79,7 +79,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatlogs</title>
+    <title>Chat side</title>
     <link rel="stylesheet" href="css/stylesheet.css">
     <script src="scripts/JS/buttons.js" defer></script>
 </head>
@@ -98,7 +98,7 @@
     <?php endif; ?>
     <div class="gemini-tekst-bokser">
         <div>
-            <h2>Bibliotekar chat! (gemini)</h2>
+            <h2>Snakk med bibliotekaren her!</h2>
             <div class="chatbox" id="chatbox">
                 <?php printchatlog(); ?>
             </div>
@@ -124,7 +124,7 @@
 
         </div>
         <div>
-            <h2>Bok anbefalinger fått:</h2>
+            <h2>Bokanbefalinger fått:</h2>
             <form method="post">
                 <input type="hidden" name="action" value="clearRecs">
                 <button type="submit">Tøm anbefalinger</button>

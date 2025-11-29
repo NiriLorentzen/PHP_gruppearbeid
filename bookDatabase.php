@@ -6,7 +6,7 @@ include 'scripts/navbar.php';
 
 $canSaveBook = true; //Settes til true på sider der lagre bok knappen skal dukke opp, når man tar i bruk BookCard template
 
-
+//Om GET request med bookRec så brukes googleBooksApi til å hente bøker utifra søket
 if($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET['bookRec'])) {
     try {
         $api = new GoogleBooksApi();       
@@ -45,8 +45,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET['bookRec'])) {
 
 <script>
 window.addEventListener('DOMContentLoaded', () => {
-    saveBookBtn();
-    geminiChatSendBtn();    
+    saveBookBtn();  
 });
 </script>
 </body>

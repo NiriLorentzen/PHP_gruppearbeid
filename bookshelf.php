@@ -1,4 +1,4 @@
-    <?php 
+<?php 
     require_once "classes/Books.php";
     require_once "classes/BookDB.php";
     require_once 'scripts/DB/db.inc.php';
@@ -7,57 +7,57 @@
     require_once 'templates/sortModes/bookSortModes.php';
 
     include 'scripts/navbar.php';
-
-
     mustBeLoggedIn();
 
+    //Henter alle bøker knyttet til brukeren og blir vist i bokhyllen
     $usersBooks = [];
     if(isset($_SESSION['userID'])) {
         $bookDB = new BookDB($pdo);
         $usersBooks = $bookDB->userFetchAllBooks($_SESSION['userID']);     
     }
-
+    
+    //Henter sorteringsmodus fra get-parameter, standard er tittel stigende
     $sort = $_GET['sort'] ?? 'title_asc';
     $usersBooks = Sorter::sort($usersBooks, $sort, $bookSortModes, 'title_asc'); 
 
 
-    ?>
+?>
 
-    <!DOCTYPE html>
-    <html lang="no">
-    <head>
-        <meta charset="UTF-8">
-        <script src="main.js" defer></script>
-        <title>Bokhylle</title>
-        <link rel="stylesheet" href="css/stylesheet.css">
-    </head>
-    <body>
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <script src="main.js" defer></script>
+    <title>Bokhylle</title>
+    <link rel="stylesheet" href="css/stylesheet.css">
+</head>
+<body>
+
+    <h1>Din Bokhylle</h1>
     
-        <h1>Din Bokhylle</h1>
-        
-        <?php if(empty($usersBooks)): ?>
-            <h2>Bokhyllen din er tom.</h2>
-        <?php else: ?>
-            <form method="get" id="sortForm" style="margin-bottom:10px;">
-                <label for="sort">Sorter etter:</label>
-                <select name="sort" id="sort" onchange="this.form.submit()">
-                    <option value="title_asc" <?= (isset($sort) && $sort === 'title_asc') ? 'selected' : '' ?>>Tittel (a-å)</option>
-                    <option value="title_desc" <?= (isset($sort) && $sort === 'title_desc') ? 'selected' : '' ?>>Tittel (å-a)</option>
-                    <option value="author_asc" <?= (isset($sort) && $sort === 'author_asc') ? 'selected' : '' ?>>Forfatter (a-å)</option>
-                    <option value="author_desc" <?= (isset($sort) && $sort === 'author_desc') ? 'selected' : '' ?>>Forfatter (å-a)</option>
-                    <option value="pages_asc" <?= (isset($sort) && $sort === 'pages_asc') ? 'selected' : '' ?>>Sider (lav-høy)</option>
-                    <option value="pages_desc" <?= (isset($sort) && $sort === 'pages_desc') ? 'selected' : '' ?>>Sider (høy-lav)</option>
-                </select>
-            </form>
-            <?php foreach($usersBooks as $book): ?>
-                <div class="bookItem"style="border:1px solid #ccc; padding:10px; margin:10px;">
-                    <?php include 'templates/bookCard.php'; ?>
-                    <button type="button" class="removeBookBtn" data-id="<?= $book->getBookId() ?>">Fjern boken fra hyllen</button>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
+    <?php if(empty($usersBooks)): ?>
+        <h2>Bokhyllen din er tom.</h2>
+    <?php else: ?>
+        <form method="get" id="sortForm" style="margin-bottom:10px;">
+            <label for="sort">Sorter etter:</label>
+            <select name="sort" id="sort" onchange="this.form.submit()">
+                <option value="title_asc" <?= (isset($sort) && $sort === 'title_asc') ? 'selected' : '' ?>>Tittel (a-å)</option>
+                <option value="title_desc" <?= (isset($sort) && $sort === 'title_desc') ? 'selected' : '' ?>>Tittel (å-a)</option>
+                <option value="author_asc" <?= (isset($sort) && $sort === 'author_asc') ? 'selected' : '' ?>>Forfatter (a-å)</option>
+                <option value="author_desc" <?= (isset($sort) && $sort === 'author_desc') ? 'selected' : '' ?>>Forfatter (å-a)</option>
+                <option value="pages_asc" <?= (isset($sort) && $sort === 'pages_asc') ? 'selected' : '' ?>>Sider (lav-høy)</option>
+                <option value="pages_desc" <?= (isset($sort) && $sort === 'pages_desc') ? 'selected' : '' ?>>Sider (høy-lav)</option>
+            </select>
+        </form>
+        <?php foreach($usersBooks as $book): ?>
+            <div class="bookItem"style="border:1px solid #ccc; padding:10px; margin:10px;">
+                <?php include 'templates/bookCard.php'; ?>
+                <button type="button" class="removeBookBtn" data-id="<?= $book->getBookId() ?>">Fjern boken fra hyllen</button>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
 
-    <script>
+<script>
     document.querySelectorAll(".removeBookBtn").forEach(btn => {
         btn.addEventListener("click", async () => {
                     
@@ -87,6 +87,6 @@
         });
     });
 
-    </script> 
-    </body> 
-    </html>
+</script> 
+</body> 
+</html>
