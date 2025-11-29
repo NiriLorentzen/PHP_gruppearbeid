@@ -12,14 +12,15 @@ class BookDB {
     public function insertBook($data) {
         //KAN VÆRE LURT Å ENDRE TIL ON DUPLICATE KEY UPDATE?
         $q = $this->pdo->prepare( //insert ignore sørger for at flere brukere kan sette inn samme bok, og at bøkene oppdaterer seg i database om mulig
-            "INSERT IGNORE INTO books(bookID, title, authors, description, page_count) 
-            VALUES(:bookID, :title, :authors, :description, :pageCount)"
+            "INSERT IGNORE INTO books(bookID, title, authors, description, page_count, thumbnail) 
+            VALUES(:bookID, :title, :authors, :description, :pageCount, :thumbnail)"
         );
         $q->bindParam(':bookID', $data['bookID']); 
         $q->bindParam(':title', $data['title']);
         $q->bindParam(':authors', $data['authors']);
         $q->bindParam(':description', $data['description']);
         $q->bindParam(':pageCount', $data['pageCount']);
+        $q->bindParam(':thumbnail', $data['thumbnail']);
         $q->execute();
     }
 
@@ -45,7 +46,7 @@ class BookDB {
 
     public function userFetchAllBooks($userID) {
         $q = $this->pdo->prepare(
-            "SELECT b.bookID, b.title, b.authors, b.description, b.page_count FROM books b
+            "SELECT b.bookID, b.title, b.authors, b.description, b.page_count, b.thumbnail FROM books b
             INNER JOIN user_books ub ON  b.bookID = ub.bookID
             WHERE ub.userID = :userID"
         );
@@ -64,7 +65,7 @@ class BookDB {
                 'authors'     => $row['authors'],
                 'description' => $row['description'],
                 'pageCount'   => $row['page_count'],                
-                //'thumbnail'   => $row['thumbnail'] ?? null //IKKE ENDA I DATABASE 
+                'thumbnail'   => $row['thumbnail']
             ];
 
             $bookObjects[] = new Books($data);

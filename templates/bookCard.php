@@ -6,12 +6,12 @@
             data-page-count="<?= htmlspecialchars($book->getPageCount()) ?>"
             data-thumbnail="<?= htmlspecialchars($book->getThumbnail()) ?>">
 
-            <h3><?= htmlspecialchars($book->getTitle()) ?></h3>
-            <p><strong>Bok ID:</strong> <?= htmlspecialchars($book->getBookId()) ?></p>
+            <h3><?= htmlspecialchars($book->getTitle()) ?></h3>         
 
             <?php if ($book->getThumbnail()): ?>
                 <img src="<?= htmlspecialchars($book->getThumbnail()) ?>" height="100" alt="Omslag">
-            <?php endif; ?>            
+            <?php endif; ?>    
+                    
             <p><strong>Forfatter:</strong> <?= htmlspecialchars($book->getAuthors()) ?></p>
             <p><strong>Antall sider:</strong> <?= htmlspecialchars($book->getPageCount()) ?></p>
             
