@@ -45,7 +45,8 @@ if($data && isset($data['title'])) {
         'title'        => $data['title'],
         'authors'           => $data['authors'], 
         'description' => $data['description'] ?? '',
-        'pageCount'       => $data['pageCount'] ?? 0
+        'pageCount'       => $data['pageCount'] ?? 0,
+        'thumbnail'       => $data['thumbnail'] ?? null
     ];                    
     
     $bookDB->insertBook($dbData);    

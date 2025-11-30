@@ -38,7 +38,7 @@ function geminiChatSendBtn() {
     //gemini 
     document.getElementById('sendBtn').addEventListener('click', async () => {
         //vise brukeren at knappen er trykket
-        document.getElementById('chatbox').innerHTML = `<p">Snakker med bibliotekaren...<br><br>Dette kan ta noen sekunder:D</p>`;
+        document.getElementById('chatbox').innerHTML = `<p">Bibliotekaren tenker...<br><br>Dette kan ta noen sekunder</p>`;
         
         const prompt = document.getElementById('prompt').value;
 
