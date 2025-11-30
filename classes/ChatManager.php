@@ -84,6 +84,23 @@ class ChatManager {
         return $q->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function findChat(int $chatID){
+        //Søker i DB etter ID i parameter
+        $q = $this->pdo->prepare(
+            "SELECT * FROM chatlog WHERE chatid = :chatid");
+        $q->execute([":chatid" => $chatID]);
+        $chat = $q->fetchAll(PDO::FETCH_ASSOC);
+        
+        //Dersom det er en chat i DB med den id-en
+        if(!empty($chat)){     
+            //Chatlog lagres som string, så dette blir gjort om til array for utskrift-funksjonen  
+            $chatArray = explode("spm/svar", $chat[0]["chatlog"]);
+            //Lagres i sesjon
+            $_SESSION['active-chatlog'] = $chatArray;
+            return true; //Hjelper med utskrift
+        }
+    }
+
 
     private function chatSessionIsValid() {
         return isset($_SESSION['userID']) && isset($_SESSION['active-chatlog']) && (!empty($_SESSION['active-chatlog']));
