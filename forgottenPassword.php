@@ -1,6 +1,6 @@
 <?php
-    include 'scripts/navbar.php';
-    require_once 'scripts/sessionStart.php';
+    include __DIR__ . '/scripts/navbar.php';
+    require_once __DIR__ . '/scripts/sessionStart.php';
     require_once __DIR__ . '/scripts/DB/db.inc.php';
     require_once __DIR__ . '/scripts/sanitizeInputs.inc.php';
     require_once __DIR__ . '/scripts/validation.inc.php';

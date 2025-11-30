@@ -1,8 +1,8 @@
 <?php 
-require_once 'api/booksAPI.php';
-require_once 'scripts/sessionStart.php';
+require_once __DIR__ . '/api/booksAPI.php';
+require_once __DIR__ . '/scripts/sessionStart.php';
 
-include 'scripts/navbar.php';
+include __DIR__ . '/scripts/navbar.php';
 
 $canSaveBook = true; //Settes til true på sider der lagre bok knappen skal dukke opp, når man tar i bruk BookCard template
 

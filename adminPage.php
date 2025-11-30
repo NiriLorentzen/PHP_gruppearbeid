@@ -1,16 +1,14 @@
 <?php 
-require_once 'scripts/printChatlog.php';
-require_once 'scripts/checkLoginStatus.php';
-require_once 'Scripts/sessionStart.php';
+require_once __DIR__ . '/scripts/printChatlog.php';
+require_once __DIR__ . '/scripts/checkLoginStatus.php';
+require_once __DIR__ . '/scripts/sessionStart.php';
 require_once __DIR__ . '/scripts/DB/db.inc.php';
-require_once __DIR__ . '/scripts/chatSearch.php';
+require_once __DIR__ . '/classes/ChatManager.php';
 
-include 'scripts/navbar.php';
+include __DIR__ . '/scripts/navbar.php';
 
 //sjekker om det er en innlogget admin, ellers blir man videresendt til innlogging
 mustBeAdmin();
-
-//find_chat();
 
 //henter alle brukere
 $q = $pdo->prepare(
@@ -44,9 +42,9 @@ foreach($users as $user){
 
 }
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $chatid = $_POST['chatid'];
-    $search = new chat_search($pdo);
-    if ($search->find_chat($chatid)){
+    $chatID = $_POST['chatid'];
+    $search = new ChatManager($pdo);
+    if ($search->findChat($chatID)){
         $chat_funnet = true;
     } else{
         echo "chat ikke funnet";

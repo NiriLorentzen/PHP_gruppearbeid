@@ -2,7 +2,7 @@
 require_once __DIR__ . '/scripts/DB/db.inc.php';
 require_once __DIR__ . '/scripts/validation.inc.php';
 require_once __DIR__ . '/scripts/sanitizeInputs.inc.php';
-include 'scripts/navbar.php';
+include __DIR__ . '/scripts/navbar.php';
 
 const USER_ROLE = 2;
 $userData = [];

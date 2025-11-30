@@ -1,12 +1,12 @@
 <?php 
-    require_once "classes/Books.php";
-    require_once "classes/BookDB.php";
-    require_once 'scripts/DB/db.inc.php';
-    require_once 'scripts/checkLoginStatus.php';
-    require_once 'classes/Sorter.php';
-    require_once 'templates/sortModes/bookSortModes.php';
+    require_once __DIR__ . "/classes/Books.php";
+    require_once __DIR__ . "/classes/BookDB.php";
+    require_once __DIR__ . '/scripts/DB/db.inc.php';
+    require_once __DIR__ . '/scripts/checkLoginStatus.php';
+    require_once __DIR__ . '/classes/Sorter.php';
+    require_once __DIR__ . '/templates/sortModes/bookSortModes.php';
 
-    include 'scripts/navbar.php';
+    include __DIR__ . '/scripts/navbar.php';
     mustBeLoggedIn();
 
     //Henter alle bøker knyttet til brukeren og blir vist i bokhyllen
