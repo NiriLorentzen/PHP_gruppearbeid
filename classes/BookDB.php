@@ -69,7 +69,7 @@ class BookDB {
         foreach($rows as $row) {
 
             $data = [
-                'bookID'          => $row['bookID'],
+                'bookID'      => $row['bookID'],
                 'title'       => $row['title'],
                 'authors'     => $row['authors'],
                 'description' => $row['description'],
