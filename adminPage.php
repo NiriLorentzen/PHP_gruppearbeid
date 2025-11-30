@@ -1,7 +1,7 @@
 <?php 
 require_once 'scripts/printChatlog.php';
 require_once 'scripts/checkLoginStatus.php';
-require_once 'Scripts/sessionStart.php';
+include 'Scripts/sessionStart.php';
 require_once __DIR__ . '/scripts/DB/db.inc.php';
 require_once __DIR__ . '/scripts/chatSearch.php';
 

@@ -10,9 +10,7 @@
         Bok informasjonen skal fores inn i googlebooksapi og resultatet skal vises til brukeren. 
         Svaret ifra googlebooksapi er det i DB-en til google som passer tittel og forfatter navn best, noen ganger blir uansett resultatet ifra api-en ikke helt lik selv om promptRecFinder finner riktig gemini anbefaling, pga. diverse grunner (gemini problemer, lignende navn, oppfunnede bøker, osv.). 
         */
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
+        include __DIR__ . '/sessionStart.php';
 
         //sett session-variabel hvis en ikke er satt fra før
         if (!isset($_SESSION["recommendations_found"])) {

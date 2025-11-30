@@ -3,9 +3,7 @@
     require_once __DIR__ . '/../libs/Parsedown.php';
 
     function printchatlog(){
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
+        include __DIR__ . '/sessionStart.php';
 
         $parsedown = new Parsedown();
 

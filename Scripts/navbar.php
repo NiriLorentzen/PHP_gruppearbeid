@@ -1,6 +1,6 @@
 <?php
     require_once __DIR__ . '/checkLoginStatus.php';
-    require_once __DIR__ . '/sessionStart.php';   
+    include __DIR__ . '/sessionStart.php';   
 
     // automatisk finner filbanen, nettlesere er strenge på dette så måtte gjøre det grundig
     $scriptPath = dirname($_SERVER['SCRIPT_NAME']);
