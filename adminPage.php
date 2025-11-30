@@ -5,7 +5,7 @@ require_once __DIR__ . '/scripts/sessionStart.php';
 require_once __DIR__ . '/scripts/DB/db.inc.php';
 require_once __DIR__ . '/classes/ChatManager.php';
 
-include 'scripts/navbar.php';
+include __DIR__ . '/scripts/navbar.php';
 
 //sjekker om det er en innlogget admin, ellers blir man videresendt til innlogging
 mustBeAdmin();

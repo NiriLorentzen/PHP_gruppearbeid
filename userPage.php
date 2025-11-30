@@ -1,6 +1,6 @@
 <?php 
-include 'scripts/navbar.php';
-require_once 'scripts/checkLoginStatus.php';
+include __DIR__ . '/scripts/navbar.php';
+require_once __DIR__ . '/scripts/checkLoginStatus.php';
 mustBeLoggedIn();
 ?>
 <!DOCTYPE html>
