@@ -1,5 +1,5 @@
 <?php
-    //henter parsedown bibliotek for pen utskrift/formatering
+    //henter parsedown bibliotek for pen/riktig utskrift. gjør for eksempel **test** til <strong>test</strong>
     require_once __DIR__ . '/../libs/Parsedown.php';
 
     function printchatlog(){
@@ -8,14 +8,11 @@
         }
 
         $parsedown = new Parsedown();
+
+        //hvis det er en aktiv chat gående i sesjon
         if (isset($_SESSION['active-chatlog'])){
             $first_element = True;
             foreach($_SESSION['active-chatlog'] as $chatdel_index => $chatdel) {
-                // Skip if this element is somehow still an array
-                if(is_array($chatdel)) {
-                    $_SESSION["chat-errors"][] = "FEIL: Element $chatdel_index er fortsatt et array!";
-                    continue;
-                }
 
                 if($first_element) { //første element er alltid gemini start-prompten, "du er bibliotektar som ... osv", skal ikke vises til bruker
                     $first_element = False;
