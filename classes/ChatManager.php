@@ -31,7 +31,8 @@ class ChatManager {
             $this->createNewChatDB($chatlog);
         }
 
-        header("location: userChats.php");        
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit;    
 
     }
 
@@ -65,7 +66,8 @@ class ChatManager {
 
         echo "Chat reset.";
 
-        header("Refresh: 0"); 
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit;
     }
 
     public function clearRecommendations() {
@@ -74,7 +76,8 @@ class ChatManager {
         unset($_SESSION["recommendations_found"]);
         unset($_SESSION["recommendations_given"]);
 
-        header("location: userChats.php");
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit;
     }
 
 
@@ -130,6 +133,4 @@ class ChatManager {
         }
     }
 }
-
-
-    ?>
+?>
