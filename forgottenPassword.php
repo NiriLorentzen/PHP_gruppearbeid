@@ -2,8 +2,8 @@
     include __DIR__ . '/scripts/navbar.php';
     require_once __DIR__ . '/scripts/sessionStart.php';
     require_once __DIR__ . '/scripts/DB/db.inc.php';
-    require_once __DIR__ . '/scripts/sanitizeInputs.inc.php';
-    require_once __DIR__ . '/scripts/validation.inc.php';
+    require_once __DIR__ . '/scripts/sanitizeInputs.php';
+    require_once __DIR__ . '/scripts/validation.php';
 
     //henter gjemt informasjon om mail utsending (innlogging info)
     require_once __DIR__ . '/scripts/config.php';
