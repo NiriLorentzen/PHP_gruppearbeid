@@ -36,9 +36,7 @@ if(isset($data['action']) && $data['action'] === 'remove') {
 }
 
 //Legger til bok i databasen. Både for bruker og generelt
-if($data && isset($data['title'])) {
-    
-    //MÅ MULIGENS HÅNDTERE FLERE FORFATTERE
+if($data && isset($data['title'])) {   
     
     $dbData = [
         'bookID'           => $data['bookID'],
