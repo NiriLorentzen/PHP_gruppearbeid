@@ -1,9 +1,9 @@
 <?php
-require_once 'scripts/sessionStart.php';
+require_once __DIR__ . '/scripts/sessionStart.php';
 require_once __DIR__ . '/scripts/DB/db.inc.php';
-require_once __DIR__ . '/scripts/validation.inc.php';
-require_once __DIR__ . '/scripts/sanitizeInputs.inc.php';
-include 'scripts/navbar.php';
+require_once __DIR__ . '/scripts/sanitizeInputs.php';
+include __DIR__ . '/scripts/navbar.php';
+
 $logInMessage  = "";
 $error = [];
 $logInData = [];
@@ -157,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label for="password">Passord:</label><br>
         <input type="password" id="password" name="password"><br>
-        <?php if(isset($error['passord'])) echo sanitizeInputs($error['passord']) . "</span><br>"; ?>
+        <?php if(isset($error['password'])) echo sanitizeInputs($error['password']) . "</span><br>"; ?>
 
         <button type="submit" <?= isset($_SESSION['blockedTime']) ? 'disabled' : '' ?>>Logg inn</button>
     </form>

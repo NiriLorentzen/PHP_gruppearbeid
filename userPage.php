@@ -1,6 +1,6 @@
 <?php 
-include 'scripts/navbar.php';
-require_once 'scripts/checkLoginStatus.php';
+include __DIR__ . '/scripts/navbar.php';
+require_once __DIR__ . '/scripts/checkLoginStatus.php';
 mustBeLoggedIn();
 ?>
 <!DOCTYPE html>
@@ -16,11 +16,11 @@ mustBeLoggedIn();
     <?php if(isset($_SESSION['userID'])): ?>
         <table>
             <tr>
-                <th>brukerid</th>
-                <th>fornavn</th>
-                <th>etternavn</th>
-                <th>email</th>
-                <?php if($_SESSION['roleID'] == 1): ?>
+                <th>BrukerID</th>
+                <th>Fornavn</th>
+                <th>Etternavn</th>
+                <th>Email</th>
+                <?php if(checkAdmin()): ?>
                     <th>Brukertype</th>
                 <?php endif; ?>
             </tr>
@@ -29,7 +29,7 @@ mustBeLoggedIn();
                 <td><?php echo $_SESSION['fornavn'] ?></td>
                 <td><?php echo $_SESSION['etternavn'] ?></td>
                 <td><?php echo $_SESSION['email'] ?></td>
-                <?php if($_SESSION['roleID'] == 1): ?>
+                <?php if(checkAdmin()): ?>
                     <td>Admin</td>
                 <?php endif; ?>
             </tr>

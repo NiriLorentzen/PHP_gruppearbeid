@@ -10,7 +10,7 @@ header('Content-Type: text/html; charset=utf-8');
 require_once __DIR__ . '/../scripts/config.php';
 
 //henter en enkel input rens funksjon
-require_once __DIR__ . '/../Scripts/sanitizeInputs.inc.php';
+require_once __DIR__ . '/../Scripts/sanitizeInputs.php';
 
 //henter en funksjon som skal finne og hente bokanbefalingene i svaret til gemini api
 require_once __DIR__ . '/../Scripts/promptRecFinder.php';

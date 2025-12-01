@@ -31,7 +31,8 @@ class ChatManager {
             $this->createNewChatDB($chatlog);
         }
 
-        header("location: userChats.php");        
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit;    
 
     }
 
@@ -65,7 +66,8 @@ class ChatManager {
 
         echo "Chat reset.";
 
-        header("Refresh: 0"); 
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit;
     }
 
     public function clearRecommendations() {
@@ -74,7 +76,8 @@ class ChatManager {
         unset($_SESSION["recommendations_found"]);
         unset($_SESSION["recommendations_given"]);
 
-        header("location: userChats.php");
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit;
     }
 
 
@@ -82,6 +85,23 @@ class ChatManager {
         $q = $this->pdo->prepare("SELECT * FROM chatlog clog WHERE clog.userid = :userID");        
         $q->execute([":userID" => $userID]);
         return $q->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function findChat(int $chatID){
+        //Søker i DB etter ID i parameter
+        $q = $this->pdo->prepare(
+            "SELECT * FROM chatlog WHERE chatid = :chatid");
+        $q->execute([":chatid" => $chatID]);
+        $chat = $q->fetchAll(PDO::FETCH_ASSOC);
+        
+        //Dersom det er en chat i DB med den id-en
+        if(!empty($chat)){     
+            //Chatlog lagres som string, så dette blir gjort om til array for utskrift-funksjonen  
+            $chatArray = explode("spm/svar", $chat[0]["chatlog"]);
+            //Lagres i sesjon
+            $_SESSION['active-chatlog'] = $chatArray;
+            return true; //Hjelper med utskrift
+        }
     }
 
 
@@ -113,6 +133,4 @@ class ChatManager {
         }
     }
 }
-
-
-    ?>
+?>
