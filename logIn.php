@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 //Viser user resterende tries eller låser bruke 
                 if($remainingTries > 0) {
-                    $logInMessage  = "<p>Feil e-post eller passord. Du har $remainingTries tries igjen.</p>";
+                    $logInMessage  = "<p>Feil e-post eller passord. Du har $remainingTries forsøk igjen.</p>";
                 } else {
                     $_SESSION['blockedTime'] = time();              
                     $logInMessage  = "<h3>Du har prøvd å logge inn $totalTries ganger. Du har blitt stengt ut i $totalBlockedMinutes minutter.</h3>";
