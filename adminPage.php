@@ -7,7 +7,7 @@ require_once __DIR__ . '/classes/ChatManager.php';
 
 include __DIR__ . '/scripts/navbar.php';
 
-//sjekker om det er en innlogget admin, ellers blir man videresendt til innlogging
+//sjekker om det er en innlogget admin, ellers blir man videresendt til innlogging (uten at resten av koden her blir kjørt)
 mustBeAdmin();
 
 //henter alle brukere
@@ -16,8 +16,9 @@ $q = $pdo->prepare(
 $q->execute();
 $users = $q->fetchAll(PDO::FETCH_ASSOC);
 
-//finner rollenavnet til brukerene
+//rollenavn og chats
 foreach($users as $user){
+    //finner rollenavnet til brukeren
     $userid = $user["userID"];
     $q = $pdo->prepare(
         "SELECT roles.name FROM roles LEFT JOIN user_roles ur ON ur.roleID = roles.roleID WHERE ur.userID = :userid");
@@ -25,22 +26,30 @@ foreach($users as $user){
     $user_role = $q->fetchAll(PDO::FETCH_ASSOC);
 
     //lagrer rollenavnet i roles med userID som nøkkel
+    //alle brukere MÅ ha en rolle for å eksistere i DB, så det er ikke noe mer sjekk her
     $roles[$userid] = $user_role[0]["name"];
 
+    //leter etter brukeren sine chats
     $q = $pdo->prepare(
         "SELECT chatid FROM chatlog WHERE chatlog.userID = :userid");
     $q->execute([":userid" => $userid]);
     $chats = $q->fetchAll(PDO::FETCH_ASSOC);
+
+    //hvis brukeren har noen lagrede chats
     if (!empty($chats)){
+        //lagrer id-ene i array
         foreach($chats as $chat){
             $user_chats[$userid][] = $chat["chatid"];
         }
+        //samler array-et i en streng
         $user_chats[$userid] = implode(", ", $user_chats[$userid]);
     } else {
         $user_chats[$userid] = "ingen chats";
     }
 
 }
+
+//chatsøk, skal bruke chatid til å hente ut chatloggen
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $chatID = $_POST['chatid'];
     $search = new ChatManager($pdo);
@@ -87,7 +96,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <p><strong>Finn en chatlog</strong></p>
     <?php if(isset($chat_funnet) && $chat_funnet):?>
         <div class="chatbox" id="chatbox"><?php printchatlog(); ?></div>
-        <?php unset($_SESSION['active-chatlog']); ?>
+        <?php unset($_SESSION['active-chatlog']); //chatloggen skal bare vises en gang og skal ikke være synlig hvis man bytter side ?>
     <?php endif; ?>
     <form action="" method="POST">
         <label for="chatid">Chat-ID:</label>

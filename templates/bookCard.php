@@ -1,6 +1,6 @@
 <?php 
 /*Template som viser bokkort. Krever å ta i bruk Books klassen.
-//Må også inkludere "$canSaveBook = true" variabel og include checkloginstatus om lagre bok knappen skal vises. */
+Må også inkludere "$canSaveBook = true" variabel og include checkloginstatus om lagre bok knappen skal vises. */
 ?>
 
 <div class="book"

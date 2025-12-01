@@ -45,12 +45,12 @@
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
                 $mail->Username = $avsender;
-                $mail->Password = $passord_phpmailer; //$passord_phpmailer; // "passordet" for smtp sitt bruk av avsendermailen i google
+                $mail->Password = $passord_phpmailer; // "passordet" for smtp sitt bruk av avsendermailen i google
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
 
                 // Avsender og mottaker
-                $mail->setFrom($avsender, 'BookFinder'); // php prosjektnavnet til gruppa
+                $mail->setFrom($avsender, 'BookFinder'); 
                 $mail->addAddress($brukermail);
 
                 // Innhold, med lenke

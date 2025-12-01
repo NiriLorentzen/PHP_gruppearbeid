@@ -15,7 +15,7 @@ unset($_SESSION['email']);
 unset($_SESSION['roleID']);
 unset($_SESSION['loggedIn']);
 
-//Redirecter til logIn siden LoggedOut warning slik at beskjed blir gitt til brukeren.
+//Redirecter til logIn siden, med LoggedOut warning slik at beskjed blir gitt til brukeren.
 header("Location: ../logIn.php?warning=loggedOut");
 exit;
 ?>

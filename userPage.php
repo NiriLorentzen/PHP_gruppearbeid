@@ -20,7 +20,7 @@ mustBeLoggedIn();
                 <th>Fornavn</th>
                 <th>Etternavn</th>
                 <th>Email</th>
-                <?php if(checkAdmin()): ?>
+                <?php if(checkAdmin()): //ikke vits å vise brukertype til en normal bruker?>
                     <th>Brukertype</th>
                 <?php endif; ?>
             </tr>

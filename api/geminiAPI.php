@@ -50,7 +50,7 @@ $_SESSION['active-chatlog'][] = $initialprompt;
 $_SESSION["chat-errors"][] = "intial prompt: " . $initialprompt;
 
 //her bestemmes prompten som blir sendt til gemini
-//her tas inn hele 'active-chatlog' og imploder arrayet slikt at gemini forstår samtalen, og det sendes som en lang string
+//her tas inn hele 'active-chatlog' og imploder arrayet slikt at gemini forstår samtalen, og det sendes som en string
 $data = [
     "contents" => [
         [
@@ -73,49 +73,36 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 
 $response = curl_exec($ch);
 
+//avslutter om det var en feil
 if (curl_errno($ch)) {
-    echo 'Error:' . curl_error($ch);
     $_SESSION["chat-errors"][] = 'Error:' . curl_error($ch);
     exit;
-} else{
-    $_SESSION["chat-errors"][] = "errors fra gemini: " . curl_error($ch);
 }
 
+//dekoder json svaret om til array 
 $result = json_decode($response, true);
-
-$_SESSION["chat-errors"][] = "svar fra gemini: " . $result['candidates'][0]['content']['parts'][0]['text'] . "end";
-    //print_r($result);   
-    //echo $result['candidates'][0]['content']['parts'][0]['text'];
 
 // Print gemini respons, sjekker først om det har kommet en respons
 if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
-//if (false) {
-    //legger til gemini respons i 'chatsamtale'
+    //henter og legger respons i chatlog, endrer også til utf-8 for æøå osv.
     $text = $result['candidates'][0]['content']['parts'][0]['text'];
     $text = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
+
+    //setter at dette er den aktive chatten
     $_SESSION['active-chatlog'][] = $text;
-    $_SESSION["chat-errors"][] = $_SESSION['active-chatlog'];
 
-    //echo "$text<br><br>";
-
+    //for å finne anbefalinger og koble dem opp mot googlebooks sin api
     findrecommendation($text);
 
-    // tving session til å skrive til disk
+    // tving session til å skrive til disk, bruker den for lang tid kan en seinere window refresh ødelegge for lagring av chatlog
     session_write_close();
 
     session_start();
 
-    //var_dump($_SESSION['active-chatlog']);
-
     printchatlog();
     
-} else { //hvis det er en feil, print alt for debug
+} else { //hvis det er en feil
     $_SESSION["chat-errors"][] = "Feil med gemini api-svar";
-
-    //echo "<pre>";
-    //echo ("<strong>FEIL OPPSTÅTT! melding kunne ikke sendes</strong><br>");
-    //print_r($result);
-    //echo "</pre>";
 
     //fjerne spørsmålet brukeren sendte ifra chatsamtalen, slikt at samtalen ikke har samme spørsmål flere ganger og spørsmål/svar rekkefølgen stemmer
     $last_question_index = count($_SESSION['active-chatlog']) - 1;

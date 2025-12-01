@@ -17,8 +17,7 @@ class Books {
         $this->setAuthors($data['authors'] ?? 'Ukjent forfatter');
         $this->setDescription($data['description'] ?? 'Ingen beskrivelse');
         $this->setPageCount(!empty($data['pageCount']) ? $data['pageCount'] : 'Ukjent side antall');
-        $this->setThumbnail($data['thumbnail'] ?? null);
-        $this->haveRead = false;
+        $this->setThumbnail($data['thumbnail'] ?? null);        
     }
     
     public function setBookId($newBookID) {
@@ -63,14 +62,6 @@ class Books {
     }
     public function getThumbnail() {
         return $this->thumbnail;
-    }
-
-    //Endrer og getter til HaveRead        
-    public function changeHaveRead() {
-        $this->haveRead = !$this->haveRead;
-    }
-    public function getHaveRead() {
-        return $this->haveRead;
     }
 }   
 
