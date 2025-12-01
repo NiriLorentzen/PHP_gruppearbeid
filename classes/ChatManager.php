@@ -20,7 +20,7 @@ class ChatManager {
         ini_set('default_charset', 'UTF-8');
         header('Content-Type: text/html; charset=utf-8');
 
-
+        //Sjekker om chatloggen ikke er valid
         if(!$this->chatSessionIsValid()) {
             echo "En feil oppstod ved lagring av chatten.";
             return;
@@ -36,6 +36,7 @@ class ChatManager {
             $this->createNewChatDB($chatlog);
         }
 
+        //Laster siden på nytt for å oppdatere endringer
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit;    
 
@@ -71,6 +72,7 @@ class ChatManager {
 
         echo "Chat reset.";
 
+        //Laster siden på nytt for å oppdatere endringer
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit;
     }
@@ -82,6 +84,7 @@ class ChatManager {
         unset($_SESSION["recommendations_found"]);
         unset($_SESSION["recommendations_given"]);
 
+        //Laster siden på nytt for å oppdatere endringer
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit;
     }
@@ -132,6 +135,7 @@ class ChatManager {
         $q->execute([":chatid" => $chatid]);
         $result = $q->fetchAll();
 
+        //Om chatid'en finnes i DB, oppdaterer den denne chatloggen
         if(!empty($result)) {
             $chatidDB = $result[0]["chatid"];
             $q = $this->pdo->prepare("UPDATE chatlog SET chatlog = :chatlog WHERE chatid = :chatid");
