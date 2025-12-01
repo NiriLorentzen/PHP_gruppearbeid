@@ -132,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 break;
 
             case 'wrongPrivileges':
-                echo "<p><b>Du ble sendt hit fordi du ikke har riktig rolle for siden du trieste å besøke</b></p>";
+                echo "<p><b>Du ble sendt hit fordi du ikke har riktig rolle for siden du prøvde å besøke</b></p>";
                 break;
 
             default:
