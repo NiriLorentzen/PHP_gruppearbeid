@@ -17,6 +17,7 @@
 
     //for chat-velger funksjon
     $oldChats = [];
+
     $canSaveBook = true; //Settes til true på sider der lagre bok knappen skal dukke opp, når man tar i bruk BookCard template
 
     if(isset($_SESSION['userID'])) {        
@@ -49,7 +50,7 @@
                     exit;
             }
         }
-        // Hvis lagret chat ble lastet (ingen action, men chatlog og chatid)
+        // Hvis lagret chat (hentet fra db) ble lastet (ingen action, men chatlog og chatid)
         elseif(isset($_POST['chatlog']) && isset($_POST['chatid'])) {
             $chat_array = explode("spm/svar", $_POST['chatlog']);
             $_SESSION['active-chatlog'] = $chat_array;
@@ -130,7 +131,7 @@
             </form>
 
             <div id="chatboxAnbefalinger" class="chatbox" value="">
-                <?php if(!empty($geminirecommendations)): ?>
+                <?php if(!empty($geminirecommendations)): //utskrift av googlebooksapi-resultatet fra gemini-svaret, i riktig template?>
                     <?php foreach ($geminirecommendations as $book): ?>
                             <?php include __DIR__ . '/templates/bookCard.php'; ?>
                         <?php endforeach; ?>
@@ -140,7 +141,6 @@
     </div>
     
     <script>
-
     window.addEventListener('DOMContentLoaded', () => {
         saveBookBtn();
         geminiChatSendBtn();        
