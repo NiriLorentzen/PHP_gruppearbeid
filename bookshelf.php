@@ -26,8 +26,7 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-    <meta charset="UTF-8">
-    <script src="main.js" defer></script>
+    <meta charset="UTF-8">    
     <title>Bokhylle</title>
     <link rel="stylesheet" href="css/stylesheet.css">
 </head>
