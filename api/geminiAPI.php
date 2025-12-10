@@ -26,7 +26,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 // Bytter navnet på api-nøkkelen, for bedre oversikt
 $apiKey = $Gemini_API_key;
 
-$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent";
 
 // Henter JSON fra JS fetch, henter input 
 $input = json_decode(file_get_contents("php://input"), true);

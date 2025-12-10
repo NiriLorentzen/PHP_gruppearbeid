@@ -100,7 +100,7 @@
         <div>
             <h2>Snakk med bibliotekaren her!</h2>
             <div class="chatbox" id="chatbox">
-                <?php if(isset($_SESSION["chat-errors"])): ?>
+                <?php if(isset($_SESSION["chat-errors"]) && !empty($_SESSION["chat-errors"])): ?>
                     <ul><strong>Chat-feil:</strong>
                     <?php foreach($_SESSION["chat-errors"] as $error):?>
                         <li><?php echo $error; ?></li>
