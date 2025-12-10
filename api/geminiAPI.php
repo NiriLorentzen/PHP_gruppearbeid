@@ -47,8 +47,6 @@ if (!isset($_SESSION['active-chatlog'])) {
 // Legger til siste delen av samtalen
 $_SESSION['active-chatlog'][] = $initialprompt;
 
-$_SESSION["chat-errors"][] = "intial prompt: " . $initialprompt;
-
 //her bestemmes prompten som blir sendt til gemini
 //her tas inn hele 'active-chatlog' og imploder arrayet slikt at gemini forstår samtalen, og det sendes som en string
 $data = [
@@ -103,6 +101,7 @@ if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
     
 } else { //hvis det er en feil
     $_SESSION["chat-errors"][] = "Feil med gemini api-svar";
+    $_SESSION["chat-errors"][] = "Feilkode: " . $result["error"]["code"] . " Feilmelding: ". $result["error"]["message"];
 
     //fjerne spørsmålet brukeren sendte ifra chatsamtalen, slikt at samtalen ikke har samme spørsmål flere ganger og spørsmål/svar rekkefølgen stemmer
     $last_question_index = count($_SESSION['active-chatlog']) - 1;

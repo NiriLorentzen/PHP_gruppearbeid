@@ -100,7 +100,17 @@
         <div>
             <h2>Snakk med bibliotekaren her!</h2>
             <div class="chatbox" id="chatbox">
-                <?php printchatlog(); ?>
+                <?php if(isset($_SESSION["chat-errors"])): ?>
+                    <ul><strong>Chat-feil:</strong>
+                    <?php foreach($_SESSION["chat-errors"] as $error):?>
+                        <li><?php echo $error; ?></li>
+                    <?php endforeach; ?>
+                    <?php unset($_SESSION["chat-errors"]); ?>
+                    </ul>
+                <?php else: ?>
+                    <?php printchatlog(); ?>
+                <?php endif; ?>
+                
             </div>
             <input type="text" id="prompt" placeholder="Spør et spørsmål..." style="width:400px;">
             <button id="sendBtn">Send</button>

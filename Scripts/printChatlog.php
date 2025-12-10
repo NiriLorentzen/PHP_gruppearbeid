@@ -19,7 +19,6 @@
                 } else {
                     echo "<div class='chat-element' style='background-color: lightgrey; align-self: flex-start; '>" . $parsedown->text(nl2br(htmlspecialchars($chatdel))) . "</div>";
                 }
-                $_SESSION["chat-errors"][] = "utskrift-element: " . $chatdel;
             }
         }
     }
